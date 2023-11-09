@@ -1,0 +1,150 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<section>
+    <div class="parallax-container responsive-img">
+        <div class="parallax main-img">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
+        </div>
+    </div>
+
+    <div class="slider">
+        <ul class="slides">
+            <li>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmHo317dEVutnMk0sZp_GOLoRPCG_S4hoYBg&usqp=CAU"> <!-- random image -->
+                <div class="caption center-align">
+                    <h3>This is our big Tagline!</h3>
+                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                </div>
+            </li>
+            <li>
+                <img src="/img/redmi2.jpg"> <!-- random image -->
+                <div class="caption left-align">
+                    <h3>Left Aligned Caption</h3>
+                    <h5 class="/img/redmi2.jpg">Here's our small slogan.</h5>
+                </div>+
+            </li>
+            <li>
+                <img src="/img/redmi2.jpg"> <!-- random image -->
+                <div class="caption right-align">
+                    <h3>Right Aligned Caption</h3>
+                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                </div>
+            </li>
+            <li>
+                <img src="/img/redmi2.jpg"> <!-- random image -->
+                <div class="caption center-align">
+                    <h3>This is our big Tagline!</h3>
+                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="container section">
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s3">
+                    <a href="#test1">درباره مدرسه</a>
+                </li>
+                <li class="tab col s3">
+                    <a class="active" href="#test2">کادر</a>
+                </li>
+                <li class="tab col s3">
+                    <a href="#test4">موقعیت</a>
+                </li>
+            </ul>
+        </div>
+        <div id="test1" class="col s12">
+
+            <p>
+                مدرسه دکتر خرمی مجموعه ای تیزهوشان ، پسرانه واقع در استان قم ، شهر قم ناحیه 2 قم است که در مقطع متوسطه دوره اول با مدیریت جواد علی مددی پذیرای فرزندان عزیز شما اولیاء گرامی می باشد . جهت کسب اطلاع ازشرایط ثبت نام وامکانات مدرسه دکتر خرمی با شماره تلفن 02538872420 تماس گرفته و یا به آدرس جاده اراک، بلوار یادگار امام(کشاورز)، بعد از زیر گذر، بالاتر از هنرستان دخترانه حضرت زهرا مراجعه نمایید . همچنین شما اولیاء گرامی و دانش آموزان عزیز در صورتی که با مدرسه دکتر خرمی آشنایی دارید با به اشتراک گذاشتن نظرات خود و امتیازدهی به آن در بخش ثبت نظرو امتیاز شما به سایر والدین در انتخاب مدرسه و مجموعه مناسب برای فرزندانشن کمک نمایید.
+            </p>
+            <h3 class="center">ویژگی ها</h3>
+
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons"></i>ازمایشگاه</div>
+                    <div class="collapsible-body">
+                        <span>ازمایشگاه خیلی خوب</span><br><img src="/img/redmi2.jpg" class="responsive-img" alt="" srcset="">
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons"></i>ازمایشگاه</div>
+                    <div class="collapsible-body">
+                        <span>ازمایشگاه خیلی خوب</span><br><img src="/img/redmi2.jpg" class="responsive-img" alt="" srcset="">
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons"></i>ازمایشگاه</div>
+                    <div class="collapsible-body">
+                        <span>ازمایشگاه خیلی خوب</span><br><img src="/img/redmi2.jpg" class="responsive-img" alt="" srcset="">
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+        <div id="test2" class="col s12">
+            <ul class="collection with-header">
+                <li class="collection-header center">
+                    <h4>اسامی مدرسین</h4>
+                </li>
+                <li class="collection-item">
+                    <div>داوودی<span class="secondary-content">ریاضی</span></div>
+                </li>
+                <li class="collection-item">
+                    <div>اصولی<span class="secondary-content">ریاضی</span></div>
+                </li>
+                <li class="collection-item">
+                    <div>پاسبان<span class="secondary-content">زبان</span></div>
+                </li>
+                <li class="collection-item">
+                    <div>یاسینی<span class="secondary-content">هنر</span></div>
+                </li>
+            </ul>
+            <ul class="collection with-header">
+                <li class="collection-header center">
+                    <h4>اسامی کادر مدرسه</h4>
+                </li>
+                <li class="collection-item">
+                    <div>بدری<span class="secondary-content">معاون</span></div>
+                </li>
+                <li class="collection-item">
+                    <div>توسلی<span class="secondary-content">مشاور</span></div>
+                </li>
+                <li class="collection-item">
+                    <div>شمس<span class="secondary-content">مدیر</span></div>
+                </li>
+                <li class="collection-item">
+                    <div>یاسینی<span class="secondary-content">هنر</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="test4" class="col s12">
+        <h3 class="center">عکس ها</h3>
+
+        <div class="carousel">
+            <a class="carousel-item" href="#one!">
+                <img src="/img/redmi2.jpg">
+            </a>
+            <a class="carousel-item" href="#two!">
+                <img src="/img/redmi2.jpg">
+            </a>
+            <a class="carousel-item" href="#three!">
+                <img src="/img/redmi2.jpg">
+            </a>
+            <a class="carousel-item" href="#four!">
+                <img src="/img/redmi2.jpg">
+            </a>
+            <a class="carousel-item" href="#five!">
+                <img src="/img/redmi2.jpg">
+            </a>
+        </div>
+    </div>
+</section>

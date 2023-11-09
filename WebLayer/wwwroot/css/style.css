@@ -1,0 +1,91 @@
+.pl-1{
+    padding-left: 1px;
+}
+.pl-10{
+    padding-left: 10px;
+}
+.mt5{
+    margin-top:5px;
+}
+.plr-10{
+    padding-left:  10px;
+    padding-right: 10px;
+}
+.m20{
+    margin:20px;
+}
+.block{
+    display: block;
+}
+.full-btn{
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+.bold{
+    font-weight: bold;
+}
+@font-face {
+    font-family:'Vazir';
+    src: url(/fonts/vazir-font-v16.1.0/Vazir.ttf);
+}
+*{
+    font-family: "Vazir";
+    box-sizing: border-box;
+}
+body{
+    position: relative;
+}
+.img-left-lalf{
+    width: 50%;
+    height: auto;
+    float: left;
+}
+.img-right-lalf{
+    width: 50%;
+    height: auto;
+    float: right;
+}
+.img-third{
+    height: 19.455vh;
+}
+.clear-fix{
+    clear: both;
+}
+.h-35vh{
+    height: 60vh;
+}
+.h-inh{
+    height: inherit;
+}
+.m-zero{
+    margin:0;
+}
+.p-zero{
+    padding: 0;
+}
+.tabs .tab a{
+    color:#000;
+} /*Black color to the text*/
+
+.tabs .tab a:hover {
+    background-color:#eee;
+    color:#000;
+} /*Text color on hover*/
+
+.tabs .tab a.active {
+    background-color:rgb(45, 191, 248);
+    color:rgb(0, 0, 0);
+} /*Background and text color when a tab is active*/
+
+.tabs .indicator {
+    background-color:green;
+}
+#pre {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 30000;
+    width: auto;
+    height: auto;
+}

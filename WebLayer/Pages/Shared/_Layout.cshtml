@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - وبسایت مدرسه</title>
+
+    <!-- google apis font -->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- materialize -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- my js -->
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<div id="pre" class=" hide active">
+    <img src="/img/Walk.gif" alt="" srcset="">
+</div>
+<div id="docconter">
+<header>
+    <nav>
+        <div class="nav-wrapper blue darken-3">
+            <div class="container">
+                <a href="#!" class="brand-logo blue-text text-lighten-4 bold">مدرسه دکتر خرمی روز</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+                    @* <li><a asp-page="login">ورود</a></li> *@
+                    @* <li><a href="sass.html">ثبت نام</a></li> *@
+                    <li><a asp-page="Index">خانه</a></li>
+                    <li><a asp-page="Blog">اخبار</a></li>
+
+                    <!-- Modal Trigger -->
+                    <li><a class="waves-effect waves-light btn modal-trigger" href="#search">جستجو</a></li>
+
+                    <!-- Modal Structure -->
+                    <div id="search" class="modal">
+                        <div class="modal-content">
+                            <form action="">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <label for="name">جستجو:</label>
+                                        <input type="text" name="name" id="name">
+                                    </div>
+                                    <div class="col s12">
+                                        <input class="btn blue" type="submit" value="جستجو">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!"
+                               class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="login.html">ورود</a></li>
+        <li><a href="sass.html">ثبت نام</a></li>
+        <li><a href="index.html">خانه</a></li>
+        <li><a href="sass.html">اخبار</a></li>
+
+        <li>
+            <form action="">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <label for="name">جستجو</label>
+                        <input type="text" name="name" id="name">
+                    </div>
+                    <div class="col s12">
+                        <input class="btn blue" type="submit" value="جستجو">
+                    </div>
+                </div>
+            </form>
+        </li>
+    </ul>
+</header>
+            @RenderBody()
+<footer class="page-footer blue darken-3">
+    <div class="container ">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">مدرسه دکتر خرمی روز</h5>
+                <p class="blue darken-3 text-lighten-4 blue-text text-lighten-4">ساخته شده توسط <strong>محمد حسن یاوری</strong></p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">لینک ها</h5>
+                <ul>
+                    <li><a href="login.html" class="grey-text text-lighten-3">ورود</a></li>
+                    <li><a href="sass.html" class="grey-text text-lighten-3">ثبت نام</a></li>
+                    <li><a href="index.html" class="grey-text text-lighten-3">خانه</a></li>
+                    <li><a href="sass.html" class="grey-text text-lighten-3">اخبار</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container" dir="rtl">
+            طبق ماده ۱۲ فصل سوم قانون جرائم رایانه‌ای هرگونه کپی برداری از طرح قالب و مطالب تارنما به هر نحو، پیگرد قانونی دارد © 1403
+            استفاده از مطالب و فایل‌های تارنما به هر نحو، تنها با کسب اجازه کتبی از مدیریت امکانپذیر می‌باشد
+        </div>
+    </div>
+</footer>
+</div>
+<!-- materialize -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+
+<!-- my css -->
+<script src="/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+
+
+              @*       <partial name="_LoginPartial" /> *@
