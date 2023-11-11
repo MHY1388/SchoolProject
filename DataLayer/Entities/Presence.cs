@@ -2,7 +2,7 @@
 
 namespace DataLayer.Entities;
 
-public class Presence
+public class Presence:BaseEntity
 {
     public int StudentID { get; set; }
     [ForeignKey(nameof(StudentID))]

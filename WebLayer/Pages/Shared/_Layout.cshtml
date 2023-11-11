@@ -33,29 +33,17 @@
                     <li><a asp-page="Index">خانه</a></li>
                     <li><a asp-page="Blog">اخبار</a></li>
 
-                    <!-- Modal Trigger -->
-                    <li><a class="waves-effect waves-light btn modal-trigger" href="#search">جستجو</a></li>
-
-                    <!-- Modal Structure -->
-                    <div id="search" class="modal">
-                        <div class="modal-content">
+                    <li><button onclick="gettoggle('#searchform')" class="btn" >جستجو </button> 
+                        <div id="searchform" class="hidding blue darken-2 p-a p10"style="z-index: 5000;">
                             <form action="">
-                                <div class="row">
-                                    <div class="input-field col s12">
-                                        <label for="name">جستجو:</label>
-                                        <input type="text" name="name" id="name">
-                                    </div>
-                                    <div class="col s12">
-                                        <input class="btn blue" type="submit" value="جستجو">
-                                    </div>
+                                <div class="input-field w200" >
+                                    <label for="name" >جستجو:</label>
+                                    <input type="text" name="name" id="name">
                                 </div>
+                                <input class="btn blue" type="submit" value="جستجو">
                             </form>
                         </div>
-                        <div class="modal-footer">
-                            <a href="#!"
-                               class=" modal-action modal-close waves-effect waves-green btn-flat">Close</a>
-                        </div>
-                    </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -112,8 +100,9 @@
 <!-- materialize -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-<!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<!-- juery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 
 <!-- my css -->
 <script src="/js/main.js"></script>

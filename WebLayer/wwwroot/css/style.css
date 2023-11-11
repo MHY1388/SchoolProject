@@ -89,3 +89,19 @@ body{
     width: auto;
     height: auto;
 }
+.hidding {
+    display: none;
+}
+.p-a {
+    position: absolute;
+}
+
+.p-r {
+    position: relative;
+}
+.w200 {
+    width: 200px;
+}
+.p10 {
+    padding: 10px;
+}

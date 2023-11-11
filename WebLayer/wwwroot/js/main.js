@@ -9,8 +9,10 @@ $(document).ready(function () {
 
     showPreLoader();
 
-    sleep(2000).then(() => { hidePreLoader(); });
+    sleep(500).then(() => { hidePreLoader(); });
 });
+
+
 M.AutoInit();
 document.addEventListener('DOMContentLoaded', function() {
     var elems = document.querySelectorAll('.slider');
@@ -24,11 +26,20 @@ function sleep(ms) {
 }
 
 function showPreLoader() {
-    $("#docconter").css("opacity", "0");
+    $("#docconter").css("opacity", "0.01");
     $('#pre').removeClass('hide');
 }
 
 function hidePreLoader() {
     $('#pre').addClass('hide');
     $("#docconter").css("opacity", "1");
+}
+function getin(name) {
+    $(name).fadeIn("slow");
+}
+function getout(name) {
+    $(name).fadeOut();
+}
+function gettoggle(name) {
+    $(name).fadeToggle();
 }

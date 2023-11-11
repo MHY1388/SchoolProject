@@ -9,7 +9,9 @@ namespace DataLayer.Entities
 {
     public class Class:BaseEntity
     {
+        [Required]
         public int Grid { get; set; }
+        [Required]
         public string Name { get; set; }
         public ICollection<Student> Students { get; set; }
         public ICollection<Day> Days { get; set; }
