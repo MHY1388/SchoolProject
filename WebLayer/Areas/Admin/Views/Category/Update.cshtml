@@ -1,0 +1,14 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model UtilitesLayer.DTOs.Category.CategoryDto
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    <input type="hidden" asp-for="Id"/>
+    @Html.EditorFor(a => a.Name)
+    @Html.EditorFor(a => a.Slug)
+    @Html.EditorFor(a => a.IsDeleted)
+    <input type="submit" value="بروزرسانی" class="btn btn-primary"/>
+</form>

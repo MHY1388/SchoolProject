@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using UtilitesLayer.DTOs.Global;
 using UtilitesLayer.Utilities;
 
 namespace UtilitesLayer.Services;
@@ -13,4 +14,6 @@ public interface IGenericRepository<TEntity> where TEntity : class
     public Task<ICollection<TEntity>> GetAll();
     public Task<TEntity> Find(Expression<Func<TEntity, bool>> expression);
     public Task<ICollection<TEntity>> FindAll(Expression<Func<TEntity, bool>> expression);
+    public Task<Paggination<TEntity>> GetPaggination(int size, int page =1);
+    public Task<Paggination<TEntity>> GetPaggination(int size, Expression<Func<TEntity,bool>> expression, int page = 1);
 }

@@ -1,0 +1,14 @@
+﻿@model UtilitesLayer.DTOs.Post.CreatePostDto
+
+
+
+<form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All"></div>
+    @Html.EditorFor(a => a.Name, "String")
+    @Html.EditorFor(a => a.Description)
+    @Html.EditorFor(a => a.Content, "Ckeditor")
+    @Html.EditorFor(a => a.Image)
+    @Html.EditorFor(a => a.KeyWords)
+    @Html.EditorFor(a => a.IsSpecial)
+    <button type="submit" class="btn btn-primary">ایحاد</button>
+</form>

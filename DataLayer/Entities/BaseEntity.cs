@@ -12,6 +12,6 @@ namespace DataLayer.Entities
         [Key]
         public int Id { get; set; }
         public DateTime Created { get; set; } = DateTime.Now;
-        public bool IsDeleted { get; set; }= false;
+        public bool IsDeleted { get; set; } = false;
     }
 }

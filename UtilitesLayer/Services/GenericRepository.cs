@@ -1,5 +1,8 @@
 ﻿using System.Linq.Expressions;
+using System.Runtime.InteropServices;
+using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using UtilitesLayer.DTOs.Global;
 using UtilitesLayer.Utilities;
 using WebLayer.Data;
 
@@ -56,7 +59,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         try
         {
-            var entity = Get(id);
+            var entity = Get(id).Result;
+            if (entity == null)
+            {
+                return OperationResult.NotFound("این مورد وجود ندارد");
+            }
             _dbContext.Remove(entity);
             return OperationResult.Success();
         }
@@ -85,5 +92,29 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         return await _dbContext.Set<TEntity>().Where(expression).ToListAsync();
 
+    }
+
+    public async Task<Paggination<TEntity>> GetPaggination(int size, int page = 1)
+    {
+        var skip = (page - 1) * size;
+
+        var data = _dbContext.Set<TEntity>().AsQueryable();
+        var count =  data.Count();
+        var pages =(int) Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<TEntity> result =  await data.Skip(skip).Take(size).ToListAsync() ;
+
+        return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+    }
+
+    public async Task<Paggination<TEntity>> GetPaggination(int size, Expression<Func<TEntity, bool>> expression, int page = 1)
+    {
+        var skip = (page - 1) * size;
+
+        var data = _dbContext.Set<TEntity>().Where(expression).AsQueryable();
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<TEntity> result = await data.Skip(skip).Take(size).ToListAsync();
+
+        return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
 }

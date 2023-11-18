@@ -32,4 +32,12 @@
     <Folder Include="Areas\Identity\Views\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Areas\Admin\Views\Post\Add.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Admin\Views\Post\Add.cshtml" />
+  </ItemGroup>
+
 </Project>

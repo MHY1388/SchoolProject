@@ -9,6 +9,8 @@ namespace DataLayer.Entities
     {
         [Required, MaxLength(200)]
         public string Name { get; set; }
+        [Required,MaxLength(200)]
+        public string Slug { get; set; }
         [Required, MaxLength(400)]
         public string Description { get; set; }
         [Required]
