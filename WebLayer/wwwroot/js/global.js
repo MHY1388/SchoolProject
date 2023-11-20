@@ -39,22 +39,22 @@ function deleteItem(url, errorTitle, errorText) {
                     ErrorAlert("مشکلی در اعملیات رخ داده", "لطفا در زمان دیگری امتحان کنید");
                 }
             }).done(function (data) {
-                data = JSON.parse(data);
-                if (data.Status === 200) {
+                //data = JSON.parse(data);
+                if (data.status === 200) {
                     Swal.fire({
-                        title: data.Title,
-                        text: data.Message == null ? "اعملیات با موفقیت انجام شد" : data.Message,
+                        title: data.title,
+                        text: data.message == null ? "اعملیات با موفقیت انجام شد" : data.message,
                         icon: "success",
                         confirmButtonText: "باشه",
                     }).then(function (res) {
-                        if (data.IsReloadPage === true) {
+                        if (data.isReloadPage === true) {
                             location.reload();
                         }
                     });
-                } else if (data.Status === 10) {
-                    ErrorAlert(data.Title, data.Message);
-                } else if (data.Status === 404) {
-                    Warning(data.Title, data.Message);
+                } else if (data.status === 10) {
+                    ErrorAlert(data.title, data.message);
+                } else if (data.status === 404) {
+                    Warning(data.title, data.message);
                 }
             });
         }

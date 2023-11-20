@@ -24,6 +24,8 @@ namespace UtilitesLayer.Services
         public List<CategoryDto> GetCategories();
         public List<CategoryDto> GetCategories(Expression<Func<Category, bool>> expression);
         public Paggination<CategoryDto> GetPaggination(int page, int pageSize,string name=null, string slug=null);
+        public bool SlugExists(string slug);
+        public bool NameExists(string name);
 
     }
     public class CategoryServices:ICategoryServices
@@ -82,6 +84,16 @@ namespace UtilitesLayer.Services
                 paggination = _repository.GetPaggination(pageSize, page).Result;
             }
             return new Paggination<CategoryDto>(){CurrentPage = paggination.CurrentPage, GetSize = paggination.GetSize, PageCount = paggination.PageCount, Objects = paggination.Objects.Select(a=>a.MapToCategoryDto()).ToList()};
+        }
+
+        public bool SlugExists(string slug)
+        {
+            return _repository.Any(a => a.Slug == slug).Result;
+        }
+
+        public bool NameExists(string name)
+        {
+            return _repository.Any(a => a.Name == name).Result;
         }
     }
 }

@@ -5,9 +5,9 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLayer", "WebLayer\WebLayer.csproj", "{344FB36C-A21F-4F13-A811-AFCD28A8AD66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{0894E1EE-0146-4B2B-A016-89C6AE996FF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{0894E1EE-0146-4B2B-A016-89C6AE996FF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilitesLayer", "UtilitesLayer\UtilitesLayer.csproj", "{D662EBDB-6804-4A4A-BDC9-58BF327A9CE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilitesLayer", "UtilitesLayer\UtilitesLayer.csproj", "{D662EBDB-6804-4A4A-BDC9-58BF327A9CE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

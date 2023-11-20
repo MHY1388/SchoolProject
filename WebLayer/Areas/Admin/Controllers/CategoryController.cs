@@ -18,10 +18,20 @@ namespace WebLayer.Areas.Admin.Controllers
         {
             if (title.IsNullOrEmpty()){
                 var da = _unitOfWork.Categories.GetPaggination(page,6);
+                if (da.Objects.Count == 0 && page!=1)
+                {
+                     da = _unitOfWork.Categories.GetPaggination(1, 6);
+
+                }
                 return View(da);
             }
 
             var data = _unitOfWork.Categories.GetPaggination(page, 6, title, title);
+            if (data.Objects.Count == 0 && page != 1)
+            {
+                data = _unitOfWork.Categories.GetPaggination(1, 6, title, title);
+
+            }
             return View(data);
         }
 
@@ -33,6 +43,16 @@ namespace WebLayer.Areas.Admin.Controllers
         public IActionResult Add(CreateCategoryDto model)
         {
             if (!ModelState.IsValid) return View(model);
+            if (_unitOfWork.Categories.SlugExists(model.Slug.GenerateSlug()))
+            {
+                ModelState.AddModelError("", "این اسلاگ از قبل استفاده شده است");
+                return View(model);
+            }
+            if (_unitOfWork.Categories.NameExists(model.Name))
+            {
+                ModelState.AddModelError("", "این نام از قبل استفاده شده است");
+                return View(model);
+            }
             var result = _unitOfWork.Categories.CreateCategory(model);
             if (result.Status != OperationResultStatus.Success)
             {
@@ -48,7 +68,8 @@ namespace WebLayer.Areas.Admin.Controllers
         {
             var result  = _unitOfWork.Categories.DeleteCategory(id);
             _unitOfWork.SaveChanges();
-            return RedirectAndShowAlert(result, RedirectToAction("Index"));
+            var a = Json(new{Status=(int)result.Status, Message=result.Message, Title=(result.Status==OperationResultStatus.Success?"موفق":"خطا"), IsReloadPage =true});
+            return a;
         }
 
         public IActionResult Update(int id)
@@ -61,6 +82,16 @@ namespace WebLayer.Areas.Admin.Controllers
         public IActionResult Update(CategoryDto model)
         {
             if (!ModelState.IsValid) return View(model);
+            if (_unitOfWork.Categories.SlugExists(model.Slug.GenerateSlug()))
+            {
+                ModelState.AddModelError("", "این اسلاگ از قبل استفاده شده است");
+                return View(model);
+            }
+            if (_unitOfWork.Categories.NameExists(model.Name))
+            {
+                ModelState.AddModelError("", "این نام از قبل استفاده شده است");
+                return View(model);
+            }
             var result = _unitOfWork.Categories.UpdateCategory(model);
             if (result.Status != OperationResultStatus.Success)
             {

@@ -7,8 +7,18 @@
 <form method="post">
     <div asp-validation-summary="All"></div>
     <input type="hidden" asp-for="Id"/>
+
     @Html.EditorFor(a => a.Name)
     @Html.EditorFor(a => a.Slug)
     @Html.EditorFor(a => a.IsDeleted)
     <input type="submit" value="بروزرسانی" class="btn btn-primary"/>
 </form>
+@section Scripts
+{
+    <script>
+        $(document).ready(function() {
+            $('div[name="form"]').addClass("is-filled");
+        });
+
+    </script>
+}

@@ -117,4 +117,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
         return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
+
+    public Task<bool> Any(Expression<Func<TEntity, bool>> expression)
+    {
+       return _dbContext.Set<TEntity>().AnyAsync(expression);
+    }
 }
