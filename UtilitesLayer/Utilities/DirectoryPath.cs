@@ -12,7 +12,7 @@ namespace UtilitesLayer.Utilities
     {
         public const string MediaImages = "\\wwwroot\\media\\images\\";
         public const string MediaImagesContent = "\\wwwroot\\media\\images\\content\\";
-        public static string GetImageUrl(string name)
+        public static string GetImageUrl(this string name)
         {
             return MediaImages.Replace("\\", "/").Replace("/wwwroot", "") + name;
         }

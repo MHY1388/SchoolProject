@@ -1,16 +1,8 @@
-﻿using DataLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace UtilitesLayer.DTOs.Post
+namespace WebLayer.Areas.Admin.Models
 {
-    public class CreatePostDto
+    public class UpdatePostModel
     {
         [Required, Display(Name = "نام"), MaxLength(200)]
         public string Name { get; set; }
@@ -20,14 +12,20 @@ namespace UtilitesLayer.DTOs.Post
         public string Description { get; set; }
         [Required, Display(Name = "محتوا"), DataType(DataType.Html)]
         public string Content { get; set; }
-        [Required, Display(Name = "تصویر")]
-        public IFormFile Image { get; set; }
-        [Display(Name = "دسته بندی:")]
-        public int CategoryID { get; set; }
+        [ Display(Name = "تصویر:")]
+        public IFormFile? ImagePath { get; set; }
 
+        public int CategoryID { get; set; }
+        [Required, Display(Name = "بازدید ها")]
+        public int Visit { get; set; }
         [Required, Display(Name = "کلید واژه ها")]
         public string KeyWords { get; set; }
         [Required, Display(Name = "پست ویژه")]
         public bool IsSpecial { get; set; }
+        public int Id { get; set; }
+        [Display(Name = "زمان ایجاد")]
+        public DateTime Created { get; set; }
+        [Display(Name = "حذف شده")]
+        public bool IsDeleted { get; set; }
     }
 }

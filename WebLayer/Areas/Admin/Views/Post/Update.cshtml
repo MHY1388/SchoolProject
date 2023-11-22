@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var data = ViewData["categories"] as List<CategoryOption>;
+    var category = data.Find(a => a.Id == Model.CategoryID);
+}
+@using WebLayer.Areas.Admin.Models
+@model WebLayer.Areas.Admin.Models.UpdatePostModel
+
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    <input type="hidden" asp-for="Id"/>
+    @Html.EditorFor(a => a.Name)
+    @Html.EditorFor(a => a.Description)
+    @Html.EditorFor(a => a.Slug)
+    <div class="input-group input-group-outline">
+        <label asp-for="CategoryID"></label>
+        <select class="form-control" asp-for="CategoryID">
+            <option value="@category.Id">@category.Name</option>
+
+            @foreach (var item in data)
+            {
+                if (item.Id != category.Id)
+                {
+                    <option value="@item.Id">@item.Name</option>
+
+                }
+            }
+        </select>
+    </div><br/>
+    @Html.EditorFor(a => a.Content, "Ckeditor")
+    @Html.EditorFor(a => a.IsDeleted)
+    @Html.EditorFor(a => a.IsSpecial)
+    @Html.EditorFor(a => a.ImagePath)
+    @Html.EditorFor(a => a.KeyWords)
+    <input type="submit" value="بروزرسانی" class="btn btn-success"/>
+</form>
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $('div[name="form"]').addClass("is-filled");
+        });
+
+    </script>
+}

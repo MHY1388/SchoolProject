@@ -12,7 +12,6 @@ public class PostDto
     public string Description { get; set; }
     [Required, Display(Name = "محتوا"), DataType(DataType.Html)]
     public string Content { get; set; }
-    [Required]
     public string ImagePath { get; set; }
 
     public int CategoryID { get; set; }

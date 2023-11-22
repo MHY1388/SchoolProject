@@ -1,85 +1,80 @@
-﻿<div class="row">
+﻿@using UtilitesLayer.Utilities
+@model UtilitesLayer.DTOs.Global.Paggination<UtilitesLayer.DTOs.Post.PostDto>
+<div class="row">
     <div class="col-12">
         <a href="@Url.Action("Add","Post")" class="btn btn-success">ایجاد</a>
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5 row">
                     <div class="col-3">
-                        <h6 class="text-white text-capitalize ps-3">مقالات</h6>
+                        <h2 class="text-white text-capitalize ps-3">مقالات</h2>
 
                     </div>
-                    <div class="col-9 left">
-                        <div class="input-group input-group-outline left">
-                            <label class="form-label" style="color: red;">جستجو</label>
-                            <input type="text" class="form-control" onfocus="focused(this)" onfocusout="defocused(this)">
+                    <form class="col-9 left">
+
+                        <input type="submit" value="جستجو" class="left btn btn-primary" />
+
+                        <div class="input-group input-group-outline left" style="width: 70%; float: left">
+                            <label class="form-label" style="color: white;">جستجو</label>
+                            <input type="text" class="form-control" id="title" name="title" onfocus="focused(this)" onfocusout="defocused(this)">
                         </div>
-                    </div>
 
-                   
+
+                    </form>
+
+
                 </div>
             </div>
             <div class="card-body px-0 pb-2">
                 <div class="table-responsive p-0">
                     <table class="table align-items-center mb-0">
                         <thead>
-                        <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">تصویر</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">نام</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">پست ویژه</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">تاریخ ایجاد</th>
-                            <th class="text-secondary opacity-7"></th>
-                        </tr>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">عنوان</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">اسلاگ</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">دسته بندی</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">فعال</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">تاریخ ایجاد</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <img src="/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-
-                            </td>
-                            <td>
-                                <p class="text-xs font-weight-bold mb-0">عنوان</p>
-                                <p class="text-xs text-secondary mb-0">توضیحات کوتاه</p>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <span class="badge badge-sm bg-gradient-success"> </span>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                            </td>
-                            <td class="align-middle">
-                                <a class="btn btn-secondary font-weight-bold text-xs mx-2">
-                                    ویرایش
-                                </a>
-                                <a class="btn btn-danger font-weight-bold text-xs mx-2">
-                                    حذف
-                                </a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-
-                            </td>
-                            <td>
-                                <p class="text-xs font-weight-bold mb-0">عنوان</p>
-                                <p class="text-xs text-secondary mb-0">توضیحات کوتاه</p>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <span class="badge badge-sm bg-gradient-success"> </span>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                            </td>
-                            <td class="align-middle">
-                                <a class="btn btn-secondary font-weight-bold text-xs mx-2">
-                                    ویرایش
-                                </a>
-                                <a class="btn btn-danger font-weight-bold text-xs mx-2">
-                                    حذف
-                                </a>
-                            </td>
-                        </tr>
-
+                            @foreach (var i in Model.Objects)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <img src="@i.ImagePath.GetImageUrl()" class="avatar avatar-sm ms-3 border-radius-lg" alt="@i.Description">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">@i.Name</h6>
+                                                <p class="text-xs text-secondary mb-0">@i.Description</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs align-middle text-center">@i.Slug</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs align-middle text-center">@i.Category.Name</p>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <span class="badge badge-sm bg-gradient-@(i.IsDeleted?"danger":"success")"> </span>
+                                    </td>
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.Created.PersianDate()</p>
+                                    </td>
+                                    <td class="align-middle">
+                                        <a asp-action="Update" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">
+                                            ویرایش
+                                        </a>
+                                        <button onclick="deleteItem('@Url.Action("Delete","Post",new{id=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
+                                            حذف
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -88,15 +83,46 @@
     </div>
 </div>
 <nav aria-label="Page navigation example">
+    <p class="text-center bold" style="color:red">@Model.PageCount صفحه:</p>
+
     <ul class="pagination justify-content-center">
-        <li clsass="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">قبلی</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+        @if (Model.CurrentPage != 1)
+        {
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage - 1));">قبلی</button>
+            </li>
+
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage - 1));">@(Model.CurrentPage - 1)</button>
+            </li>
+            @if (Model.CurrentPage - 2 > 0)
+            {
+
+                <li class="page-item">
+                    <button class="page-link" onclick="changePage(@(Model.CurrentPage - 2));">@(Model.CurrentPage - 2)</button>
+                </li>
+            }
+        }
         <li class="page-item">
-            <a class="page-link" href="#">بعدی</a>
+            <button class="page-link active" onclick="changePage(@(Model.CurrentPage));">@(Model.CurrentPage)</button>
         </li>
+        @if (Model.CurrentPage != Model.PageCount)
+        {
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage + 1));">@(Model.CurrentPage + 1)</button>
+            </li>
+            @if (Model.CurrentPage + 2 <= Model.PageCount)
+            {
+
+                <li class="page-item">
+                    <button class="page-link" onclick="changePage(@(Model.CurrentPage + 2));">@(Model.CurrentPage + 2)</button>
+                </li>
+            }
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage + 1))">بعدی</button>
+            </li>
+        }
     </ul>
+
 </nav>

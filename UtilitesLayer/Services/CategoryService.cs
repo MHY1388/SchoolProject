@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using UtilitesLayer.DTOs.Category;
 using UtilitesLayer.DTOs.Global;
@@ -14,26 +15,15 @@ using WebLayer.Data;
 
 namespace UtilitesLayer.Services
 {
-    public interface ICategoryServices
-    {
-        public OperationResult CreateCategory(CreateCategoryDto category);
-        public OperationResult DeleteCategory(int id);
-        public OperationResult UpdateCategory(CategoryDto category);
-        public CategoryDto GetCategory(int id);
-        public CategoryDto GetCategory(Expression<Func<Category, bool>> expression);
-        public List<CategoryDto> GetCategories();
-        public List<CategoryDto> GetCategories(Expression<Func<Category, bool>> expression);
-        public Paggination<CategoryDto> GetPaggination(int page, int pageSize,string name=null, string slug=null);
-        public bool SlugExists(string slug);
-        public bool NameExists(string name);
-
-    }
     public class CategoryServices:ICategoryServices
     {
         private readonly IGenericRepository<Category> _repository;
+        private readonly ApplicationDbContext context;
+
         public CategoryServices(ApplicationDbContext context)
         {
             _repository = new GenericRepository<Category>(context);
+            this.context = context;
         }
         public OperationResult CreateCategory(CreateCategoryDto category)
         {
@@ -53,7 +43,8 @@ namespace UtilitesLayer.Services
 
         public CategoryDto GetCategory(int id)
         {
-            return  _repository.Get(id).Result.MapToCategoryDto();
+            //return  _repository.Get(id).Result.MapToCategoryDto();
+            return context.Categories.AsNoTracking().FirstOrDefault(a => a.Id == id).MapToCategoryDto();
         }
 
         public CategoryDto GetCategory(Expression<Func<Category, bool>> expression)

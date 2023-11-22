@@ -25,7 +25,7 @@
     <nav>
         <div class="nav-wrapper blue darken-3">
             <div class="container">
-                <a href="#!" class="brand-logo blue-text text-lighten-4 bold">مدرسه دکتر خرمی روز</a>
+                <a href="#!" class="brand-logo blue-text text-lighten-4 bold hide-on-med-and-down">مدرسه دکتر خرمی روز</a>
                 <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     @* <li><a asp-page="login">ورود</a></li> *@
@@ -49,18 +49,20 @@
         </div>
     </nav>
 
-    <ul class="sidenav" id="mobile-demo">
+    <ul class="sidenav blue-text text-lighten-4" id="mobile-demo">
+        <li><h5 class="center bold blue-text ">مدرسه دکتر خرمی روز</h5></li>
         <li><a href="login.html">ورود</a></li>
         <li><a href="sass.html">ثبت نام</a></li>
         <li><a href="index.html">خانه</a></li>
         <li><a href="sass.html">اخبار</a></li>
 
         <li>
-            <form action="">
+            <form >
                 <div class="row">
                     <div class="input-field col s12">
+                                <input type="text" placeholder="دنبال چه چیزی میگردید" name="name" id="name">
+
                         <label for="name">جستجو</label>
-                        <input type="text" name="name" id="name">
                     </div>
                     <div class="col s12">
                         <input class="btn blue" type="submit" value="جستجو">

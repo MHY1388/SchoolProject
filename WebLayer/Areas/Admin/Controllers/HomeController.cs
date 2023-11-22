@@ -7,7 +7,7 @@ namespace WebLayer.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/", Name = "ادمین" } };
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" } };
             ViewData["title"] = "خانه";
             return View();
         }

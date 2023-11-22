@@ -1,4 +1,6 @@
-﻿@model UtilitesLayer.DTOs.Post.CreatePostDto
+﻿@using Microsoft.CodeAnalysis.Options
+@using WebLayer.Areas.Admin.Models
+@model UtilitesLayer.DTOs.Post.CreatePostDto
 
 
 
@@ -6,6 +8,19 @@
     <div asp-validation-summary="All"></div>
     @Html.EditorFor(a => a.Name, "String")
     @Html.EditorFor(a => a.Description)
+    @Html.EditorFor(a => a.Slug)
+    <div class="input-group input-group-outline">
+        <label asp-for="CategoryID"></label>
+        <select class="form-control" asp-for="CategoryID">
+            <option value="">انتخاب کنید</option>
+
+            @foreach (var item in ViewData["categories"] as List<CategoryOption>)
+            {
+                <option value="@item.Id">@item.Name</option>
+
+            }
+        </select>
+    </div><br/>
     @Html.EditorFor(a => a.Content, "Ckeditor")
     @Html.EditorFor(a => a.Image)
     @Html.EditorFor(a => a.KeyWords)

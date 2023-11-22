@@ -44,10 +44,15 @@ namespace UtilitesLayer.Services
             }
         }
 
+        public void Attach(object model)
+        {
+            _context.Attach(model);
+        }
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
         }
+
 
         public void SaveChanges()
         {

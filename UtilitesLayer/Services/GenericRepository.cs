@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using UtilitesLayer.DTOs.Global;
 using UtilitesLayer.Utilities;
 using WebLayer.Data;
@@ -33,6 +34,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         try
         {
+            Attach(entity);
             _dbContext.Update(entity);
             return OperationResult.Success();
         }
@@ -78,6 +80,123 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return await _dbContext.Set<TEntity>().FindAsync(id);
     }
 
+
+
+    public async Task<ICollection<TEntity>> GetAllWithInclude(List<Expression<Func<TEntity, dynamic>>> includes)
+    {
+        var dbSet = _dbContext.Set<TEntity>();
+        IIncludableQueryable<TEntity, object> x = null;
+        foreach (var include in includes)
+        {
+            if (x is null)
+            {
+                x = dbSet.Include(include);
+
+            }
+            else
+            {
+                x = x.Include(include);
+            }
+        }
+        return await x.ToListAsync();
+
+    }
+
+    public async Task<TEntity> FindWithInclude(Expression<Func<TEntity, bool>> expression, List<Expression<Func<TEntity, dynamic>>> includes)
+    {
+        var dbSet = _dbContext.Set<TEntity>().AsNoTracking();
+        IIncludableQueryable<TEntity, object> x = null;
+        foreach (var include in includes)
+        {
+            if (x is null)
+            {
+                x = dbSet.Include(include);
+
+            }
+            else
+            {
+                x = x.Include(include);
+            }
+        }
+        return await x.FirstOrDefaultAsync(expression);
+
+    }
+
+    public async Task<ICollection<TEntity>> FindAllWithInclude(Expression<Func<TEntity, bool>> expression, List<Expression<Func<TEntity, dynamic>>> includes)
+    {
+        var dbSet = _dbContext.Set<TEntity>();
+        IIncludableQueryable<TEntity, object> x = null;
+        foreach (var include in includes)
+        {
+            if (x is null)
+            {
+                x = dbSet.Include(include);
+
+            }
+            else
+            {
+                x = x.Include(include);
+            }
+        }
+        return await x.Where(expression).ToListAsync();
+
+    }
+
+    public async Task<Paggination<TEntity>> GetPagginationWithInclude(int size, List<Expression<Func<TEntity, dynamic>>> includes, int page = 1)
+    {
+        var skip = (page - 1) * size;
+        var dbSet = _dbContext.Set<TEntity>();
+        IIncludableQueryable<TEntity, object> x = null;
+        foreach (var include in includes)
+        {
+            if (x is null)
+            {
+                x = dbSet.Include(include);
+
+            }
+            else
+            {
+                x= x.Include(include);
+            }
+        }
+
+        var data = x.AsQueryable();
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<TEntity> result =  await data.Skip(skip).Take(size).ToListAsync();
+
+        return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+
+    }
+
+    public async Task<Paggination<TEntity>> GetPagginationWithInclude(int size, Expression<Func<TEntity, bool>> expression, List<Expression<Func<TEntity, dynamic>>> includes, int page = 1)
+    {
+
+        var skip = (page - 1) * size;
+        var dbSet = _dbContext.Set<TEntity>();
+        IIncludableQueryable<TEntity, object> x = null;
+        foreach (var include in includes)
+        {
+            if (x is null)
+            {
+                x = dbSet.Include(include);
+
+            }
+            else
+            {
+                x = x.Include(include);
+            }
+        }
+        var data = x.Where(expression).AsQueryable();
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<TEntity> result = await data.Skip(skip).Take(size).ToListAsync();
+
+        return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+
+    }
+
+
     public async Task<ICollection<TEntity>> GetAll()
     {
         return await _dbContext.Set<TEntity>().ToListAsync();
@@ -121,5 +240,12 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public Task<bool> Any(Expression<Func<TEntity, bool>> expression)
     {
        return _dbContext.Set<TEntity>().AnyAsync(expression);
+    }
+    public void Attach(TEntity model)
+    {
+        if (_dbContext.Entry(model).State == EntityState.Detached)
+        {
+            _dbContext.Attach(model);
+        }
     }
 }

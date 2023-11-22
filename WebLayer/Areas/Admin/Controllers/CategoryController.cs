@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using UtilitesLayer.DTOs.Category;
 using UtilitesLayer.Services;
 using UtilitesLayer.Utilities;
+using WebLayer.Areas.Admin.Models;
 
 namespace WebLayer.Areas.Admin.Controllers
 {
@@ -16,6 +17,8 @@ namespace WebLayer.Areas.Admin.Controllers
         }
         public IActionResult Index(string title = null, int page=1)
         {
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }};
+            ViewData["title"] = "دسته بندی ها";
             if (title.IsNullOrEmpty()){
                 var da = _unitOfWork.Categories.GetPaggination(page,6);
                 if (da.Objects.Count == 0 && page!=1)
@@ -37,6 +40,8 @@ namespace WebLayer.Areas.Admin.Controllers
 
         public IActionResult Add()
         {
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link=Url.Action("Index", "Category"), Name="دسته بندی ها"} };
+            ViewData["title"] = "افزودن";
             return View();
         }
         [ValidateAntiForgeryToken, HttpPost]
@@ -74,6 +79,8 @@ namespace WebLayer.Areas.Admin.Controllers
 
         public IActionResult Update(int id)
         {
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = Url.Action("Index", "Category"), Name = "دسته بندی ها" } };
+            ViewData["title"] = "بروزرسانی";
             var model = _unitOfWork.Categories.GetCategory(id);
             return View(model);
         }
@@ -82,15 +89,22 @@ namespace WebLayer.Areas.Admin.Controllers
         public IActionResult Update(CategoryDto model)
         {
             if (!ModelState.IsValid) return View(model);
-            if (_unitOfWork.Categories.SlugExists(model.Slug.GenerateSlug()))
+            var entity =_unitOfWork.Categories.GetCategory(model.Id);
+            if(entity.Slug != model.Slug)
             {
-                ModelState.AddModelError("", "این اسلاگ از قبل استفاده شده است");
-                return View(model);
+                if (_unitOfWork.Categories.SlugExists(model.Slug.GenerateSlug()))
+                {
+                    ModelState.AddModelError("", "این اسلاگ از قبل استفاده شده است");
+                    return View(model);
+                }
             }
+            if(entity.Name != model.Name)
+            {
             if (_unitOfWork.Categories.NameExists(model.Name))
             {
                 ModelState.AddModelError("", "این نام از قبل استفاده شده است");
                 return View(model);
+            }
             }
             var result = _unitOfWork.Categories.UpdateCategory(model);
             if (result.Status != OperationResultStatus.Success)
