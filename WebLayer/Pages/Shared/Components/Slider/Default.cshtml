@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<UtilitesLayer.DTOs.Post.PostDto>
+@using UtilitesLayer.Utilities.ali
+@inject UtilitesLayer.Utilities.ali.CloudTool tool1
+<section>
+    <div class="parallax-container responsive-img">
+        <div class="parallax main-img">
+            <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
+        </div>
+    </div>
+    <div class="slider">
+        <ul class="slides">
+            @foreach(var i in Model)
+            {
+                <li>
+                    <a asp-page="Post" asp-route-id="@i.Id" asp-route-slug="@i.Slug">
+                        <img src="@tool1.GeneratePreSignedUrl(i.ImagePath, DirectoryPath.BucketName)">
+                    <!-- random image -->
+                    <div class="caption center-align">
+                        <h3 dir="rtl">@i.Name</h3>
+                        <h5 dir="rtl" class="light grey-text text-lighten-3">@i.Description</h5>
+                    </div>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</section>

@@ -10,22 +10,24 @@
         <a href="@Url.Action("Add","Category")" class="btn btn-success">ایجاد</a>
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5 row">
-                    <div class="col-3">
-                        <h2 class="text-white text-capitalize ps-3">دسته بندی ها</h2>
+                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5">
+                    <h2 class="text-white text-capitalize ps-3 ">دسته بندی ها</h2>
+                        <form>
+                    <div class="row align-items-center">
+
+                            <div class="col-8">
+                                <div class="input-group input-group-outline m-0">
+                                    <label class="form-label" style="color: white;">جستجو</label>
+                                    <input type="text" class="form-control" id="title" name="title" onfocus="focused(this)" onfocusout="defocused(this)">
+                                </div>
+                            </div>
+                            <div class="col-4">
+
+                                <input type="submit" value="جستجو" class="btn btn-primary m-0" />
+                            </div>
 
                     </div>
-                    <form class="col-9 left">
-                        
-                        <input type="submit" value="جستجو" class="left btn btn-primary"/>
-
-                        <div class="input-group input-group-outline left" style="width: 70%; float: left">
-                            <label class="form-label" style="color: white;">جستجو</label>
-                            <input type="text" class="form-control" id="title" name="title" onfocus="focused(this)" onfocusout="defocused(this)">
-                        </div>
-
-
-                    </form>
+                        </form>
 
 
                 </div>

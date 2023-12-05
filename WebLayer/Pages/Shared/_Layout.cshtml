@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,6 +15,7 @@
 
     <!-- my js -->
     <link rel="stylesheet" href="/css/style.css">
+    @await RenderSectionAsync("MetaCss", false)
 
 </head>
 <body>
@@ -21,57 +23,7 @@
     <img src="/img/Walk.gif" alt="" srcset="">
 </div>
 <div id="docconter">
-<header>
-    <nav>
-        <div class="nav-wrapper blue darken-3">
-            <div class="container">
-                <a href="#!" class="brand-logo blue-text text-lighten-4 bold hide-on-med-and-down">مدرسه دکتر خرمی روز</a>
-                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down">
-                    @* <li><a asp-page="login">ورود</a></li> *@
-                    @* <li><a href="sass.html">ثبت نام</a></li> *@
-                    <li><a asp-page="Index">خانه</a></li>
-                    <li><a asp-page="Blog">اخبار</a></li>
-
-                    <li><button onclick="gettoggle('#searchform')" class="btn" >جستجو </button> 
-                        <div id="searchform" class="hidding blue darken-2 p-a p10"style="z-index: 5000;">
-                            <form action="">
-                                <div class="input-field w200" >
-                                    <label for="name" >جستجو:</label>
-                                    <input type="text" name="name" id="name">
-                                </div>
-                                <input class="btn blue" type="submit" value="جستجو">
-                            </form>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <ul class="sidenav blue-text text-lighten-4" id="mobile-demo">
-        <li><h5 class="center bold blue-text ">مدرسه دکتر خرمی روز</h5></li>
-        <li><a href="login.html">ورود</a></li>
-        <li><a href="sass.html">ثبت نام</a></li>
-        <li><a href="index.html">خانه</a></li>
-        <li><a href="sass.html">اخبار</a></li>
-
-        <li>
-            <form >
-                <div class="row">
-                    <div class="input-field col s12">
-                                <input type="text" placeholder="دنبال چه چیزی میگردید" name="name" id="name">
-
-                        <label for="name">جستجو</label>
-                    </div>
-                    <div class="col s12">
-                        <input class="btn blue" type="submit" value="جستجو">
-                    </div>
-                </div>
-            </form>
-        </li>
-    </ul>
-</header>
+    @await Html.PartialAsync("_LoginPartial")
             @RenderBody()
 <footer class="page-footer blue darken-3">
     <div class="container ">
@@ -83,18 +35,15 @@
             <div class="col l4 offset-l2 s12">
                 <h5 class="white-text">لینک ها</h5>
                 <ul>
-                    <li><a href="login.html" class="grey-text text-lighten-3">ورود</a></li>
-                    <li><a href="sass.html" class="grey-text text-lighten-3">ثبت نام</a></li>
-                    <li><a href="index.html" class="grey-text text-lighten-3">خانه</a></li>
-                    <li><a href="sass.html" class="grey-text text-lighten-3">اخبار</a></li>
+                    <li><a asp-page="Blog">مقالات</a></li>
+                    <li><a asp-page="Index">خانه</a></li>
                 </ul>
             </div>
         </div>
     </div>
     <div class="footer-copyright">
         <div class="container" dir="rtl">
-            طبق ماده ۱۲ فصل سوم قانون جرائم رایانه‌ای هرگونه کپی برداری از طرح قالب و مطالب تارنما به هر نحو، پیگرد قانونی دارد © 1403
-            استفاده از مطالب و فایل‌های تارنما به هر نحو، تنها با کسب اجازه کتبی از مدیریت امکانپذیر می‌باشد
+    .تمام حقوق مادی و معنوی این سایت برای محمد حسن یاوری محفوظ است
         </div>
     </div>
 </footer>
@@ -108,6 +57,9 @@
 
 <!-- my css -->
 <script src="/js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="~/js/global.js"></script>
+<script src="~/js/Custom.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
@@ -116,4 +68,3 @@
 
 
 
-              @*       <partial name="_LoginPartial" /> *@

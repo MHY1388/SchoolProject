@@ -105,3 +105,10 @@ body{
 .p10 {
     padding: 10px;
 }
+blockquote {
+    margin: 20px 0;
+    padding-right: 1.5rem !important;
+    border-right: 5px solid #ee6e73 !important;
+    padding-left: 0 !important;
+    border-left: 0 !important;
+}

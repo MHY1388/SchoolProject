@@ -1,20 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using UtilitesLayer.DTOs.Post;
+using UtilitesLayer.Services;
 
 namespace WebLayer.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly UnitOfWork db;
+        [BindProperty]
+        public List<PostDto> Posts { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(UnitOfWork db)
         {
-            _logger = logger;
+            this.db = db;
         }
 
         public void OnGet()
         {
-
+            Posts=db.Posts.GetPosts();
         }
     }
 }

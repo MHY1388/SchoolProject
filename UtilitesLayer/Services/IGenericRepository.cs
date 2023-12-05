@@ -21,5 +21,9 @@ public interface IGenericRepository<TEntity> where TEntity : class
     public Task<ICollection<TEntity>> FindAllWithInclude(Expression<Func<TEntity, bool>> expression, List<Expression<Func<TEntity, dynamic>>> includes);
     public Task<Paggination<TEntity>> GetPagginationWithInclude(int size, List<Expression<Func<TEntity, dynamic>>> includes, int page =1);
     public Task<Paggination<TEntity>> GetPagginationWithInclude(int size, Expression<Func<TEntity,bool>> expression, List<Expression<Func<TEntity, dynamic>>> includes, int page = 1);
+    public Task<Paggination<TEntity>> GetPaggination(int size, List<TEntity> Data, int page = 1);
+    public Task<Paggination<TEntity>> GetPaggination(int size, Func<TEntity, bool> expression, List<TEntity> Data, int page = 1);
+
+
     public Task<bool> Any(Expression<Func<TEntity, bool>> expression);
 }

@@ -1,60 +1,23 @@
-﻿@page
+﻿@page "{id}/{slug}"
 @model PostModel
 @{
 }
-<section>
-    <div class="parallax-container responsive-img">
-        <div class="parallax main-img">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
-        </div>
-    </div>
+@using UtilitesLayer.Utilities.ali
 
-    <div class="slider">
-        <ul class="slides">
-            <li>
-                <img
-                    src="/img/shora.jpg">
-                <!-- random image -->
-                <div class="caption center-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/gardenstu.jpg"> <!-- random image -->
-                <div class="caption left-align">
-                    <h3>عنوان</h3>
-                    <h5 class="/img/redmi2.jpg">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/students.jpg"> <!-- random image -->
-                <div class="caption right-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/garden2.jpg"> <!-- random image -->
-                <div class="caption center-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-        </ul>
-    </div>
-</section>
+@inject CloudTool tool
+@await Component.InvokeAsync("Slider", Model.Posts)
 <br>
 <div class="row m20">
     <div class="col s12 l3">
         <div class="card">
             <div dir="rtl" class="card-content">
-                <h4>دسته بندی ها:</h4>
+                <h4>اخبار:</h4>
                 <ul class="collection">
-                    <li class="collection-item">Alvin</li>
-                    <li class="collection-item">Alvin</li>
-                    <li class="collection-item">Alvin</li>
-                    <li class="collection-item">Alvin</li>
+                    @foreach(var item in Model.Categories)
+                    {
+                        
+                        <li class="collection-item"><a asp-page="Blog" asp-route-category="@item.Slug">@item.Name</a> </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -64,119 +27,34 @@
         <nav class="mt5" dir="rtl">
             <div class="nav-wrapper">
                 <div class="col s12" dir="rtl">
-                    <a href="#!" class="breadcrumb" dir="rtl">First</a>
-                    <a href="#!" class="breadcrumb" dir="rtl">Second</a>
-                    <a href="#!" class="breadcrumb" dir="rtl">Third</a>
+                    <a asp-page="Blog" class="breadcrumb" dir="rtl">اخبار</a>
+                    <a asp-page="Blog" asp-route-category="@Model.Post.Category.Slug" class="breadcrumb" dir="rtl">@Model.Post.Category.Name</a>
+                    <a class="breadcrumb active" dir="rtl">@Model.Post.Name</a>
                 </div>
             </div>
         </nav>
-        <h2 class="right">:عنوان</h2><small class="left valign-wrapper m20"><i class="material-icons">history</i> 1402/3/4</small> <small class="left valign-wrapper m20"><i class="material-icons">list</i> علمی</small> <small class="left valign-wrapper m20"><i class="material-icons">visibility</i>333</small>
+        <small class="left valign-wrapper m20"><i class="material-icons">history</i>@Model.Post.Created.PersianDate()</small> <small class="left valign-wrapper m20"><i class="material-icons">list</i><a asp-page="Blog" asp-route-category="@Model.Post.Category.Slug">@Model.Post.Category.Name</a></small> <small class="left valign-wrapper m20"><i class="material-icons">visibility</i>@Model.Post.Visit</small><h2 dir="rtl" class="right">@Model.Post.Name</h2>
         <div class="clear-fix"></div>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti aliquid, sapiente iusto eligendi, temporibus
-            sequi veniam soluta doloribus ad culpa reiciendis, praesentium voluptatum ipsa quae atque ipsum incidunt est
-            eos.
-        </p>
+        <div dir="rtl">
+            @Html.Raw(Model.Post.Content)
+
+        </div>
 
     </section>
 </div>
 <article>
-    <h2 dir="rtl">مقالات مرتبط:</h2>
+    <h2 dir="rtl">اخبار مرتبط:</h2>
     <div class="carousel">
-        <a dir="rtl" class="carousel-item" href="#one!">
-            <img src="/img/redmi2.jpg"><span class="center">مقاله</span>
+        @foreach(var item in Model.RelatedPosts)
+        {
+        <a dir="rtl" class="carousel-item" asp-page="Post" asp-route-id="@item.Id">
+            <img src="@tool.GeneratePreSignedUrl(item.ImagePath,DirectoryPath.BucketName)"><span class="center">@item.Name</span>
         </a>
-        <a dir="rtl" class="carousel-item" href="#one!">
-            <img src="/img/redmi2.jpg"><span class="center">مقاله</span>
-        </a>
-        <a dir="rtl" class="carousel-item" href="#one!">
-            <img src="/img/redmi2.jpg"><span class="center">مقاله</span>
-        </a>
-        <a dir="rtl" class="carousel-item" href="#one!">
-            <img src="/img/redmi2.jpg"><span class="center">مقاله</span>
-        </a>
-        <a dir="rtl" class="carousel-item" href="#one!">
-            <img src="/img/redmi2.jpg"><span class="center">مقاله</span>
-        </a>
-        <a dir="rtl" class="carousel-item" href="#one!">
-            <img src="/img/redmi2.jpg"><span class="center">مقاله</span>
-        </a>
+        }
 
     </div>
 </article>
 <br>
+@section MetaCss{
+    <meta name="keywords" content="@Model.Post.KeyWords"/>
+}

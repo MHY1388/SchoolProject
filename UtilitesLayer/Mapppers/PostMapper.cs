@@ -17,7 +17,7 @@ namespace UtilitesLayer.Mapppers
             return new Post()
             {
                 Name = post.Name, Description = post.Description, CategoryID = post.CategoryID, Content = post.Content,
-                ImagePath = imagepath, KeyWords = post.KeyWords, IsSpecial = post.IsSpecial, Slug = post.Slug.GenerateSlug()
+                ImagePath = imagepath, KeyWords = post.KeyWords.Replace("،", ","), IsSpecial = post.IsSpecial, Slug = post.Slug.GenerateSlug()
             };
         }
 
@@ -26,7 +26,7 @@ namespace UtilitesLayer.Mapppers
             return new Post()
             {
                 Id = post.Id, CategoryID = post.CategoryID, Content = post.Content, IsDeleted = post.IsDeleted,
-                IsSpecial = post.IsSpecial, ImagePath = post.ImagePath, KeyWords = post.KeyWords,
+                IsSpecial = post.IsSpecial, ImagePath = post.ImagePath, KeyWords = post.KeyWords.Replace("،", ","),
                 Description = post.Description, Slug = post.Slug.GenerateSlug(), Name = post.Name
             };
         }

@@ -4,8 +4,7 @@ using System.Diagnostics;
 
 namespace WebLayer.Pages
 {
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    [IgnoreAntiforgeryToken]
+
     public class ErrorModel : PageModel
     {
         public string? RequestId { get; set; }
@@ -18,10 +17,11 @@ namespace WebLayer.Pages
         {
             _logger = logger;
         }
-
-        public void OnGet()
+        [BindProperty]
+        public int Code { get; set; }
+        public void OnGet(int code)
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            Code = code;
         }
     }
 }

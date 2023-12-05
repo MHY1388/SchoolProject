@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using UtilitesLayer.Utilities;
 
 namespace WebLayer.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin"), Authorize()]
     public class BaseController : Controller
     {
+        protected void IsRedirect()
+        {
+            ViewData["isRedirect"] = true;
+        }
         protected IActionResult RedirectAndShowAlert(OperationResult result, IActionResult redirectPath)
         {
             var model = JsonConvert.SerializeObject(result);

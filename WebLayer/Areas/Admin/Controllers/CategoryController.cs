@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using UtilitesLayer.DTOs.Category;
 using UtilitesLayer.Services;
@@ -7,6 +8,7 @@ using WebLayer.Areas.Admin.Models;
 
 namespace WebLayer.Areas.Admin.Controllers
 {
+    [Authorize(DirectoryPath.AdminRole)]
     public class CategoryController : BaseController
     {
         private readonly UnitOfWork _unitOfWork;
@@ -47,21 +49,28 @@ namespace WebLayer.Areas.Admin.Controllers
         [ValidateAntiForgeryToken, HttpPost]
         public IActionResult Add(CreateCategoryDto model)
         {
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = Url.Action("Index", "Category"), Name = "دسته بندی ها" } };
+            ViewData["title"] = "افزودن";
             if (!ModelState.IsValid) return View(model);
             if (_unitOfWork.Categories.SlugExists(model.Slug.GenerateSlug()))
             {
                 ModelState.AddModelError("", "این اسلاگ از قبل استفاده شده است");
+                this.IsRedirect();
                 return View(model);
             }
             if (_unitOfWork.Categories.NameExists(model.Name))
             {
                 ModelState.AddModelError("", "این نام از قبل استفاده شده است");
+                this.IsRedirect();
+
                 return View(model);
             }
             var result = _unitOfWork.Categories.CreateCategory(model);
             if (result.Status != OperationResultStatus.Success)
             {
                 ModelState.AddModelError("","عملیات با شکست مواجه شد");
+                this.IsRedirect();
+
                 return View(model);
             }
             _unitOfWork.SaveChanges();
@@ -88,6 +97,8 @@ namespace WebLayer.Areas.Admin.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Update(CategoryDto model)
         {
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = Url.Action("Index", "Category"), Name = "دسته بندی ها" } };
+            ViewData["title"] = "بروزرسانی";
             if (!ModelState.IsValid) return View(model);
             var entity =_unitOfWork.Categories.GetCategory(model.Id);
             if(entity.Slug != model.Slug)
@@ -95,6 +106,8 @@ namespace WebLayer.Areas.Admin.Controllers
                 if (_unitOfWork.Categories.SlugExists(model.Slug.GenerateSlug()))
                 {
                     ModelState.AddModelError("", "این اسلاگ از قبل استفاده شده است");
+                    this.IsRedirect();
+
                     return View(model);
                 }
             }
@@ -103,18 +116,22 @@ namespace WebLayer.Areas.Admin.Controllers
             if (_unitOfWork.Categories.NameExists(model.Name))
             {
                 ModelState.AddModelError("", "این نام از قبل استفاده شده است");
-                return View(model);
+                    this.IsRedirect();
+
+                    return View(model);
             }
             }
             var result = _unitOfWork.Categories.UpdateCategory(model);
             if (result.Status != OperationResultStatus.Success)
             {
                 ModelState.AddModelError("","عملیات با شکست مواجه شد");
+                this.IsRedirect();
+
                 return View(model);
             }
             _unitOfWork.SaveChanges();
             return RedirectAndShowAlert(new OperationResult()
-                { Message = "با مفقیت بروزرسانی شد", Status = OperationResultStatus.Success }, RedirectToAction("Index"));
+                { Message = "با موفقیت بروزرسانی شد", Status = OperationResultStatus.Success }, RedirectToAction("Index"));
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace DataLayer.Entities;
 
-public class Role:IdentityRole<string>
+public class Role:IdentityRole<int>
 {
-    
+    public virtual ICollection<UserRole> UserRoles { get; set; }
 }

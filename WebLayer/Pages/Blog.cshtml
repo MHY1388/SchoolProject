@@ -1,160 +1,130 @@
-﻿@page
+﻿@page ""
 @model BlogModel
 @{
 }
-<section>
-    <div class="parallax-container responsive-img">
-        <div class="parallax main-img">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
-        </div>
-    </div>
-
-    <div class="slider">
-        <ul class="slides">
-            <li>
-                <img
-                    src="/img/shora.jpg">
-                <!-- random image -->
-                <div class="caption center-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/gardenstu.jpg"> <!-- random image -->
-                <div class="caption left-align">
-                    <h3>عنوان</h3>
-                    <h5 class="/img/redmi2.jpg">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/students.jpg"> <!-- random image -->
-                <div class="caption right-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/garden2.jpg"> <!-- random image -->
-                <div class="caption center-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-        </ul>
-    </div>
-</section>
+@using UtilitesLayer.Utilities.ali
+@inject CloudTool tool14
+@await Component.InvokeAsync("Slider",Model.Posts.Objects)
 <section class="container section">
     <div class="card">
         <div dir="rtl" class="card-content">
-            <h4>دسته بندی ها:</h4>
+            <h4>اخبار:</h4>
             <ul class="collection">
-                <li class="collection-item right"><a href="#">Alvin</a></li>
-                <li class="collection-item right"><a href="#">Alvin</a></li>
-                <li class="collection-item right"><a href="#">Alvin</a></li>
-                <li class="collection-item right"><a href="#">Alvin</a></li>
+                @foreach(var item in Model.Categories)
+                {
+                    <li class="collection-item right"><a href="?category=@item.Slug">@item.Name</a></li>
+                }
+
             </ul>
         </div>
     </div>
-    <h1 class="center" dir="rtl">مقالات:</h1>
+    <h1 class="center" dir="rtl">اخبار:</h1>
+    @if (ViewData["search-message"] is not null)
+    {  
+        <h3 class="center">@ViewData["search-message"]</h3>
+    }
     <div class="row">
+        @foreach (var item in Model.Posts.Objects)
+        {
         <div class="col s6 l4">
-            <div class="card">
+
+            <div class="card small" dir="rtl">
                 <div class="card-image">
-                    <img src="/img/redmi2.jpg">
-                    <span class="card-title">عنوان</span>
+                    <img class="" style="width:100%; height:100%"  src="@tool14.GeneratePreSignedUrl(item.ImagePath, DirectoryPath.BucketName)">
+                    <span class="card-title" dir="rtl">@item.Name</span>
                 </div>
                 <div class="card-content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, et.</p>
+                    <p dir="rtl">@item.Description</p>
                 </div>
                 <div class="card-action">
-                    <a class="btn" href="#">مشاهده</a>
-                </div>
-            </div>
-        </div>
-        <div class="col s6 l4">
-            <div class="card">
-                <div class="card-image">
-                    <img src="/img/redmi2.jpg">
-                    <span class="card-title">عنوان</span>
-                </div>
-                <div class="card-content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, et.</p>
-                </div>
-                <div class="card-action">
-                    <a class="btn" href="#">مشاهده</a>
-                </div>
-            </div>
-        </div>
-        <div class="col s6 l4">
-            <div class="card">
-                <div class="card-image">
-                    <img src="/img/redmi2.jpg">
-                    <span class="card-title">عنوان</span>
-                </div>
-                <div class="card-content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, et.</p>
-                </div>
-                <div class="card-action">
-                    <a class="btn" href="#">مشاهده</a>
-                </div>
-            </div>
-        </div>
-        <div class="col s6 l4">
-            <div class="card">
-                <div class="card-image">
-                    <img src="/img/redmi2.jpg">
-                    <span class="card-title">عنوان</span>
-                </div>
-                <div class="card-content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, et.</p>
-                </div>
-                <div class="card-action">
-                    <a class="btn" href="#">مشاهده</a>
-                </div>
-            </div>
-        </div>
-        <div class="col s6 l4">
-            <div class="card">
-                <div class="card-image">
-                    <img src="/img/redmi2.jpg">
-                    <span class="card-title">عنوان</span>
-                </div>
-                <div class="card-content">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita, et.</p>
-                </div>
-                <div class="card-action">
-                    <a class="btn" href="#">مشاهده</a>
+                    <a class="btn" asp-page="Post" asp-route-id="@item.Id" asp-route-slug="@item.Slug">مشاهده</a>
                 </div>
             </div>
         </div>
 
+        }
+
     </div>
     <ul class="pagination center">
-        <li class="disabled">
-            <a href="#!">
-                <i class="material-icons">chevron_left</i>
+        <li class="@((Model.Posts.CurrentPage - 1) >= 1?"waves-effect":"disabled")">
+            <a href="#!" onclick="changePage(@(Model.Posts.CurrentPage - 1));">
+                <i class="material-icons" >chevron_left</i>
             </a>
         </li>
+
+        @if (Model.Posts.CurrentPage - 2 > 0)
+        {
+            <li class="waves-effect">
+                <a onclick="changePage(@(Model.Posts.CurrentPage - 2));">@(Model.Posts.CurrentPage-2)</a>
+            </li>
+            <li class="waves-effect">
+                <a onclick="changePage(@(Model.Posts.CurrentPage - 1));">@(Model.Posts.CurrentPage-1)</a>
+            </li>
+        }
+        else if (Model.Posts.CurrentPage - 1 > 0){
+        <li class="waves-effect">
+            <a onclick="changePage(@(Model.Posts.CurrentPage - 1));">@(Model.Posts.CurrentPage - 1)</a>
+        </li>
+        }
         <li class="active">
-            <a href="#!">1</a>
+            <a onclick="changePage(@(Model.Posts.CurrentPage));">@Model.Posts.CurrentPage</a>
         </li>
-        <li class="waves-effect">
-            <a href="#!">2</a>
-        </li>
-        <li class="waves-effect">
-            <a href="#!">3</a>
-        </li>
-        <li class="waves-effect">
-            <a href="#!">4</a>
-        </li>
-        <li class="waves-effect">
-            <a href="#!">5</a>
-        </li>
-        <li class="waves-effect">
-            <a href="#!">
+        @if (Model.Posts.CurrentPage + 1 <= Model.Posts.PageCount)
+        {
+            <li class="waves-effect">
+                <a onclick="changePage(@(Model.Posts.CurrentPage +1));">@(Model.Posts.CurrentPage+1)</a>
+            </li>
+        }
+        @if (Model.Posts.CurrentPage + 2 <= Model.Posts.PageCount)
+        {
+            <li class="waves-effect">
+                <a onclick="changePage(@(Model.Posts.CurrentPage +2));">@(Model.Posts.CurrentPage+2)</a>
+            </li>
+        }
+
+        <li class="@((Model.Posts.CurrentPage + 1) <= Model.Posts.PageCount?"waves-effect":"disabled")">
+            <a onclick="changePage(@(Model.Posts.CurrentPage +2));">
                 <i class="material-icons">chevron_right</i>
             </a>
         </li>
     </ul>
+   @*  <ul class="pagination center">
+
+        @if (Model.Posts.CurrentPage != 1)
+        {
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.Posts.CurrentPage - 1));">قبلی</button>
+            </li>
+
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.Posts.CurrentPage - 1));">@(Model.Posts.CurrentPage - 1)</button>
+            </li>
+            @if (Model.Posts.CurrentPage - 2 > 0)
+            {
+
+                <li class="page-item">
+                    <button class="page-link" onclick="changePage(@(Model.Posts.CurrentPage - 2));">@(Model.Posts.CurrentPage - 2)</button>
+                </li>
+            }
+        }
+        <li class="page-item">
+            <button class="page-link active" onclick="changePage(@(Model.Posts.CurrentPage));">@(Model.Posts.CurrentPage)</button>
+        </li>
+        @if (Model.Posts.CurrentPage != Model.Posts.PageCount)
+        {
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.Posts.CurrentPage + 1));">@(Model.Posts.CurrentPage + 1)</button>
+            </li>
+            @if (Model.Posts.CurrentPage + 2 <= Model.Posts.PageCount)
+            {
+
+                <li class="page-item">
+                    <button class="page-link" onclick="changePage(@(Model.Posts.CurrentPage + 2));">@(Model.Posts.CurrentPage + 2)</button>
+                </li>
+            }
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.Posts.CurrentPage + 1))">بعدی</button>
+            </li>
+        }
+    </ul> *@
 </section>

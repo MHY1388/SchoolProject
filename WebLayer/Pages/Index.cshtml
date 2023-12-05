@@ -1,51 +1,10 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["title"] = "خانه";
 }
 
-
-<section>
-    <div class="parallax-container responsive-img">
-        <div class="parallax main-img">
-            <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
-        </div>
-    </div>
-    <div class="slider">
-        <ul class="slides">
-            <li>
-                <img
-                    src="/img/shora.jpg">
-                <!-- random image -->
-                <div class="caption center-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/gardenstu.jpg"> <!-- random image -->
-                <div class="caption left-align">
-                    <h3>عنوان</h3>
-                    <h5 class="/img/redmi2.jpg">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/students.jpg"> <!-- random image -->
-                <div class="caption right-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-            <li>
-                <img src="/img/garden2.jpg"> <!-- random image -->
-                <div class="caption center-align">
-                    <h3>عنوان</h3>
-                    <h5 class="light grey-text text-lighten-3">توضیحات</h5>
-                </div>
-            </li>
-        </ul>
-    </div>
-</section>
+@await Component.InvokeAsync("Slider", Model.Posts);
 <section class="container section">
     <div class="row">
         <div class="col s12">
@@ -152,4 +111,3 @@
         </div>
     </div>
 </section>
-<a asp-area="Admin" asp-controller="Post" asp-action="Index">let go</a>

@@ -8,7 +8,7 @@
 @using WebLayer.Areas.Admin.Models
 @model WebLayer.Areas.Admin.Models.UpdatePostModel
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div asp-validation-summary="All"></div>
     <input type="hidden" asp-for="Id"/>
     @Html.EditorFor(a => a.Name)

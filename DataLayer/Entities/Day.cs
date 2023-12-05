@@ -5,14 +5,7 @@ namespace DataLayer.Entities;
 
 public class Day:BaseEntity
 {
-    [Required]
-    public List<Presence> Section1 { get; set; }
-    [Required]
-    public List<Presence> Section2 { get; set; }
-    [Required]
-    public List<Presence> Section3 { get; set; }
-    [Required]
-    public List<Presence> Section4 { get; set; }
+    public List<Section> Sections { get; set; }
     [Required]
     public int classId { get; set; }
     [ForeignKey(nameof(classId))]

@@ -236,6 +236,52 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
         return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
+    public async Task<Paggination<TEntity>> GetPaggination(int size, List<TEntity> Data, int page = 1)
+    {
+        var skip = (page - 1) * size;
+
+        var data = Data.AsQueryable();
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<TEntity> result = data.Skip(skip).Take(size).ToList();
+
+        return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+    }
+
+    public async Task<Paggination<TEntity>> GetPaggination(int size, Func<TEntity, bool> expression, List<TEntity> Data, int page = 1)
+    {
+        var skip = (page - 1) * size;
+
+        var data = Data.Where(expression).AsQueryable();
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<TEntity> result = data.Skip(skip).Take(size).ToList();
+
+        return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+    }
+    public static async Task<Paggination<object>> GetPaggination(int size,List<object> Data, int page = 1)
+    {
+        var skip = (page - 1) * size;
+
+        var data = Data.AsQueryable();
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<object> result = data.Skip(skip).Take(size).ToList();
+
+        return new Paggination<object>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+    }
+
+    public static async Task<Paggination<object>> GetPaggination(int size, Expression<Func<TEntity, bool>> expression, List<object> Data , int page = 1)
+    {
+        var skip = (page - 1) * size;
+
+        var data = Data.AsQueryable();
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<object> result = data.Skip(skip).Take(size).ToList();
+
+        return new Paggination<object>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+    }
 
     public Task<bool> Any(Expression<Func<TEntity, bool>> expression)
     {

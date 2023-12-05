@@ -2,40 +2,38 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using UtilitesLayer.Utilities.ali;
 
 namespace UtilitesLayer.Utilities
 
 {
-    public static class FileManager
+    public class FileManager
     {
-        public static string SaveFile(IFormFile file, string filepath)
+        private readonly CloudTool storage;
+
+        public FileManager(CloudTool storage)
         {
-            string file_name_path = Guid.NewGuid() + file.FileName;
-            string file_dir = Directory.GetCurrentDirectory() + (filepath).Replace("/", "\\");
-            if (!Directory.Exists(file_dir))
-            {
-                Directory.CreateDirectory(file_dir);
-            }
-            var save_path = new FileStream(file_dir + file_name_path, FileMode.Create);
-            file.CopyTo(save_path);
-            save_path.Close();
-            return file_name_path.Replace("\\","/");
+            this.storage = storage;
         }
-        public static bool DeleteFile(string fileName, string filepath)
+        public async Task<string> SaveFile(IFormFile file, string filepath, string Bucket, DateTime? time=null)
         {
-            if (!Directory.Exists(filepath)) 
-            {
-                try
-                {
-                    var a = Path.Combine(filepath, fileName);
-                    File.Delete((Directory.GetCurrentDirectory()+ a).Replace("/","\\"));
-                    return true; 
-                }catch
-                {
-                    return false;
-                }
-            }
-            return true;
+            
+            //string file_dir = Directory.GetCurrentDirectory() + (filepath).Replace("/", "\\");
+            //if (!Directory.Exists(file_dir))
+            //{
+            //    Directory.CreateDirectory(file_dir);
+            //}
+            //var save_path = new FileStream(file_dir + file_name_path, FileMode.Create);
+            //file.CopyTo(save_path);
+            //save_path.Close();
+            string file_name_path = Guid.NewGuid() + file.FileName;
+            await storage.AddItem(file, filepath + file_name_path, Bucket, time);
+            return filepath+file_name_path;
+        }
+
+        public async Task DeleteFile(string fileName, string filepath, string bucket)
+        {
+            await storage.DeleteObjectHelper(bucket, filepath + fileName);
         }
     }
 }

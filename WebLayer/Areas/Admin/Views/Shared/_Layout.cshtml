@@ -380,5 +380,16 @@
 <script src="~/js/global.js"></script>
 <script src="~/js/Custom.js"></script>
 @await RenderSectionAsync("Scripts", false)
+@if ((ViewData["isRedirect"] as bool?) == true)
+{
+
+    <script>
+        $(document).ready(function () {
+            $('div[name="form"]').addClass("is-filled");
+        });
+
+    </script>
+
+}
 </body>
 </html>

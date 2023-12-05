@@ -1,17 +1,4 @@
-﻿function changePage(pageId) {
-    var url = new URL(window.location.href);
-    var search_params = url.searchParams;
-
-    // Change PageId
-    search_params.set('filterParams.pageId', pageId);
-    url.search = search_params.toString();
-
-    // the new url string
-    var new_url = url.toString();
-
-    window.location.replace(new_url);
-}
-function deleteItem(url, errorTitle, errorText) {
+﻿function deleteItem(url, errorTitle, errorText) {
     if (errorTitle == null || errorTitle == "undefined") {
         errorTitle = "عملیات ناموفق";
     }
@@ -90,26 +77,26 @@ function Question(url, QuestionTitle, QuestionText, successText, callBack) {
                 }
             }).done(function (data) {
                 try {
-                    data = JSON.parse(data);
-                    if (data.Status === 200) {
+
+                    if (data.status === 200) {
                         Swal.fire({
-                            title: data.Title,
-                            text: successText == null ? data.Message : successText,
+                            title: data.title,
+                            text: successText == null ? data.message : successText,
                             icon: "success",
                             confirmButtonText: "باشه",
                         }).then(function (res) {
-                            if (data.IsReloadPage === true) {
+                            if (data.isReloadPage === true) {
                                 location.reload();
                             } else {
                                 if (callBack) {
-                                    callBack(data.Status);
+                                    callBack(data.status);
                                 }
                             }
                         });
-                    } else if (data.Status === 10) {
-                        ErrorAlert(data.Title, data.Message);
-                    } else if (data.Status === 404) {
-                        Warning(data.Title, data.Message);
+                    } else if (data.status === 10) {
+                        ErrorAlert(data.title, data.message);
+                    } else if (data.status === 404) {
+                        Warning(data.title, data.message);
                     }
                 } catch (ex) {
                     ErrorAlert();

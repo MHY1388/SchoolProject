@@ -4,23 +4,21 @@ namespace WebLayer.Areas.Admin.Models
 {
     public class UpdatePostModel
     {
-        [Required, Display(Name = "نام"), MaxLength(200)]
+        [ Display(Name = "نام"), MaxLength(200), Required(ErrorMessage = "{0} اجباری است")]
         public string Name { get; set; }
-        [Required, Display(Name = "اسلاگ"), MaxLength(200)]
-        public string Slug { get; set; }
-        [Required, Display(Name = "توضیحات"), MaxLength(400)]
+        [Display(Name = "اسلاگ"), MaxLength(200)]
+        public string? Slug { get; set; }
+        [ Display(Name = "توضیحات"), MaxLength(400), Required(ErrorMessage = "{0} اجباری است")]
         public string Description { get; set; }
-        [Required, Display(Name = "محتوا"), DataType(DataType.Html)]
+        [ Display(Name = "محتوا"), DataType(DataType.Html), Required(ErrorMessage = "{0} اجباری است")]
         public string Content { get; set; }
-        [ Display(Name = "تصویر:")]
+        [Display(Name = "تصویر:")]
         public IFormFile? ImagePath { get; set; }
 
         public int CategoryID { get; set; }
-        [Required, Display(Name = "بازدید ها")]
-        public int Visit { get; set; }
-        [Required, Display(Name = "کلید واژه ها")]
+        [ Display(Name = "کلید واژه ها"), Required(ErrorMessage = "{0} اجباری است")]
         public string KeyWords { get; set; }
-        [Required, Display(Name = "پست ویژه")]
+        [Display(Name = "پست ویژه"), Required(ErrorMessage = "{0} اجباری است")]
         public bool IsSpecial { get; set; }
         public int Id { get; set; }
         [Display(Name = "زمان ایجاد")]

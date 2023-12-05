@@ -1,26 +1,76 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using DataLayer.Entities
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
-<ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
-</ul>
+<header>
+    <nav>
+        <div class="nav-wrapper blue darken-3">
+            <div class="container">
+                <a href="#!" class="brand-logo blue-text text-lighten-4 bold hide-on-med-and-down">مدرسه دکتر خرمی روز</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <ul class="right hide-on-med-and-down">
+
+                    @* <li><a asp-page="login">ورود</a></li> *@
+                    @* <li><a href="sass.html">ثبت نام</a></li> *@
+                    <li>
+                        <button onclick="gettoggle('#searchform')" class="btn">جستجو </button>
+                        <div id="searchform" class="hidding blue darken-2 p-a p10" style="z-index: 5000;">
+                            <form action="/blog">
+                                <div class="input-field w200">
+                                    <label for="name">جستجو:</label>
+                                    <input type="text" name="name" id="name">
+                                </div>
+                                <input class="btn blue" type="submit" value="جستجو">
+                            </form>
+                        </div>
+                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li><button class="btn btn-danger" style="margin-left:4px;" onclick="Question('/admin/user/logout', 'خروح از حساب کاربری','ایا از خروج مطمئن هستید')">خروج</button></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a asp-action="index" style="margin-left:4px;" asp-controller="Home" asp-area="Admin">پنل ادمین</a></li>
+                        }
+                    }
+                    <li><a asp-page="Blog">اخبار</a></li>
+                    <li><a asp-page="Index">خانه</a></li>
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <ul class="sidenav blue-text text-lighten-4" id="mobile-demo">
+        <li><h5 class="center bold blue-text ">مدرسه دکتر خرمی روز</h5></li>
+        <li><a asp-page="Index">خانه</a></li>
+
+        <li><a asp-page="Blog">اخبار</a></li>
+        <li>
+            <form action="/blog">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input type="text" placeholder="دنبال چه چیزی میگردید" name="name" id="name">
+
+                        <label for="name">جستجو</label>
+                    </div>
+                    <div class="col s12">
+                        <input class="btn blue" type="submit" value="جستجو">
+                    </div>
+                </div>
+            </form>
+        </li>
+        @if (SignInManager.IsSignedIn(User))
+        {
+
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="m-5 center"><a class="btn btn-success"  asp-action="index" asp-controller="Home" asp-area="Admin">پنل ادمین</a></li>
+            }
+            <li class="block" style="margin:15px;"><button class="btn btn-danger" style="display:block; width:100%" onclick="Question('/admin/user/logout', 'خروح از حساب کاربری','ایا از خروج مطمئن هستید')">خروج</button></li>
+
+        }
+       
+    </ul>
+</header>

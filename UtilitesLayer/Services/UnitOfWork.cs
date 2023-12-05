@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using UtilitesLayer.Utilities;
 using WebLayer.Data;
 
 namespace UtilitesLayer.Services
@@ -11,12 +12,16 @@ namespace UtilitesLayer.Services
     public class UnitOfWork:IDisposable, IAsyncDisposable
     {
         private readonly ApplicationDbContext _context;
+        private readonly FileManager fileManager;
         private IPostServices _postServices;
         private ICategoryServices _categoryServices;
+        private IUserService userService;
+        private IClassService classService;
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(ApplicationDbContext context, FileManager fileManager)
         {
             _context = context;
+            this.fileManager = fileManager;
         }
 
         public IPostServices Posts
@@ -25,10 +30,34 @@ namespace UtilitesLayer.Services
             {
                 if (_postServices is null)
                 {
-                    _postServices = new PostServices(_context);
+                    _postServices = new PostServices(_context, fileManager);
                 }
 
                 return _postServices;
+            }
+        }
+        public IUserService Users
+        {
+            get
+            {
+                if (_postServices is null)
+                {
+                    userService = new UserService(_context);
+                }
+
+                return userService;
+            }
+        }
+        public IClassService Classes
+        {
+            get
+            {
+                if (classService is null)
+                {
+                    classService = new ClassService(_context);
+                }
+
+                return classService;
             }
         }
         public ICategoryServices Categories

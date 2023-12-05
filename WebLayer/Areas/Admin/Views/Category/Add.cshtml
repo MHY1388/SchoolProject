@@ -1,11 +1,11 @@
 ﻿@model UtilitesLayer.DTOs.Category.CreateCategoryDto
 
 @{
-    ViewBag.title = "ایجاد دسته بندی";
 }
 
 <form method="post">
+    <div asp-validation-summary="All"></div>
     @Html.EditorFor(a=>a.Name)
     @Html.EditorFor(a=>a.Slug)
-    <input type="submit" class="btn btn-success"/>
+    <input value="ایجاد" type="submit" class="btn btn-success"/>
 </form>
