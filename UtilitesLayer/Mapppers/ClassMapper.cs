@@ -14,5 +14,13 @@ namespace UtilitesLayer.Mapppers
         {
             return new ClassDto() { Id=entity.Id,Grid=entity.Grid,Name=entity.Name,Days=entity.Days,Students=entity.Students};
         }
+        public static Class MapToClass(this CreateClassDto entity)
+        {
+            return new Class() {Grid=entity.Grid,Name=entity.Name};
+        }
+        public static Class MapToClass(this ClassDto entity)
+        {
+            return new Class() {Id=entity.Id,  Grid = entity.Grid, Name = entity.Name };
+        }
     }
 }

@@ -2,20 +2,16 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    string? name = null;
-    int? grid = null;
-    string? className = null;
 }
-@model UtilitesLayer.DTOs.Global.Paggination<DataLayer.Entities.User>
-@inject UserManager<DataLayer.Entities.User> userManager
-@inject UtilitesLayer.Services.UnitOfWork unit
+@using UtilitesLayer.Utilities
+@model UtilitesLayer.DTOs.Global.Paggination<UtilitesLayer.DTOs.Class.ClassDto>
 <div class="row">
     <div class="col-12">
-        <a href="@Url.Action("SignUp","User")" class="btn btn-success">ایجاد</a>
+        <a href="@Url.Action("Add","Class")" class="btn btn-success">ایجاد</a>
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5">
-                    <h2 class="text-white text-capitalize ps-3 ">کاربران</h2>
+                    <h2 class="text-white text-capitalize ps-3 ">کلاس ها</h2>
                     <form>
                         <div class="row align-items-center">
 
@@ -41,63 +37,37 @@
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام کاربری(کد ملی)</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">پایه</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام خانوادگی</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نوع کاربر</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">کلاس</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام کامل</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
                         <tbody>
-
                             @foreach (var i in Model.Objects)
                             {
-                                className = "";
-                                name = (await userManager.GetRolesAsync(i)).FirstOrDefault();
-                                if(i.ClassId is not null)
-                                {
-                                    var a = unit.Classes.GetClass((int)i.ClassId).Result;
-                                    className = a.Grid.ToString() + " - " + a.Name;
-
-                                }
                                 <tr>
                                     <td>
-                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Id</p>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Grid</p>
 
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold align-middle text-center">@i.UserName</p>
+                                        <p class="text-xs align-middle text-center">@i.Name</p>
+                                     </td>
+                                    <td>
+                                        <p class="text-xs align-middle text-center">@(i.Grid + " - " + i.Name)</p>
+                                     </td>
 
-                                    </td>
-                                    <td>
-                                        <p class="text-xs align-middle text-center">@i.FirstName</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs align-middle text-center">@i.LastName</p>
-                                    </td>
-                                    <td class=" align-middle text-center">
-                                        @if(name is not null)
-                                        {
-                                            
-                                            <p class="text-xs btn btn-@(name=="Admin"?"success":(name=="Manager"?"primary": "danger"))">@(name == "Admin" ? "مدیر" : (name == "Manager" ? "ادمین اصلی" : "کاربر"))</p>
-                                        }
-                                        else
-                                        {
-                                        <p> </p>
-                                        }
-                                    </td>
-                                    <td>
-                                        <p class="text-xs align-middle text-center">@className</p>
-                                    </td>
                                     <td class="align-middle">
-                                        @*                                         <a asp-action="Update" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">
-                                    ویرایش
-                                    </a>
-                                    <button onclick="deleteItem('@Url.Action("Delete","Category",new{id=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
-                                    حذف
-                                    </button> *@
+                                        <a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">
+                                            ویرایش
+                                        </a>
+                                        <a asp-action="AddStudent" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">
+                                            افزودن دانش آموز
+                                        </a>
+                                        <button onclick="deleteItem('@Url.Action("Delete","Class",new{id=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
+                                            حذف
+                                        </button>
                                     </td>
                                 </tr>
                             }
@@ -152,4 +122,3 @@
     </ul>
 
 </nav>
-

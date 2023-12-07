@@ -16,4 +16,11 @@ namespace UtilitesLayer.DTOs.Class
         public ICollection<User>? Students { get; set; }
         public ICollection<Day>? Days { get; set; }
     }
+    public class CreateClassDto
+    {
+        [Display(Name = "پایه"), Required(ErrorMessage = "{0} اجباری است")]
+        public int Grid { get; set; }
+        [Display(Name = "نام"), Required(ErrorMessage = "{0} اجباری است")]
+        public string Name { get; set; }
+    }
 }

@@ -65,7 +65,7 @@ namespace WebLayer.Areas.Admin.Controllers
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/user", Name = "کاربران" } };
             ViewData["title"] = "ثبت نام";
             if (!ModelState.IsValid) {this.IsRedirect();  return View(model); }
-            var result = await userManager.CreateAsync(new User { PhoneNumber = model.PhoneNumber,UserName=model.UserName, FirstName = model.FirstName, LastName = model.LastName }, model.Password);
+            var result = await userManager.CreateAsync(new User { PhoneNumber = model.PhoneNumber.NormalizePhoneNumber(),UserName=model.UserName, FirstName = model.FirstName, LastName = model.LastName }, model.Password);
             var user =await userManager.FindByNameAsync(model.UserName);
             if (result != IdentityResult.Success)
             {
