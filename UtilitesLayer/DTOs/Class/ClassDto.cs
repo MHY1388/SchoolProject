@@ -14,7 +14,7 @@ namespace UtilitesLayer.DTOs.Class
         public int Grid { get; set; }
         public string Name { get; set; }
         public ICollection<User>? Students { get; set; }
-        public ICollection<Day>? Days { get; set; }
+        public ICollection<DataLayer.Entities.Day>? Days { get; set; }
     }
     public class CreateClassDto
     {

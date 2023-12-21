@@ -10,6 +10,4 @@ public class Day:BaseEntity
     public int classId { get; set; }
     [ForeignKey(nameof(classId))]
     public Class DayClass { get; set; }
-    [Required]
-    public DateTime Date { get; set; }
 }

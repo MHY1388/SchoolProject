@@ -8,7 +8,14 @@ namespace UtilitesLayer.DTOs.Global
 {
     public class Paggination<T> where T : class
     {
-        public List<T> Objects { get; set; }
+        public List<T>? Objects { get; set; }
+        public int PageCount { get; set; }
+        public int CurrentPage { get; set; }
+        public int GetSize { get; set; }
+    }
+    public class PagginationDto
+    {
+        public int? ObjectsCount { get; set; }
         public int PageCount { get; set; }
         public int CurrentPage { get; set; }
         public int GetSize { get; set; }

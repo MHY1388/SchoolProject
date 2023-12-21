@@ -5,17 +5,21 @@
     string? name = null;
     int? grid = null;
     string? className = null;
+    int id =(int)ViewData["id"];
+
+      var a = unit.Classes.GetClass((int)id).Result;
+      className = a.Grid.ToString() + " - " + a.Name;
 }
+@using UtilitesLayer.DTOs.Class
 @model UtilitesLayer.DTOs.Global.Paggination<DataLayer.Entities.User>
 @inject UserManager<DataLayer.Entities.User> userManager
 @inject UtilitesLayer.Services.UnitOfWork unit
 <div class="row">
     <div class="col-12">
-        <a href="@Url.Action("SignUp","User")" class="btn btn-success">ایجاد</a>
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5">
-                    <h2 class="text-white text-capitalize ps-3 ">کاربران</h2>
+                    <h2 class="text-white text-capitalize ps-3 ">دانش اموزان کلاس @className</h2>
                     <form>
                         <div class="row align-items-center">
 
@@ -54,14 +58,8 @@
 
                             @foreach (var i in Model.Objects)
                             {
-                                className = "";
                                 name = (await userManager.GetRolesAsync(i)).FirstOrDefault();
-                                if(i.ClassId is not null)
-                                {
-                                    var a = unit.Classes.GetClass((int)i.ClassId).Result;
-                                    className = a.Grid.ToString() + " - " + a.Name;
-
-                                }
+                                
                                 <tr>
                                     <td>
                                         <p class="text-xs font-weight-bold align-middle text-center">@i.Id</p>
@@ -78,14 +76,14 @@
                                         <p class="text-xs align-middle text-center">@i.LastName</p>
                                     </td>
                                     <td class=" align-middle text-center">
-                                        @if(name is not null)
+                                        @if (name is not null)
                                         {
 
-                                            <p class="text-xs btn btn-@(name=="Admin"?"success":(name=="Manager"?"primary": (name=="User"?"primary": "secondary")))">@(name == "Admin" ? "مدیر" : (name == "Manager" ? "ادمین اصلی" : (name == "User" ? "کاربر" : "کلاس")))</p>
+                                            <p class="text-xs btn btn-@(name=="Admin"?"success":(name=="Manager"?"primary": "danger"))">@(name == "Admin" ? "مدیر" : (name == "Manager" ? "ادمین اصلی" : "کاربر"))</p>
                                         }
                                         else
                                         {
-                                        <p> </p>
+                                            <p> </p>
                                         }
                                     </td>
                                     <td>
@@ -108,5 +106,70 @@
         </div>
     </div>
 </div>
-@await Html.PartialAsync("_Paggination", new UtilitesLayer.DTOs.Global.PagginationDto(){CurrentPage=Model.CurrentPage, PageCount= Model.PageCount, GetSize=Model.GetSize, ObjectsCount=Model.Objects.Count()});
+<nav aria-label="Page navigation example">
+    <p class="text-center bold" style="color:red">@Model.PageCount صفحه:</p>
 
+    <ul class="pagination justify-content-center">
+
+        @if (Model.CurrentPage != 1)
+        {
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage - 1));">قبلی</button>
+            </li>
+
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage - 1));">@(Model.CurrentPage - 1)</button>
+            </li>
+            @if (Model.CurrentPage - 2 > 0)
+            {
+
+                <li class="page-item">
+                    <button class="page-link" onclick="changePage(@(Model.CurrentPage - 2));">@(Model.CurrentPage - 2)</button>
+                </li>
+            }
+        }
+        <li class="page-item">
+            <button class="page-link active" onclick="changePage(@(Model.CurrentPage));">@(Model.CurrentPage)</button>
+        </li>
+        @if (Model.CurrentPage != Model.PageCount)
+        {
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage + 1));">@(Model.CurrentPage + 1)</button>
+            </li>
+            @if (Model.CurrentPage + 2 <= Model.PageCount)
+            {
+
+                <li class="page-item">
+                    <button class="page-link" onclick="changePage(@(Model.CurrentPage + 2));">@(Model.CurrentPage + 2)</button>
+                </li>
+            }
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage + 1))">بعدی</button>
+            </li>
+        }
+    </ul>
+
+</nav>
+
+<form method="post" asp-action="AddStudent" asp-route-id="@a.Id">
+    <fieldset>
+        <legend>افزودن دانش آموز</legend>
+    <div class="input-group input-group-outline mb-3 " name="form">
+        <label style="z-index:6000;" class="form-label">لیست id دانش آموزان (با فاصله جدا شود)</label>
+        <input id="stId" name="stId" class="form-control">
+
+    </div>
+    <input type="submit" class="btn btn-success" value="افزودن" />
+    </fieldset>
+</form>
+<form method="post" asp-action="RemoveStudent" asp-route-id="@a.Id">
+    <fieldset>
+        <legend>حذف دانش آموز</legend>
+        <div class="input-group input-group-outline mb-3 " name="form">
+            <label style="z-index:6000;" class="form-label">لیست id دانش آموزان (با فاصله جدا شود)</label>
+            <input id="stId" name="stId"  class="form-control">
+
+        </div>
+        <input type="submit" class="btn btn-success" value="حذف" />
+    </fieldset>
+</form>

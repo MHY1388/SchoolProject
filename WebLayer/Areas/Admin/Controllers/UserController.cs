@@ -87,7 +87,7 @@ namespace WebLayer.Areas.Admin.Controllers
                 await userManager.AddToRoleAsync(user, DirectoryPath.UserRole);
             }
 
-            return RedirectAndShowAlert(new UtilitesLayer.Utilities.OperationResult() { Status = UtilitesLayer.Utilities.OperationResultStatus.Success, Message = "ثبت نام با موفقیت صورت گرفت ." }, RedirectToAction("Login"));
+            return RedirectAndShowAlert(new UtilitesLayer.Utilities.OperationResult() { Status = UtilitesLayer.Utilities.OperationResultStatus.Success, Message = "ثبت نام با موفقیت صورت گرفت ." }, RedirectToAction("Index"));
         }
         [AllowAnonymous]
         public IActionResult Login()

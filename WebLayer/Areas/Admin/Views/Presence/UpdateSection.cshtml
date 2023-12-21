@@ -1,0 +1,9 @@
+﻿
+@model UpdateSection
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    <input type="hidden" asp-for="Id" />
+    @Html.EditorFor(a=>a.Name)
+    @Html.EditorFor(a=>a.Description)
+    <input value="بروزسانی" type="submit" class="btn btn-success" />
+</form>

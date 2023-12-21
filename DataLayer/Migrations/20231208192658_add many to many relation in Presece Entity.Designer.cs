@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebLayer.Data;
 
@@ -11,9 +12,11 @@ using WebLayer.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231208192658_add many to many relation in Presece Entity")]
+    partial class addmanytomanyrelationinPreseceEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,15 +176,10 @@ namespace DataLayer.Migrations
                     b.Property<bool>("IsPresence")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SectionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StudentID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("SectionId");
 
                     b.HasIndex("StudentID");
 
@@ -242,7 +240,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("DayId");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Section");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>
@@ -431,6 +429,21 @@ namespace DataLayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PresenceSection", b =>
+                {
+                    b.Property<int>("DataId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsagesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DataId", "UsagesId");
+
+                    b.HasIndex("UsagesId");
+
+                    b.ToTable("PresenceSection");
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Day", b =>
                 {
                     b.HasOne("DataLayer.Entities.Class", "DayClass")
@@ -455,19 +468,11 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.Presence", b =>
                 {
-                    b.HasOne("DataLayer.Entities.Section", "Section")
-                        .WithMany("Data")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataLayer.Entities.User", "Student")
                         .WithMany()
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Section");
 
                     b.Navigation("Student");
                 });
@@ -547,6 +552,21 @@ namespace DataLayer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("PresenceSection", b =>
+                {
+                    b.HasOne("DataLayer.Entities.Presence", null)
+                        .WithMany()
+                        .HasForeignKey("DataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Entities.Section", null)
+                        .WithMany()
+                        .HasForeignKey("UsagesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Category", b =>
                 {
                     b.Navigation("Posts");
@@ -567,11 +587,6 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Entities.Role", b =>
                 {
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.Section", b =>
-                {
-                    b.Navigation("Data");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>

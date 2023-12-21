@@ -41,7 +41,36 @@ namespace WebLayer.Areas.Admin.Controllers
         }
 
 
+        public IActionResult Detail(int id, string title = null, int page = 1)
 
+        {
+            //await roleManager.CreateAsync(new Role() { Name = "Admin" });
+            //await roleManager.CreateAsync(new Role() { Name = "Class" });
+            //await roleManager.CreateAsync(new Role() { Name = "User" });
+            var users = userManager.Users.ToList();
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/class", Name = "کلاس ها" } };
+            ViewData["title"] = "مشاهده";
+            ViewData["id"] = id;
+
+            if (title.IsNullOrEmpty())
+            {
+                var da = db.Users.GetPaggination( users:users,page: page,pageSize: 10,classId:id).Result;
+                if (da.Objects.Count == 0 && page != 1)
+                {
+                    da = db.Users.GetPaggination(users, 1, 10, classId:id).Result;
+
+                }
+                return View("Detail", da);
+            }
+
+            var data = db.Users.GetPaggination(users:users,page: page,pageSize: 10,firstName: title,lastName: title,userName: title, classId:id).Result;
+            if (data.Objects.Count == 0 && page != 1)
+            {
+                data = db.Users.GetPaggination(users,page: 1,pageSize: 10,firstName: title,lastName: title,userName: title, classId:id).Result;
+
+            }
+            return View("Detail", data);
+        }
 
         // GET: ClassController/Create 
         public IActionResult Add()
@@ -135,17 +164,54 @@ namespace WebLayer.Areas.Admin.Controllers
 
         }
 
-        public IActionResult AddStudent(int id)
-        {
-            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/class", Name = "کلاس ها" } };
-            ViewData["title"] = "افزودن دانش آموز";
-            return View();
-        }
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> AddStudent(int id, string stId)
         {
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/class", Name = "کلاس ها" } };
             ViewData["title"] = "افزودن دانش آموز";
+            var class_d = await db.Classes.GetClass(id);
+            if (class_d == null)
+            {
+                this.ErrorAlert("این کلاس وجود ندارد");
+                return RedirectToAction("Detail", new { id });
+            }
+
+            var students = stId.Split(' ');
+            User? studen;
+            List<string> errors = new List<string>();
+            foreach (var student in students)
+            {
+                studen = await userManager.FindByIdAsync(student);
+                if (studen == null)
+                    errors.Add(student);
+                else if(await userManager.IsInRoleAsync(studen, DirectoryPath.AdminRole))
+                {
+                    errors.Add(student);
+                }
+                else
+                {
+                    studen.ClassId = id;
+                    await userManager.UpdateAsync(studen);
+                }
+            }
+            if(errors.Any()){
+                string res = "";
+                foreach (var error in errors)
+                {
+                    res += error+ " ";
+                }
+                this.ErrorAlert($"دانش آموز {res} وجود ندارد ولی بقیه افزوده شده اند.");
+                return RedirectToAction("Detail", new { id });
+
+            }
+            return RedirectAndShowAlert(new OperationResult() { Status=OperationResultStatus.Success}, RedirectToAction("Detail", new {id}));
+
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveStudent(int id, string stId)
+        {
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/class", Name = "کلاس ها" } };
+            ViewData["title"] = "حذف دانش آموز";
             var class_d = await db.Classes.GetClass(id);
             if (class_d == null)
             {
@@ -163,7 +229,7 @@ namespace WebLayer.Areas.Admin.Controllers
                     errors.Add(student);
                 else
                 {
-                    studen.ClassId = id;
+                    studen.ClassId = null;
                     await userManager.UpdateAsync(studen);
                 }
             }
@@ -173,11 +239,12 @@ namespace WebLayer.Areas.Admin.Controllers
                 {
                     res += error+ " ";
                 }
-                this.ErrorAlert($"دانش آموز {res} وجود ندارد ولی بقیه افزوده شده اند.");
-                return RedirectToAction("Index");
+                this.ErrorAlert($"دانش آموز {res} وجود ندارد ولی بقیه حذف شده اند.");
+                return RedirectToAction("Detail", new { id });
 
             }
-            return RedirectAndShowAlert(new OperationResult() { Status=OperationResultStatus.Success}, RedirectToAction("Index"));
+            return RedirectAndShowAlert(new OperationResult() { Status=OperationResultStatus.Success}, RedirectToAction("Detail", new {id}));
+
         }
     }
 }

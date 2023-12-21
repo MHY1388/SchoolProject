@@ -1,0 +1,9 @@
+﻿
+@model UtilitesLayer.DTOs.Section.CreateSectionDto
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    <input type="hidden" asp-for="DayId" />
+    @Html.EditorFor(a=>a.Name)
+    @Html.EditorFor(a=>a.Description)
+    <input value="ایجاد" type="submit" class="btn btn-success" />
+</form>

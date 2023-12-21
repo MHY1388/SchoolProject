@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataLayer.Entities;
+using Microsoft.AspNet.Identity;
 using Microsoft.EntityFrameworkCore;
 using UtilitesLayer.Utilities;
 using WebLayer.Data;
@@ -13,15 +15,20 @@ namespace UtilitesLayer.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly FileManager fileManager;
+        private readonly Microsoft.AspNetCore.Identity.UserManager<User> userManager;
+        private IDayService dayService;
         private IPostServices _postServices;
         private ICategoryServices _categoryServices;
         private IUserService userService;
         private IClassService classService;
+        private IPresenceService presenceService;
+        private ISectionService sectionService;
 
-        public UnitOfWork(ApplicationDbContext context, FileManager fileManager)
+        public UnitOfWork(ApplicationDbContext context, FileManager fileManager, Microsoft.AspNetCore.Identity.UserManager<DataLayer.Entities.User> userManager)
         {
             _context = context;
             this.fileManager = fileManager;
+            this.userManager = userManager;
         }
 
         public IPostServices Posts
@@ -54,10 +61,46 @@ namespace UtilitesLayer.Services
             {
                 if (classService is null)
                 {
-                    classService = new ClassService(_context);
+                    classService = new ClassService(_context, userManager);
                 }
 
                 return classService;
+            }
+        }
+        public ISectionService Sections
+        {
+            get
+            {
+                if (sectionService is null)
+                {
+                    sectionService = new SectionService(_context);
+                }
+
+                return sectionService;
+            }
+        }
+        public IDayService Days
+        {
+            get
+            {
+                if (dayService is null)
+                {
+                    dayService = new DayService(_context, userManager);
+                }
+
+                return dayService;
+            }
+        }
+        public IPresenceService Presences
+        {
+            get
+            {
+                if (presenceService is null)
+                {
+                    presenceService = new PresenceService(_context);
+                }
+
+                return presenceService;
             }
         }
         public ICategoryServices Categories

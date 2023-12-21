@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using UtilitesLayer.DTOs.Presence
+@model List<PresenceDto>
+<div class="container">
+<form method="post" id="presenceForm">
+    <div asp-validation-summary="All">
+    </div>
+    <fieldset>
+            <legend><h3>دانش اموزان</h3></legend>
+    @foreach(var item in Model)
+    {
+        <div class="form-check">
+
+            <input class="form-check-input" type="checkbox" name="name-@item.Id" id="name-@item.Id" value="@item.Id" @(item.IsPresence ? "checked" : null) />
+            <label class="form-check-label" for="name-@item.Id">@item.Student.FirstName @item.Student.LastName</label>
+        </div>
+    }
+    </fieldset>
+</form>
+    <form method="post" asp-action="SetSectionA" asp-route-dayId="@ViewData["dayId"]" asp-route-classId="@ViewData["classId"]" id="presenceFormResult" name="presenceFormResult" onsubmit="return sendForm()">
+    <input type="hidden" name="result" id="result"/>
+    <input type="submit" class="btn btn-primary" value="ثبت"/>
+</form>
+</div>
+@section Scripts{
+    <script>
+        // function sendForm() {
+        //     var formitems = document.getElementsByName("input[name^=name-]")
+        //     foreach(var item in formitems)
+        // }
+        function sendForm() {
+            var list = []
+            var formitem = $('input[name^="name"]').each((a,b) => {
+                list.push({ Id: Number(b.value), Presence: Boolean(b.checked) })
+            })
+            // $.post("https://localhost:7096/admin/presence/setSectionA?sectionId=@ViewData["sectionId"]",list)
+            document.forms["presenceFormResult"]["result"].value= JSON.stringify(list)
+        }
+        
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿
+@using UtilitesLayer.DTOs.Global
+@model PagginationDto
+
+<nav aria-label="Page navigation example">
+    <p class="text-center bold" style="color:red">@Model.PageCount صفحه:</p>
+
+    <ul class="pagination justify-content-center">
+
+        @if (Model.CurrentPage != 1)
+        {
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage - 1));">قبلی</button>
+            </li>
+
+            @if (Model.CurrentPage - 2 > 0)
+            {
+
+                <li class="page-item">
+                    <button class="page-link" onclick="changePage(@(Model.CurrentPage - 2));">@(Model.CurrentPage - 2)</button>
+                </li>
+            }
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage - 1));">@(Model.CurrentPage - 1)</button>
+            </li>
+        }
+        @if (Model.ObjectsCount != 0)
+        {
+        <li class="page-item">
+            <button class="page-link active" onclick="changePage(@(Model.CurrentPage));">@(Model.CurrentPage)</button>
+        </li>
+        }
+        @if (Model.CurrentPage != Model.PageCount && Model.CurrentPage < Model.PageCount)
+        {
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage + 1));">@(Model.CurrentPage + 1)</button>
+            </li>
+            @if (Model.CurrentPage + 2 <= Model.PageCount)
+            {
+
+                <li class="page-item">
+                    <button class="page-link" onclick="changePage(@(Model.CurrentPage + 2));">@(Model.CurrentPage + 2)</button>
+                </li>
+            }
+            <li class="page-item">
+                <button class="page-link" onclick="changePage(@(Model.CurrentPage + 1))">بعدی</button>
+            </li>
+        }
+    </ul>
+
+</nav>

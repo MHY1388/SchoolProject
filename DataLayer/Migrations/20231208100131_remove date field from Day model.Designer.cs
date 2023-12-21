@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebLayer.Data;
 
@@ -11,9 +12,11 @@ using WebLayer.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231208100131_remove date field from Day model")]
+    partial class removedatefieldfromDaymodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,7 +176,7 @@ namespace DataLayer.Migrations
                     b.Property<bool>("IsPresence")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SectionId")
+                    b.Property<int?>("SectionId")
                         .HasColumnType("int");
 
                     b.Property<int>("StudentID")
@@ -242,7 +245,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("DayId");
 
-                    b.ToTable("Sections");
+                    b.ToTable("Section");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>
@@ -455,19 +458,15 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.Presence", b =>
                 {
-                    b.HasOne("DataLayer.Entities.Section", "Section")
+                    b.HasOne("DataLayer.Entities.Section", null)
                         .WithMany("Data")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SectionId");
 
                     b.HasOne("DataLayer.Entities.User", "Student")
                         .WithMany()
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Section");
 
                     b.Navigation("Student");
                 });

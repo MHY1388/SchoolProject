@@ -4,14 +4,14 @@
 @{
 }
 @using UtilitesLayer.Utilities
-@model UtilitesLayer.DTOs.Global.Paggination<UtilitesLayer.DTOs.Class.ClassDto>
+@model UtilitesLayer.DTOs.Global.Paggination<UtilitesLayer.DTOs.Section.SectionDto>
 <div class="row">
     <div class="col-12">
-        <a href="@Url.Action("Add","Class")" class="btn btn-success">ایجاد</a>
+        <a href="@Url.Action("AddSection", new{dayId=ViewData["DayID"],classId=ViewData["ClassId"]})" class="btn btn-success">ایجاد</a>
         <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5">
-                    <h2 class="text-white text-capitalize ps-3 ">کلاس ها</h2>
+                    <h2 class="text-white text-capitalize ps-3 ">زنگ ها</h2>
                     <form>
                         <div class="row align-items-center">
 
@@ -19,6 +19,7 @@
                                 <div class="input-group input-group-outline m-0">
                                     <label class="form-label" style="color: white;">جستجو</label>
                                     <input type="text" class="form-control" id="title" name="title" onfocus="focused(this)" onfocusout="defocused(this)">
+                                    <input type="hidden" id="dayId" name="dayId" value="@ViewData["DayID"]" onfocus="focused(this)" onfocusout="defocused(this)">
                                 </div>
                             </div>
                             <div class="col-4">
@@ -37,9 +38,8 @@
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">پایه</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام کامل</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">توضیحات</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
@@ -48,25 +48,23 @@
                             {
                                 <tr>
                                     <td>
-                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Grid</p>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Name</p>
 
                                     </td>
                                     <td>
-                                        <p class="text-xs align-middle text-center">@i.Name</p>
-                                     </td>
-                                    <td>
-                                        <p class="text-xs align-middle text-center">@(i.Grid + " - " + i.Name)</p>
-                                     </td>
-
+                                        <p class="text-xs align-middle text-center">@i.Description</p>
+                                    </td>
+                                   
                                     <td class="align-middle">
-                                        <a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">
+                                        <a asp-action="SetSection" asp-route-sectionId="@i.Id" asp-route-classId="@ViewData["ClassId"]" asp-route-dayId="@i.DayId" class="btn btn-primary font-weight-bold text-xs mx-2">
+                                            حضور و غیاب
+                                        </a>
+                                        <a asp-action="UpdateSection" asp-route-sectionId="@i.Id" asp-route-classId="@ViewData["ClassId"]" asp-route-dayId="@i.DayId" class="btn btn-dark font-weight-bold text-xs mx-2">
                                             ویرایش
                                         </a>
-                                        <button onclick="deleteItem('@Url.Action("Delete","Class",new{id=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
+                                        <button onclick="deleteItem('@Url.Action("DeleteSection",new{sectionId=i.Id, dayId=i.DayId})')" class="btn btn-danger font-weight-bold text-xs mx-2">
                                             حذف
                                         </button>
-                                        <a asp-action="Detail" asp-route-id="@i.Id" class="btn btn-success font-weight-bold text-xs mx-2">مشاهده</a>
-                                        <a asp-action="Index" asp-controller="Presence" asp-route-classId="@i.Id" class="btn btn-success font-weight-bold text-xs mx-2"> مشاهده روز ها</a>
                                     </td>
                                 </tr>
                             }

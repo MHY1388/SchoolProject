@@ -16,9 +16,12 @@ namespace WebLayer.Data
         public DbSet<Class> Classes { get; set; }
         public DbSet<Presence> Presences { get; set; }
         public DbSet<Day> Days { get; set; }
+        public DbSet<Section> Sections { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+
 
             modelBuilder.Entity<Class>(b =>
             {
@@ -27,6 +30,8 @@ namespace WebLayer.Data
                     .WithOne(e => e.UserClass)
                     .HasForeignKey(ur => ur.ClassId);
             });
+
+            
             modelBuilder.Entity<User>(b =>
             {
 
