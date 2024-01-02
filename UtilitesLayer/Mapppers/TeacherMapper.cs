@@ -10,9 +10,9 @@ namespace UtilitesLayer.Mapppers
 {
     public static class TeacherMapper
     {
-        public static Teacher MapToTeacher(this CreateTeacherDto teacher)
+        public static Teacher MapToTeacher(this CreateTeacherDto teacher, string filename)
         {
-            return new Teacher() { Name = teacher.Name, Description = teacher.Description, Doc = teacher.Doc, PhoneNumber = teacher.PhoneNumber, PublicPhoneNumber = teacher.PublicPhoneNumber };
+            return new Teacher() { Name = teacher.Name, Description = teacher.Description, Doc = teacher.Doc, PhoneNumber = teacher.PhoneNumber, PublicPhoneNumber = teacher.PublicPhoneNumber, FileName=filename };
         }
         public static Teacher MapToTeacher(this TeacherDto teacher)
         {
@@ -20,7 +20,7 @@ namespace UtilitesLayer.Mapppers
         }
         public static TeacherDto MapToDto(this Teacher teacher)
         {
-            var data =  new TeacherDto() { Name = teacher.Name, Description = teacher.Description, Doc = teacher.Doc, PhoneNumber = teacher.PhoneNumber, PublicPhoneNumber = teacher.PublicPhoneNumber };
+            var data =  new TeacherDto() {FilePath = teacher.FileName, Name = teacher.Name, Description = teacher.Description, Doc = teacher.Doc, PhoneNumber = teacher.PhoneNumber, PublicPhoneNumber = teacher.PublicPhoneNumber };
             data = BaseMapper.BaseMap(teacher, data);
             return data;
         }

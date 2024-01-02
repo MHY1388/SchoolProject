@@ -3,7 +3,9 @@
 *@
 @{
 }
+@inject CloudTool tool
 @using UtilitesLayer.Utilities
+@using UtilitesLayer.Utilities.ali
 @model UtilitesLayer.DTOs.Global.Paggination<UtilitesLayer.DTOs.Teacher.TeacherDto>
 <div class="row">
     <div class="col-12">
@@ -35,6 +37,7 @@
                     <table class="table align-items-center mb-0">
                         <thead>
                             <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">مدرک</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">توضیحات</th>
@@ -49,6 +52,11 @@
                                 <tr>
                                     <td>
                                         <p class="text-xs font-weight-bold align-middle text-center">@i.Name</p>
+
+                                    </td>
+                                    <td>
+                                        <img src="@tool.GeneratePreSignedUrl(i.FilePath, DirectoryPath.BucketName)" class="avatar avatar-sm ms-3 border-radius-lg" alt="@i.Description">
+
 
                                     </td>
                                     <td>

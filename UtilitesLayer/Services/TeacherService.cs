@@ -27,16 +27,27 @@ namespace UtilitesLayer.Services
     public class TeacherService : ITeacherService
     {
         private readonly ApplicationDbContext context;
+        private readonly FileManager fileManager;
         private readonly IGenericRepository<Teacher> db;
 
-        public TeacherService(ApplicationDbContext context)
+        public TeacherService(ApplicationDbContext context, FileManager fileManager)
         {
             this.context = context;
+            this.fileManager = fileManager;
             this.db = new GenericRepository<Teacher>(context);
         }
-        public Task<OperationResult> CreateTecher(CreateTeacherDto model) => db.Create(model.MapToTeacher());
+        public async Task<OperationResult> CreateTecher(CreateTeacherDto model)
+        {
+           var result = await fileManager.SaveFile(model.Image, DirectoryPath.TeacherImages, DirectoryPath.BucketName);
+           return await db.Create(model.MapToTeacher(result));
+        }
 
-        public Task<OperationResult> DeleteTeacher(int Id) => db.Delete(Id);
+        public async Task<OperationResult> DeleteTeacher(int Id) 
+        {
+            Teacher teacher = await db.Get(Id);
+            fileManager.DeleteFile()
+            return await db.Delete(teacher);
+        }
 
         public async Task<Paggination<TeacherDto>> GetPaggination(int page, int pageSize, string name = null)
         {
