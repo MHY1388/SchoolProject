@@ -79,7 +79,7 @@
                                         @if (name is not null)
                                         {
 
-                                            <p class="text-xs btn btn-@(name=="Admin"?"success":(name=="Manager"?"primary": "danger"))">@(name == "Admin" ? "مدیر" : (name == "Manager" ? "ادمین اصلی" : "کاربر"))</p>
+                                            <p class="text-xs btn btn-@(name=="Admin"?"success":(name=="Manager"?"primary": (name=="User"?"primary": "secondary")))">@(name == "Admin" ? "مدیر" : (name == "Manager" ? "ادمین اصلی" : (name == "User" ? "کاربر" : "کلاس")))</p>
                                         }
                                         else
                                         {

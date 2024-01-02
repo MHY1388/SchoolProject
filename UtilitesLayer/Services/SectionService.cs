@@ -8,7 +8,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using UtilitesLayer.DTOs.Category;
+using UtilitesLayer.DTOs.Day;
 using UtilitesLayer.DTOs.Global;
+using UtilitesLayer.DTOs.Post;
 using UtilitesLayer.DTOs.Presence;
 using UtilitesLayer.DTOs.Section;
 using UtilitesLayer.Mapppers;
@@ -81,6 +83,7 @@ namespace UtilitesLayer.Services
         public Task<OperationResult> CreatePresence(CreatePresenceDto dto);
         public Task<OperationResult> UpdatePresence(int id, bool ispresence);
         public Task<List<PresenceDto>> GetPresences(int Sectionid);
+        public Task<Paggination<CustomPresenceDto>> GetPaggination(int page, int pageSize, DateTime date);
 
     }
     public class PresenceService : IPresenceService
@@ -96,6 +99,28 @@ namespace UtilitesLayer.Services
         public async Task<OperationResult> CreatePresence(CreatePresenceDto dto)
         {
            return await db.Create(dto.MapToDto());
+        }
+
+        public async Task<Paggination<CustomPresenceDto>> GetPaggination(int page, int pageSize, DateTime date)
+        {
+            List<Day> days = context.Days.Include(a=>a.DayClass).Where(a=>a.Created.Date== date.Date).ToList();
+            List<Section> sections = context.Sections.Where(a=>days.Select(c=>c.Id).Contains(a.DayId)).ToList();
+            List<Expression<Func<Presence, dynamic>>> includes = new() { a => a.Student };
+
+            var data = await db.GetPagginationWithInclude(size: pageSize,page: page, expression: a => sections.Select(c=>c.Id).Contains(a.SectionId)&& a.IsPresence==false,includes:includes);
+            var result = data.Objects.Select(a =>
+            {
+                var section = sections.Single(k => k.Id == a.SectionId);
+                var day = days.Single(K => K.Id == section.DayId);
+                return a.MapToDto(classname: day.DayClass.Grid.ToString() + "-" + day.DayClass.Name, section: section.Name);
+            }).ToList();
+            return new Paggination<CustomPresenceDto>()
+            {
+                CurrentPage = data.CurrentPage,
+                GetSize = data.GetSize,
+                PageCount = data.PageCount,
+                Objects = result
+            };
         }
 
         public async Task<List<PresenceDto>> GetPresences(int Sectionid)

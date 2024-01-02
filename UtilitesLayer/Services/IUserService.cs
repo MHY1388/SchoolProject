@@ -26,12 +26,13 @@ namespace UtilitesLayer.Services
             if ((!firstName.IsNullOrEmpty()) || (!lastName.IsNullOrEmpty())||(!userName.IsNullOrEmpty()))
             {
                 paggination = await db.GetPaggination
-                   (size:pageSize,expression: a => a.FirstName.Contains(firstName) || a.LastName.Contains(lastName)|| a.UserName.Contains(userName),page: page,Data:users);
+                   (size:pageSize,expression: a => (a.FirstName+" "+a.LastName).Contains(firstName)|| (a.FirstName + " " + a.LastName).Contains(lastName) || a.UserName.Contains(userName),page: page,Data:users);
             }
             else
             {
                 paggination = await db.GetPaggination(size: pageSize,page: page, Data:users);
             }
+            paggination.Objects.Reverse();
             return new Paggination<User>() { CurrentPage = paggination.CurrentPage, GetSize = paggination.GetSize, PageCount = paggination.PageCount, Objects = paggination.Objects };
 
         }
@@ -41,12 +42,13 @@ namespace UtilitesLayer.Services
             if ((!firstName.IsNullOrEmpty()) || (!lastName.IsNullOrEmpty())||(!userName.IsNullOrEmpty()))
             {
                 paggination = await db.GetPaggination
-                   (size:pageSize,expression: a => a.ClassId==classId&&(a.FirstName.Contains(firstName) || a.LastName.Contains(lastName)|| a.UserName.Contains(userName)),page: page,Data:users);
+                   (size:pageSize,expression: a => a.ClassId==classId&&((a.FirstName + " " + a.LastName).Contains(firstName) || (a.FirstName + " " + a.LastName).Contains(lastName) || a.UserName.Contains(userName)),page: page,Data:users);
             }
             else
             {
                 paggination = await db.GetPaggination(size: pageSize,page: page, Data:users, expression:a=>a.ClassId==classId);
             }
+            paggination.Objects.Reverse();
             return new Paggination<User>() { CurrentPage = paggination.CurrentPage, GetSize = paggination.GetSize, PageCount = paggination.PageCount, Objects = paggination.Objects };
         }
     }

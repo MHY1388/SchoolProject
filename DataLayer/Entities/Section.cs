@@ -21,5 +21,7 @@ namespace DataLayer.Entities
         public int DayId { get; set; }
         [Required,ForeignKey(nameof(DayId))]
         public Day Day { get; set; }
+        public DateTime Updated { get; set; } = DateTime.Now;
+
     }
 }

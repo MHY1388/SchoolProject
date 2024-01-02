@@ -13,7 +13,7 @@ namespace UtilitesLayer.Mapppers
     {
         public static Section MapToSection(this SectionDto section)
         {
-            return new Section() { DayId = section.DayId, Id = section.Id,Name = section.Name, Description = section.Description };
+            return new Section() { DayId = section.DayId, Id = section.Id,Name = section.Name, Description = section.Description, Updated= DateTime.Now };
         }
         public static SectionDto MapToDto(this Section section)
         {

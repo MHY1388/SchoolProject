@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +57,8 @@ namespace WebLayer.Areas.Admin.Controllers
         {
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link ="/admin/user", Name="کاربران"} };
             ViewData["title"] = "ثبت نام";
+            ViewData["header_title"] = "ثبت نام";
+            ViewData["submit_title"] = "ثبت";
             return View();
         }
         [HttpPost, ValidateAntiForgeryToken]
@@ -64,9 +67,16 @@ namespace WebLayer.Areas.Admin.Controllers
             
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/user", Name = "کاربران" } };
             ViewData["title"] = "ثبت نام";
+            ViewData["header_title"] = "ثبت نام";
+            ViewData["submit_title"] = "ثبت";
             if (!ModelState.IsValid) {this.IsRedirect();  return View(model); }
-            var result = await userManager.CreateAsync(new User { PhoneNumber = model.PhoneNumber.NormalizePhoneNumber(),UserName=model.UserName, FirstName = model.FirstName, LastName = model.LastName }, model.Password);
-            var user =await userManager.FindByNameAsync(model.UserName);
+            if (!model.PhoneNumber.ValidatePhoneNumber())
+            {
+                IsRedirect();
+                ModelState.AddModelError(String.Empty, "فرمت شماره تماس اشتباه است لطفا شماره تماس را با فرمت 09127548761 وارد نمایید");
+                return View(model);
+            }
+            var result = await userManager.CreateAsync(new User { PhoneNumber = model.PhoneNumber.NormalizePhoneNumber(),UserName=model.UserName, FirstName = model.FirstName, LastName = model.LastName ,Number=(model.Number is not null?model.Number.Value:0)}, model.Password);
             if (result != IdentityResult.Success)
             {
                 this.IsRedirect();
@@ -76,6 +86,7 @@ namespace WebLayer.Areas.Admin.Controllers
                 }
                 return View(model);
             }
+            var user =await userManager.FindByNameAsync(model.UserName);
             if (model.UserRole == UserRoles.ادمین)
                await userManager.AddToRoleAsync(user, DirectoryPath.AdminRole);
             else if(model.UserRole== UserRoles.کلاس)
@@ -152,5 +163,132 @@ namespace WebLayer.Areas.Admin.Controllers
             }
             return a;
         }
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            var user = await userManager.FindByIdAsync(userId.ToString());
+            JsonResult a;
+            if (user is null)
+            {
+                a = Json(new { Status = 404, Message = "کاربر یافت نشد", Title = "شکست", IsReloadPage = false });
+            }
+            else
+            {
+                var userrole = (await userManager.GetRolesAsync(user)).FirstOrDefault();
+                if(userrole == DirectoryPath.ManagerRole)
+                {
+                    if (!User.IsInRole(DirectoryPath.ManagerRole))
+                    {
+                        return Json(new { Status = 500, Message = "شما دسترسی لازم برای حذف این کاربر را ندارید", Title = "عملیات غیر مجاز", IsReloadPage = false });
+                    }
+                }
+                IdentityResult result = await userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    a = Json(new { Status = 200, Message = "کاربر حذف شد", Title = "موفقیت", IsReloadPage = true });
+
+                }
+                else
+                {
+                    a = Json(new { Status = 404, Message = "کاربر یافت نشد", Title = "شکست", IsReloadPage = false });
+
+                }
+            }
+            return a;
+        }
+        [HttpGet("/admin/user/updateuser/{userId}")]
+        public IActionResult UpdateUser(int userId)
+        {
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/user", Name = "کاربران" } };
+            ViewData["title"] = "بروزرسانی";
+            ViewData["header_title"] = "بروزرسانی";
+            ViewData["submit_title"] = "بروزرسانی";
+            IsRedirect();
+            User? user = userManager.FindByIdAsync(userId.ToString()).Result;
+            if (user == null)
+            {
+                return NotFound();
+            }
+            string? role = userManager.GetRolesAsync(user).Result.FirstOrDefault();
+            UserRoles userRoles;
+            if(role==DirectoryPath.UserRole)
+            {
+               userRoles= UserRoles.دانش_آموز;
+            }
+            else if (role==DirectoryPath.AdminRole)
+            {
+                userRoles = UserRoles.ادمین;
+
+            }
+            else if(role==DirectoryPath.ClassRole)
+            {
+                userRoles = UserRoles.کلاس;
+            }
+            else
+            {
+                return BadRequest();
+            }
+            return View(new UpdateUserModel() {Id=user.Id, FirstName=user.FirstName, LastName=user.LastName, UserName=user.UserName, Number=user.Number, PhoneNumber=user.PhoneNumber, UserRole= userRoles });
+        }
+        [HttpPost("/admin/user/updateuser/{userId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateUser(int userId, UpdateUserModel user)
+        {
+            IsRedirect();
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/user", Name = "کاربران" } };
+            ViewData["title"] = "بروزرسانی";
+            ViewData["header_title"] = "بروزرسانی";
+            ViewData["submit_title"] = "بروزرسانی";
+            if (!ModelState.IsValid) { return View( user); }
+            if (!user.PhoneNumber.ValidatePhoneNumber())
+            {
+                ModelState.AddModelError(String.Empty, "فرمت شماره تماس اشتباه است لطفا شماره تماس را با فرمت 09127548761 وارد نمایید");
+                return View(user);
+            }
+            var userEntity = userManager.FindByIdAsync(userId.ToString()).Result;
+            if (user is null)
+            {
+                return NotFound();
+            }
+            var userroles = await userManager.GetRolesAsync(userEntity);
+            if (userroles.Contains(DirectoryPath.ManagerRole))
+            {
+                return BadRequest();
+            }
+            userEntity.Number = user.Number.Value;
+            userEntity.PhoneNumber = user.PhoneNumber;
+            userEntity.UserName = user.UserName;
+            userEntity.FirstName = user.FirstName;
+            userEntity.LastName = user.LastName;
+            var hashed_password = userEntity.PasswordHash;
+            if (!user.Password.IsNullOrEmpty())
+            {
+               hashed_password =  userManager.PasswordHasher.HashPassword(userEntity, user.Password);
+            }
+            IdentityResult result = userManager.UpdateAsync(userEntity).Result;
+            if (result.Succeeded)
+            {
+                await userManager.RemoveFromRolesAsync(userEntity,userroles);
+                if (user.UserRole == UserRoles.ادمین) { 
+                    userEntity.ClassId = null;
+                    await userManager.UpdateAsync(userEntity);
+                    await userManager.AddToRoleAsync(userEntity, DirectoryPath.AdminRole);
+                }
+                else if (user.UserRole == UserRoles.کلاس)
+                {
+                    await userManager.AddToRoleAsync(userEntity, DirectoryPath.ClassRole);
+                }
+                else
+                {
+                    await userManager.AddToRoleAsync(userEntity, DirectoryPath.UserRole);
+                }
+
+                return RedirectAndShowAlert(OperationResult.Success(),RedirectToAction("Index"));
+            }
+            else
+            {
+                return RedirectAndShowAlert(OperationResult.Error(), RedirectToAction("Index"));
+            }
+        }
+
     }
 }

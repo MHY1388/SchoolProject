@@ -20,7 +20,7 @@ namespace UtilitesLayer.Mapppers
         }
         public static Class MapToClass(this ClassDto entity)
         {
-            return new Class() {Id=entity.Id,  Grid = entity.Grid, Name = entity.Name };
+            return new Class() {Id=entity.Id,  Grid = entity.Grid, Name = entity.Name, Updated=DateTime.Now };
         }
     }
 }

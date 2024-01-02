@@ -80,7 +80,6 @@
                                     <td class=" align-middle text-center">
                                         @if(name is not null)
                                         {
-
                                             <p class="text-xs btn btn-@(name=="Admin"?"success":(name=="Manager"?"primary": (name=="User"?"primary": "secondary")))">@(name == "Admin" ? "مدیر" : (name == "Manager" ? "ادمین اصلی" : (name == "User" ? "کاربر" : "کلاس")))</p>
                                         }
                                         else
@@ -92,12 +91,25 @@
                                         <p class="text-xs align-middle text-center">@className</p>
                                     </td>
                                     <td class="align-middle">
-                                        @*                                         <a asp-action="Update" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">
-                                    ویرایش
-                                    </a>
-                                    <button onclick="deleteItem('@Url.Action("Delete","Category",new{id=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
-                                    حذف
-                                    </button> *@
+
+                                        @if(name == "Manager")
+                                        {
+                                            if (User.IsInRole("Manager"))
+                                            {
+                                                <button onclick="deleteItem('@Url.Action("DeleteUser",new{userId=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
+                                                    حذف
+                                                </button>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <a asp-action="UpdateUser" asp-route-userId="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">
+                                                ویرایش
+                                            </a>
+                                        <button onclick="deleteItem('@Url.Action("DeleteUser",new{userId=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
+                                            حذف
+                                        </button>
+                                        }
                                     </td>
                                 </tr>
                             }

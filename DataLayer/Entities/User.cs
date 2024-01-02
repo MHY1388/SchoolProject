@@ -11,6 +11,7 @@ namespace DataLayer.Entities
 {
     public class User:IdentityUser<int>
     {
+        public int Number { get; set; }
         [MaxLength(200)]
         public string FirstName { get; set; }
         [MaxLength(200)]

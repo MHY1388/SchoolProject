@@ -33,4 +33,20 @@ namespace UtilitesLayer.DTOs.Presence
         [Required]
         public bool IsPresence { get; set; }
     }
+    public class CustomPresenceDto
+    {
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        public int StudentID { get; set; }
+        public User? Student { get; set; }
+        [Required]
+
+        public int SectionID { get; set; }
+
+        [Required]
+        public bool IsPresence { get; set; }
+        public string ClassName { get; set; }
+        public string SectionName { get; set; }
+    }
 }

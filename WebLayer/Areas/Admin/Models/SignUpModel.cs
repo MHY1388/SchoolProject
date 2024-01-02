@@ -6,6 +6,8 @@ namespace WebLayer.Areas.Admin.Models
     {
         [Display(Name = "نام کاربری"),Required(ErrorMessage = "{0} اجباری است")]
         public string UserName { get; set; }
+        [Display(Name = "آمار")]
+        public int? Number { get; set; }
         [Display(Name = "شماره تلفن"), DataType(DataType.PhoneNumber),Required(ErrorMessage = "{0} اجباری است")]
         public string PhoneNumber { get; set; }
         [Display(Name = "نام"), Required(ErrorMessage = "{0} اجباری است")]

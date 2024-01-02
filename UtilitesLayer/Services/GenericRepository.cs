@@ -9,7 +9,7 @@ using WebLayer.Data;
 
 namespace UtilitesLayer.Services;
 
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -259,16 +259,16 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
         return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
-    public static async Task<Paggination<object>> GetPaggination(int size,List<object> Data, int page = 1)
+    public static async Task<Paggination<T>> GetPaggination<T>(int size,List<T> Data, int page = 1) where T:class
     {
         var skip = (page - 1) * size;
 
         var data = Data.AsQueryable();
         var count = data.Count();
         var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
-        List<object> result = data.Skip(skip).Take(size).ToList();
+        List<T> result = data.Skip(skip).Take(size).ToList();
 
-        return new Paggination<object>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+        return new Paggination<T>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
 
     public static async Task<Paggination<object>> GetPaggination(int size, Expression<Func<TEntity, bool>> expression, List<object> Data , int page = 1)

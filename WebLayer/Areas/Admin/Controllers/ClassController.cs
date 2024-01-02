@@ -12,7 +12,7 @@ using DataLayer.Entities;
 
 namespace WebLayer.Areas.Admin.Controllers
 {
-    [Authorize(DirectoryPath.AdminRole)]
+    [Authorize(Policy = DirectoryPath.AdminRole)]
 
     public class ClassController : BaseController
     {
@@ -195,12 +195,20 @@ namespace WebLayer.Areas.Admin.Controllers
                 }
             }
             if(errors.Any()){
+                if(errors.Count() == students.Count()) 
+                {
+                    this.ErrorAlert("همچین دانش آموزی وجود ندارد.");
+                }
+                else
+                {
+
                 string res = "";
                 foreach (var error in errors)
                 {
                     res += error+ " ";
                 }
                 this.ErrorAlert($"دانش آموز {res} وجود ندارد ولی بقیه افزوده شده اند.");
+                }
                 return RedirectToAction("Detail", new { id });
 
             }

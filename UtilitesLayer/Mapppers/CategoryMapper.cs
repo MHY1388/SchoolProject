@@ -24,7 +24,7 @@ namespace UtilitesLayer.Mapppers
             var data =  new Category()
             {
                 Id = model.Id, IsDeleted = model.IsDeleted, Name = model.Name,
-                Slug = model.Slug
+                Slug = model.Slug, Updated = DateTime.Now
             };
             if (model.Posts is not null)
             {

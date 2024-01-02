@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.Entities
+namespace UtilitesLayer.DTOs
 {
-    public abstract class BaseEntity
+    public class BaseDto
     {
-        [Key]
         public int Id { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
-        public bool IsDeleted { get; set; } = false;
     }
 }

@@ -12,13 +12,11 @@ using Microsoft.IdentityModel.Tokens;
 using WebLayer.Areas.Admin.Models;
 using UtilitesLayer.DTOs.Presence;
 using UtilitesLayer.DTOs.Section;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.IO.Pipelines;
 
 namespace WebLayer.Areas.Admin.Controllers
 {
-    [Authorize(Roles = DirectoryPath.ClassRole+","+DirectoryPath.AdminRole)]
+    [Authorize(Roles = DirectoryPath.ClassRole+","+DirectoryPath.AdminRole+","+DirectoryPath.ManagerRole)]
     public class PresenceController : BaseController
     {
         private readonly UnitOfWork db;
@@ -96,9 +94,9 @@ namespace WebLayer.Areas.Admin.Controllers
             {
                db.Days.AddDay(classId).Wait();
                db.SaveChanges();
-                return RedirectAndShowAlert(new OperationResult() { Status = OperationResultStatus.Success, Message = "روز جدید با موفقیت ایجاد" }, RedirectToAction("Index"));
+                return RedirectAndShowAlert(new OperationResult() { Status = OperationResultStatus.Success, Message = "روز جدید با موفقیت ایجاد" }, RedirectToAction("Index", new {classId}));
             }
-            return RedirectAndShowAlert(new OperationResult() { Status = OperationResultStatus.Error, Message = "امروز از قبل ایجاد شد" }, RedirectToAction("Index"));
+            return RedirectAndShowAlert(new OperationResult() { Status = OperationResultStatus.Error, Message = "امروز از قبل ایجاد شد" }, RedirectToAction("Index", new { classId }));
 
         }
         #endregion
@@ -183,19 +181,20 @@ namespace WebLayer.Areas.Admin.Controllers
 
         public IActionResult AddSection(int dayId, int classId)
         {
-            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/Presence?classId=" + classId, Name = "روز ها" }, new BredcompViewModel() { Link = "/admin/Presence/SectionIndex", Name = "زنگ ها" } };
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/Presence?classId=" + classId, Name = "روز ها" }, new BredcompViewModel() { Link = "/admin/Presence/SectionIndex?classId="+classId.ToString()+"&"+"dayId="+dayId.ToString(), Name = "زنگ ها" } };
             ViewData["title"] = "افزودن";
             var model = new CreateSectionDto() { DayId=dayId};
             return View(model);
         }
         [HttpPost, ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddSection(CreateSectionDto model)
+        public async Task<IActionResult> AddSection(CreateSectionDto model, int classId)
         {
+            ViewData["classId"] = classId;
             if(!ModelState.IsValid) 
                 return View(model);
             await db.Sections.CreateSection(model);
             db.SaveChanges();
-            return RedirectAndShowAlert(OperationResult.Success(), RedirectToAction("SectionIndex", new { dayId = model.DayId }));
+            return RedirectAndShowAlert(OperationResult.Success(), RedirectToAction("SectionIndex", new { dayId = model.DayId, classId }));
         }
         [HttpPost]
         public async Task<IActionResult> DeleteSection(int sectionId, int dayId)

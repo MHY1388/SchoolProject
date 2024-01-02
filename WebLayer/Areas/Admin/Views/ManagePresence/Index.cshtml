@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using UtilitesLayer.Utilities
+@model UtilitesLayer.DTOs.Global.Paggination<UtilitesLayer.DTOs.Presence.CustomPresenceDto>
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5">
+                    <h2 class="text-white text-capitalize ps-3 ">غایب های روز</h2>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">آمار</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام خانوادگی</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">کلاس</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">زنگ</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model.Objects)
+                            {
+                                <tr>
+
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.Student?.Number</p>
+                                    </td>
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.Student?.FirstName</p>
+                                    </td>
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.Student?.LastName</p>
+                                    </td>
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.ClassName</p>
+                                    </td>
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.SectionName</p>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@await Html.PartialAsync("_Paggination", new UtilitesLayer.DTOs.Global.PagginationDto(){CurrentPage=Model.CurrentPage, PageCount= Model.PageCount, GetSize=Model.GetSize, ObjectsCount=Model.Objects.Count()});
