@@ -17,7 +17,9 @@ namespace UtilitesLayer.Mapppers
         }
         public static SectionDto MapToDto(this Section section)
         {
-            return new SectionDto() { DayId = section.DayId, Id = section.Id, Name = section.Name, Description = section.Description };
+            var data= new SectionDto() { DayId = section.DayId, Id = section.Id, Name = section.Name, Description = section.Description };
+            data = BaseMapper.BaseMap(section, data);
+            return data;
         }
         public static Section MapToDto(this CreateSectionDto section)
         {

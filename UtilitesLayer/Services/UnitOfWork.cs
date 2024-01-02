@@ -23,6 +23,7 @@ namespace UtilitesLayer.Services
         private IClassService classService;
         private IPresenceService presenceService;
         private ISectionService sectionService;
+        private ITeacherService teacherService;
 
         public UnitOfWork(ApplicationDbContext context, FileManager fileManager, Microsoft.AspNetCore.Identity.UserManager<DataLayer.Entities.User> userManager)
         {
@@ -41,6 +42,18 @@ namespace UtilitesLayer.Services
                 }
 
                 return _postServices;
+            }
+        }
+        public ITeacherService Teachers
+        {
+            get
+            {
+                if (teacherService is null)
+                {
+                    teacherService = new TeacherService(_context);
+                }
+
+                return teacherService;
             }
         }
         public IUserService Users

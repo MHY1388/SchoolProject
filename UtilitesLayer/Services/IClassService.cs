@@ -24,6 +24,7 @@ namespace UtilitesLayer.Services
         public Task<List<ClassDto>> GetClasses();
         public Task<ClassDto> GetClass(int classid);
         public Task<List<User>> GetClassStudents(int classid);
+        public Task<bool> NameExsists(int grid, string name);
 
         public Task< Paggination<ClassDto>> GetPaggination(int page, int pageSize, string name);
         public Task<OperationResult> UpdateClass(ClassDto classDto);
@@ -38,7 +39,10 @@ namespace UtilitesLayer.Services
             db = new GenericRepository<Class>(context);
             this.userManager = userManager;
         }
-
+        public async Task<bool> NameExsists(int grid, string name)
+        {
+            return await db.Any(a => a.Grid == grid && a.Name.ToLower() == name.ToLower());
+        }
         public async Task<OperationResult> AddClass(CreateClassDto createClassDto)
         {
            return await db.Create(createClassDto.MapToClass());

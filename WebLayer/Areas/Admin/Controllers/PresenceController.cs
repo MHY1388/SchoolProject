@@ -50,7 +50,6 @@ namespace WebLayer.Areas.Admin.Controllers
                     return BadRequest();
                 }
                 classid=classId.Value;
-                // TODO: ایجاد این بخش و اصلاح کد های بالایی برای ادقام با این
             }
             ViewData["classId"] = classid;
             Paggination<DayDto>? data;
@@ -103,7 +102,7 @@ namespace WebLayer.Areas.Admin.Controllers
         #region Section
         public IActionResult SetSection(int sectionId,int dayId, int classid)
         {
-            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/Presence?classId="+classid, Name = "روز ها" }, new BredcompViewModel() { Link = "/admin/Presence/SectionIndex", Name = "زنگ ها" } };
+            ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/Presence?classId="+classid, Name = "روز ها" }, new BredcompViewModel() { Link = "/admin/Presence/SectionIndex?classId="+classid.ToString()+"&dayId="+dayId.ToString(), Name = "زنگ ها" } };
             ViewData["title"] = "حضور و غیاب";
             ViewData["sectionId"] = sectionId;
             ViewData["dayId"] = dayId;
@@ -121,7 +120,7 @@ namespace WebLayer.Areas.Admin.Controllers
             return View(data);
         }
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult SetSectionA(string sectionId,int dayId, int classId)
+        public async Task<IActionResult> SetSectionA(string sectionId,int dayId, int classId)
         {
             if (classId == 0)
             {
@@ -132,7 +131,7 @@ namespace WebLayer.Areas.Admin.Controllers
             {
                 db.Presences.UpdatePresence(item.Id, item.Presence);
             }
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectAndShowAlert(OperationResult.Success(), RedirectToAction("SectionIndex", new {dayId,classId}));
         }
 
@@ -146,7 +145,7 @@ namespace WebLayer.Areas.Admin.Controllers
                      await db.Presences.CreatePresence(new CreatePresenceDto() { IsPresence = true , SectionID= sectionId, StudentID= item.Id});
                 }
             }
-            db.SaveChanges();
+            await db.SaveChangesAsync();
         }
         public IActionResult SectionIndex(int dayId, int classId, string title = null, int page=1)
         {
@@ -190,10 +189,19 @@ namespace WebLayer.Areas.Admin.Controllers
         public async Task<IActionResult> AddSection(CreateSectionDto model, int classId)
         {
             ViewData["classId"] = classId;
-            if(!ModelState.IsValid) 
+            if(!ModelState.IsValid)
+            {
+                IsRedirect();
                 return View(model);
+            }
+            if(await db.Sections.NameExsists(model.Name, model.DayId))
+            {
+                IsRedirect() ;
+                ModelState.AddModelError(string.Empty, "این زنگ از قبل وجود دارد");
+                return View(model);
+            }
             await db.Sections.CreateSection(model);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectAndShowAlert(OperationResult.Success(), RedirectToAction("SectionIndex", new { dayId = model.DayId, classId }));
         }
         [HttpPost]
@@ -201,7 +209,7 @@ namespace WebLayer.Areas.Admin.Controllers
         {
            
             var result = await db.Sections.DeleteSection(sectionId);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             var a = Json(new { Status = (int)result.Status, Title = (result.Status == OperationResultStatus.Success ? "موفق" : "خطا"), IsReloadPage = true });
             return a;
         }
@@ -216,13 +224,13 @@ namespace WebLayer.Areas.Admin.Controllers
             return View(model);
         }
         [HttpPost,ValidateAntiForgeryToken]
-        public IActionResult UpdateSection(UpdateSection model, int dayId)
+        public async Task<IActionResult> UpdateSection(UpdateSection model, int dayId)
         {
             this.IsRedirect();
 
             if (!ModelState.IsValid) return View(model);
              db.Sections.UpdateSection(new SectionDto() { Id=model.Id, Description=model.Description, Name=model.Name, DayId=dayId}).Wait();
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectAndShowAlert(OperationResult.Success(), RedirectToAction("SectionIndex", new { dayId }));
         }
         #endregion

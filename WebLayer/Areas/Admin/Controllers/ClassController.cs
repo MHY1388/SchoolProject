@@ -89,13 +89,20 @@ namespace WebLayer.Areas.Admin.Controllers
             ViewData["title"] = "افزودن";
             try
             {
-                if (!ModelState.IsValid) { return View(model);
+                if (!ModelState.IsValid ) {
+                    this.IsRedirect(); return View(model);
+                    
+                }
+                if(await db.Classes.NameExsists(model.Grid, model.Name))
+                {
+                    ModelState.AddModelError(string.Empty, "این کلاس از قبل وجود دارد");
                     this.IsRedirect();
+                    return View(model);
                 }
                 var result = await db.Classes.AddClass(model);
                 if (result.Status == OperationResultStatus.Success)
                 {
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                     return RedirectAndShowAlert(new OperationResult() { Status = OperationResultStatus.Success }, RedirectToAction("Index"));
                 }
                 else
@@ -138,7 +145,7 @@ namespace WebLayer.Areas.Admin.Controllers
                 var result =  await db.Classes.UpdateClass(model);
                 if (result.Status == OperationResultStatus.Success)
                 {
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                     return RedirectAndShowAlert(new OperationResult() { Status = OperationResultStatus.Success }, RedirectToAction("Index"));
                 }
                 else
@@ -159,7 +166,7 @@ namespace WebLayer.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
                 var result = await db.Classes.DeleteClass(id);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
                 return Json(new { Status = (int)result.Status, Message = result.Message, Title = (result.Status == OperationResultStatus.Success ? "موفق" : "خطا"), IsReloadPage = true });
 
         }

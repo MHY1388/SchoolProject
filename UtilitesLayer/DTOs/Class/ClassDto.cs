@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace UtilitesLayer.DTOs.Class
 {
-    public class ClassDto
+    public class ClassDto:BaseDto
     {
-        public int Id { get; set; }
         public int Grid { get; set; }
         public string Name { get; set; }
         public ICollection<User>? Students { get; set; }

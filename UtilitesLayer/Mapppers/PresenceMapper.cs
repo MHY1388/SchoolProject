@@ -12,7 +12,9 @@ namespace UtilitesLayer.Mapppers
     {
         public static PresenceDto MapToDto(this Presence dto)
         {
-            return new PresenceDto() { StudentID = dto.StudentID, Student = dto.Student, IsPresence = dto.IsPresence, SectionID=dto.SectionId, Id = dto.Id };
+            var data= new PresenceDto() { StudentID = dto.StudentID, Student = dto.Student, IsPresence = dto.IsPresence, SectionID=dto.SectionId, Id = dto.Id };
+            data  = BaseMapper.BaseMap(dto, data);
+            return data;
         }
         public static CustomPresenceDto MapToDto(this Presence dto, string classname, string section)
         {

@@ -19,10 +19,9 @@ namespace UtilitesLayer.DTOs.Presence
         [Required]
         public int SectionID { get; set; }
     }
-    public class PresenceDto
+    public class PresenceDto:BaseDto
     {
-        [Required]
-        public int Id { get; set; }
+
         [Required]
         public int StudentID { get; set; }
         public User? Student { get; set; }

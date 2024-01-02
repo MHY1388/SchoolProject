@@ -12,11 +12,13 @@ namespace UtilitesLayer.Mapppers
     {
         public static Day MapToDay(this DayDto day)
         {
-            return new Day() { classId = day.classId, Id = day.Id, Created = day.Created };
+            return new Day() { classId = day.classId, Id = day.Id};
         }
         public static DayDto MapToDto(this Day day)
         {
-            return new DayDto() { classId = day.classId, Id = day.Id, Created = day.Created };
+            var data =  new DayDto() { classId = day.classId, Id = day.Id };
+            data = BaseMapper.BaseMap(day, data);
+            return data;
         }
     }
 }

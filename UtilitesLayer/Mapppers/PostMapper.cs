@@ -28,7 +28,6 @@ namespace UtilitesLayer.Mapppers
                 Id = post.Id, CategoryID = post.CategoryID, Content = post.Content, IsDeleted = post.IsDeleted,
                 IsSpecial = post.IsSpecial, ImagePath = post.ImagePath, KeyWords = post.KeyWords.Replace("،", ","),
                 Description = post.Description, Slug = post.Slug.GenerateSlug(), Name = post.Name,
-                Updated = DateTime.Now
             };
         }
 
@@ -45,6 +44,7 @@ namespace UtilitesLayer.Mapppers
             {
                 data.Category= post.Category;
             }
+            data  = BaseMapper.BaseMap(post, data);
             return data;
         }
     }

@@ -11,6 +11,7 @@ namespace UtilitesLayer.Utilities
     public static class DirectoryPath
     {
         public const string MediaImages = "MainImage/";
+        public const string TeacherImages = "TeacherImages/";
         public const string MediaImagesContent = "ContentImage/";
         public const string BucketName = "schoolcontext";
         public const string AdminRole = "Admin";

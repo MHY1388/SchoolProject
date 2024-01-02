@@ -12,7 +12,9 @@ namespace UtilitesLayer.Mapppers
     {
         public static ClassDto MapToDto(this Class entity)
         {
-            return new ClassDto() { Id=entity.Id,Grid=entity.Grid,Name=entity.Name,Days=entity.Days,Students=entity.Students};
+            var data= new ClassDto() { Id=entity.Id,Grid=entity.Grid,Name=entity.Name,Days=entity.Days,Students=entity.Students};
+            data = BaseMapper.BaseMap(entity, data);
+            return data;
         }
         public static Class MapToClass(this CreateClassDto entity)
         {
@@ -20,7 +22,7 @@ namespace UtilitesLayer.Mapppers
         }
         public static Class MapToClass(this ClassDto entity)
         {
-            return new Class() {Id=entity.Id,  Grid = entity.Grid, Name = entity.Name, Updated=DateTime.Now };
+            return new Class() {Id=entity.Id,  Grid = entity.Grid, Name = entity.Name};
         }
     }
 }

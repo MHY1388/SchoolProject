@@ -24,7 +24,7 @@ namespace UtilitesLayer.Mapppers
             var data =  new Category()
             {
                 Id = model.Id, IsDeleted = model.IsDeleted, Name = model.Name,
-                Slug = model.Slug, Updated = DateTime.Now
+                Slug = model.Slug
             };
             if (model.Posts is not null)
             {
@@ -37,7 +37,6 @@ namespace UtilitesLayer.Mapppers
         {
             var data = new CategoryDto()
             {
-                Created = model.Created,
                 Id = model.Id,
                 IsDeleted = model.IsDeleted,
                 Name = model.Name,
@@ -47,6 +46,7 @@ namespace UtilitesLayer.Mapppers
             {
                 data.Posts = model.Posts;
             }
+            data = BaseMapper.BaseMap(model, data);
             return data;
         }
     }

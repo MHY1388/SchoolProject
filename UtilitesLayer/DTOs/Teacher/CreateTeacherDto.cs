@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.Entities
+namespace UtilitesLayer.DTOs.Teacher
 {
-    public class Teacher:BaseEntity
+    public class CreateTeacherDto
     {
         [Required, MaxLength(255)]
         public string Name { get; set; }
@@ -18,7 +18,17 @@ namespace DataLayer.Entities
         [DataType(DataType.PhoneNumber), Required]
         public string PhoneNumber { get; set; }
         public bool PublicPhoneNumber { get; set; } = true;
-        [Required]
-        public string FileName { get; set; }
+    }
+    public class TeacherDto : BaseDto
+    {
+        [Required, MaxLength(255)]
+        public string Name { get; set; }
+        [Required, MaxLength(255)]
+        public string Doc { get; set; }
+        [MaxLength(1000)]
+        public string? Description { get; set; }
+        [DataType(DataType.PhoneNumber), Required]
+        public string PhoneNumber { get; set; }
+        public bool PublicPhoneNumber { get; set; } = true;
     }
 }

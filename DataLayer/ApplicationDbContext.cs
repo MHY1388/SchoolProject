@@ -17,6 +17,7 @@ namespace WebLayer.Data
         public DbSet<Presence> Presences { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<Section> Sections { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

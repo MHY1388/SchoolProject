@@ -47,7 +47,7 @@ namespace WebLayer.Areas.Admin.Controllers
             return View();
         }
         [ValidateAntiForgeryToken, HttpPost]
-        public IActionResult Add(CreateCategoryDto model)
+        public async Task<IActionResult> Add(CreateCategoryDto model)
         {
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = Url.Action("Index", "Category"), Name = "دسته بندی ها" } };
             ViewData["title"] = "افزودن";
@@ -73,15 +73,15 @@ namespace WebLayer.Areas.Admin.Controllers
 
                 return View(model);
             }
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.SaveChangesAsync();
             return RedirectAndShowAlert(new OperationResult(){Message = "عملیات با موفقیت انجام شد", Status = OperationResultStatus.Success},RedirectToAction("Index", "Category"));
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result  = _unitOfWork.Categories.DeleteCategory(id);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.SaveChangesAsync();
             var a = Json(new{Status=(int)result.Status, Message=result.Message, Title=(result.Status==OperationResultStatus.Success?"موفق":"خطا"), IsReloadPage =true});
             return a;
         }
@@ -95,7 +95,7 @@ namespace WebLayer.Areas.Admin.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Update(CategoryDto model)
+        public async Task<IActionResult> Update(CategoryDto model)
         {
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = Url.Action("Index", "Category"), Name = "دسته بندی ها" } };
             ViewData["title"] = "بروزرسانی";
@@ -129,7 +129,7 @@ namespace WebLayer.Areas.Admin.Controllers
 
                 return View(model);
             }
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.SaveChangesAsync();
             return RedirectAndShowAlert(new OperationResult()
                 { Message = "با موفقیت بروزرسانی شد", Status = OperationResultStatus.Success }, RedirectToAction("Index"));
         }

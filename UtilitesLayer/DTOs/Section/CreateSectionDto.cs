@@ -18,10 +18,9 @@ namespace UtilitesLayer.DTOs.Section
         [Required]
         public int DayId { get; set; }
     }
-    public class SectionDto
+    public class SectionDto:BaseDto
     {
-        [Required]
-        public int Id { get; set; }
+
         [Required, MaxLength(100)]
         public string Name { get; set; }
         [MaxLength(255)]

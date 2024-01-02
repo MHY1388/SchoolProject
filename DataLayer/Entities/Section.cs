@@ -8,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Entities
 {
-    public class Section
+    public class Section:BaseEntity
     {
-        [Required, Key]
-        public int Id { get; set; }
+
         [Required, MaxLength(100)]
         public string Name { get; set; }
         [MaxLength(255)]
@@ -21,7 +20,6 @@ namespace DataLayer.Entities
         public int DayId { get; set; }
         [Required,ForeignKey(nameof(DayId))]
         public Day Day { get; set; }
-        public DateTime Updated { get; set; } = DateTime.Now;
 
     }
 }

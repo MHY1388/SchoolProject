@@ -1,0 +1,83 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using UtilitesLayer.Utilities
+@model UtilitesLayer.DTOs.Global.Paggination<UtilitesLayer.DTOs.Teacher.TeacherDto>
+<div class="row">
+    <div class="col-12">
+        <a href="@Url.Action("Add","Teacher")" class="btn btn-success">ایجاد</a>
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5">
+                    <h2 class="text-white text-capitalize ps-3 "></h2>
+                    <form>
+                        <div class="row align-items-center">
+
+                            <div class="col-8">
+                                <div class="input-group input-group-outline m-0">
+                                    <label class="form-label" style="color: white;">جستجو</label>
+                                    <input type="text" class="form-control" id="title" name="title" onfocus="focused(this)" onfocusout="defocused(this)">
+                                </div>
+                            </div>
+                            <div class="col-4">
+
+                                <input type="submit" value="جستجو" class="btn btn-primary m-0" />
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">مدرک</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">توضیحات</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">شماره تماس</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نمایش شماره تماس</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model.Objects)
+                            {
+                                <tr>
+                                    <td>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Name</p>
+
+                                    </td>
+                                    <td>
+                                        <p class="text-xs align-middle text-center">@i.Doc</p>
+                                    </td>
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.Description</p>
+                                    </td>
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.PhoneNumber</p>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <span class="badge badge-sm bg-gradient-@(!i.PublicPhoneNumber?"danger":"success")"> </span>
+                                    </td>
+                                    <td class="align-middle">
+                                        <a asp-action="Update" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">
+                                            ویرایش
+                                        </a>
+                                        <button onclick="deleteItem('@Url.Action("Delete","Teacher",new{id=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
+                                            حذف
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@await Html.PartialAsync("_Paggination", new UtilitesLayer.DTOs.Global.PagginationDto() { CurrentPage = Model.CurrentPage, PageCount = Model.PageCount, GetSize = Model.GetSize, ObjectsCount = Model.Objects.Count() });

@@ -17,15 +17,21 @@ namespace UtilitesLayer.Utilities
 
 
             // اگر شماره تلفن با +98 یا 0098 آغاز شود، آن را به 0 تبدیل کنید
-            if (phoneNumber.StartsWith("+98") || phoneNumber.StartsWith("98"))
+            if (phoneNumber.StartsWith("+98"))
             {
                 phoneNumber = "0" + phoneNumber.Substring(3);
             }
-
+            if (phoneNumber.StartsWith("98"))
+            {
+                phoneNumber = "0" + phoneNumber.Substring(2);
+            }
             // اگر شماره تلفن بیشتر از 11 رقم باشد، آن را به 11 رقم تقلیل دهید
             if (phoneNumber.Length > 11)
             {
                 phoneNumber = phoneNumber.Substring(0, 11);
+            }else if (phoneNumber.Length < 11)
+            {
+                phoneNumber = null;
             }
 
             return phoneNumber;

@@ -27,8 +27,7 @@ namespace UtilitesLayer.Services
         public Task<SectionDto> GetSection(int id);
         public Task<OperationResult> DeleteSection(int sectionid);
         public Task<Paggination<SectionDto>> GetPaggination(int dayid, int page, int pageSize, string name = null);
-
-
+        public Task<bool> NameExsists(string name, int dayid);
     }
     public class SectionService : ISectionService
     {
@@ -71,6 +70,11 @@ namespace UtilitesLayer.Services
         public async Task<List<SectionDto>> GetSections(int dayid)
         {
             return ( await db.FindAll(a=>a.DayId== dayid)).Select(a=>a.MapToDto()).ToList();
+        }
+
+        public async Task<bool> NameExsists(string name, int dayid)
+        {
+            return await db.Any(a => a.DayId == dayid && a.Name.ToLower() == name.ToLower());
         }
 
         public async Task<OperationResult> UpdateSection(SectionDto dto)

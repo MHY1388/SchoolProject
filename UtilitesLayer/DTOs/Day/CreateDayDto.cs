@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 namespace UtilitesLayer.DTOs.Day
 {
 
-    public class DayDto
+    public class DayDto:BaseDto
     {
         [Required]
-        public int Id { get; set; }
-        [Required]
         public int classId { get; set; }
-        [Required]
-        public DateTime Created { get; set; }
+
     }
 
 }

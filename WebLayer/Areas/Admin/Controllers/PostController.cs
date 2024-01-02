@@ -83,16 +83,16 @@ namespace WebLayer.Areas.Admin.Controllers
                 return View(model);
             }
 
-            _postServices.SaveChanges();
+            await _postServices.SaveChangesAsync();
 
             return RedirectToAction("Index", "Post");
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = _postServices.Posts.DeletePost(id);
-            _postServices.SaveChanges();
+            await _postServices.SaveChangesAsync();
             var a = Json(new { Status = (int)result.Status, Message = result.Message, Title = (result.Status == OperationResultStatus.Success ? "موفق" : "خطا"), IsReloadPage = true });
             return a;
         }
@@ -140,7 +140,7 @@ namespace WebLayer.Areas.Admin.Controllers
                 filepath = await fileManager.SaveFile(model.ImagePath, DirectoryPath.MediaImages, DirectoryPath.BucketName);
             }
             var result = _postServices.Posts.UpdatePost(new PostDto(){Id = model.Id, CategoryID = model.CategoryID,Content = model.Content, Description = model.Description,ImagePath = filepath, IsDeleted = model.IsDeleted, IsSpecial = model.IsSpecial, KeyWords = model.KeyWords, Name = model.Name, Slug = model.Slug});
-            _postServices.SaveChanges();
+            await _postServices.SaveChangesAsync();
             return RedirectAndShowAlert(result, RedirectToAction("Index","Post"));
         }
         public async Task<IActionResult> Upload(IFormFile upload)

@@ -10,19 +10,8 @@ namespace UtilitesLayer.Utilities
     {
         public static bool ValidatePhoneNumber(this string phone)
         {
-            if (phone.Length != 11)
-            {
-                return false;
-            }
-            try
-            {
-                var a = Convert.ToInt64(phone);
-                return true;
-            }
-            catch(Exception ex) 
-            {
-                return false;
-            }
+            if(phone.NormalizePhoneNumber()!= phone) { return false; }
+            return true;
         }
     }
 }

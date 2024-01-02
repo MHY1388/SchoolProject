@@ -40,7 +40,7 @@
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نام</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">اسلاگ</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">فعال</th>
-                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">تاریخ ایجاد</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">آخرین بروزرسانی</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
@@ -59,7 +59,7 @@
                                     <span class="badge badge-sm bg-gradient-@(i.IsDeleted?"danger":"success")"> </span>
                                 </td>
                                 <td class="align-middle text-center ">
-                                    <p class="text-xs">@i.Created.PersianDate()</p>
+                                    <p class="text-xs">@i.Updated?.PersianDate()</p>
                                 </td>
                                 <td class="align-middle">
                                     <a asp-action="Update" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">

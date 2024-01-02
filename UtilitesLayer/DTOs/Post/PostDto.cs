@@ -2,7 +2,7 @@
 
 namespace UtilitesLayer.DTOs.Post;
 
-public class PostDto
+public class PostDto:BaseDto
 {
     [Required, Display(Name = "نام"), MaxLength(200)]
     public string Name { get; set; }
@@ -22,9 +22,6 @@ public class PostDto
     public string KeyWords { get; set; }
     [Required, Display(Name = "پست ویژه")]
     public bool IsSpecial { get; set; }
-    public int Id { get; set; }
-    [Display(Name = "زمان ایجاد")]
-    public DateTime Created { get; set; }
     [Display(Name = "حذف شده")]
     public bool IsDeleted { get; set; }
 }

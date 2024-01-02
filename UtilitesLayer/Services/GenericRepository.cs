@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using UtilitesLayer.DTOs.Global;
 using UtilitesLayer.Utilities;
 using WebLayer.Data;
+using static Amazon.S3.Util.S3EventNotification;
 
 namespace UtilitesLayer.Services;
 
@@ -21,6 +22,8 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         try
         {
+            entity.Created = DateTime.Now;
+            entity.Updated = DateTime.Now;
             await _dbContext.AddAsync(entity);
             return OperationResult.Success();
         }
@@ -35,6 +38,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         try
         {
             Attach(entity);
+            entity.Updated= DateTime.Now;
             _dbContext.Update(entity);
             return OperationResult.Success();
         }
@@ -259,7 +263,21 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
         return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
-    public static async Task<Paggination<T>> GetPaggination<T>(int size,List<T> Data, int page = 1) where T:class
+    public Task<bool> Any(Expression<Func<TEntity, bool>> expression)
+    {
+       return _dbContext.Set<TEntity>().AnyAsync(expression);
+    }
+    public void Attach(TEntity model)
+    {
+        if (_dbContext.Entry(model).State == EntityState.Detached)
+        {
+            _dbContext.Attach(model);
+        }
+    }
+}
+public static class GenericRepositoryStatic
+{
+    public static async Task<Paggination<T>> GetPaggination<T>(int size, List<T> Data, int page = 1) where T : class
     {
         var skip = (page - 1) * size;
 
@@ -271,27 +289,15 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         return new Paggination<T>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
 
-    public static async Task<Paggination<object>> GetPaggination(int size, Expression<Func<TEntity, bool>> expression, List<object> Data , int page = 1)
+    public static async Task<Paggination<T>> GetPaggination<T>(int size, Expression<Func<T, bool>> expression, List<T> Data, int page = 1) where T : class
     {
         var skip = (page - 1) * size;
 
         var data = Data.AsQueryable();
         var count = data.Count();
         var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
-        List<object> result = data.Skip(skip).Take(size).ToList();
+        List<T> result = data.Skip(skip).Take(size).ToList();
 
-        return new Paggination<object>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
-    }
-
-    public Task<bool> Any(Expression<Func<TEntity, bool>> expression)
-    {
-       return _dbContext.Set<TEntity>().AnyAsync(expression);
-    }
-    public void Attach(TEntity model)
-    {
-        if (_dbContext.Entry(model).State == EntityState.Detached)
-        {
-            _dbContext.Attach(model);
-        }
+        return new Paggination<T>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
 }
