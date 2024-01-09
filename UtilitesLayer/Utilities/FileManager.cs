@@ -31,9 +31,9 @@ namespace UtilitesLayer.Utilities
             return filepath+file_name_path;
         }
 
-        public async Task DeleteFile(string fileName, string filepath, string bucket)
+        public async Task DeleteFile(string fileName, string? filepath, string bucket)
         {
-            await storage.DeleteObjectHelper(bucket, filepath + fileName);
+            await storage.DeleteObjectHelper(bucket, fileName);
         }
     }
 }

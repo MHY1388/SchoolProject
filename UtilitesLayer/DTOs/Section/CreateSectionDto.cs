@@ -11,7 +11,7 @@ namespace UtilitesLayer.DTOs.Section
 {
     public class CreateSectionDto
     {
-        [Required, MaxLength(100), Display(Name ="نام")]
+        [Required(ErrorMessage = "{0} اجباری است"), MaxLength(100), Display(Name ="نام")]
         public string Name { get; set; }
         [MaxLength(255), Display(Name = "توضیحات")]
         public string? Description { get; set; }
@@ -21,7 +21,7 @@ namespace UtilitesLayer.DTOs.Section
     public class SectionDto:BaseDto
     {
 
-        [Required, MaxLength(100)]
+        [Required(ErrorMessage = "{0} اجباری است"), MaxLength(100)]
         public string Name { get; set; }
         [MaxLength(255)]
         public string? Description { get; set; }

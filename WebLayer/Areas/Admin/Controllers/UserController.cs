@@ -31,7 +31,7 @@ namespace WebLayer.Areas.Admin.Controllers
             //await roleManager.CreateAsync(new Role() { Name = "Admin" });
             //await roleManager.CreateAsync(new Role() { Name = "Class" });
             //await roleManager.CreateAsync(new Role() { Name = "User" });
-            var users = userManager.Users.ToList();
+            var users = userManager.Users.AsQueryable();
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" } };
             ViewData["title"] = "کاربران";
             if (title.IsNullOrEmpty())
@@ -118,7 +118,7 @@ namespace WebLayer.Areas.Admin.Controllers
             ViewData["title"] = "ورود";
             if (!ModelState.IsValid) { this.IsRedirect(); return View(model); }
             User? user =await userManager.FindByNameAsync(model.UserName);
-            if(user == null)
+            if(user == null || await userManager.IsInRoleAsync(user,DirectoryPath.UserRole))
             {
                 ModelState.AddModelError("", "نام کاربری یا رمز عبور اشتباه است");
                 return View(model);
@@ -140,7 +140,7 @@ namespace WebLayer.Areas.Admin.Controllers
                 ModelState.AddModelError("", "ورود مجاز نیست.");
                 return View(model);
             }
-            if (ReturnUrl.IsNullOrEmpty())
+            if (ReturnUrl.IsNullOrEmpty() || !Url.IsLocalUrl(ReturnUrl))
             {
                 ReturnUrl = "/";
             }

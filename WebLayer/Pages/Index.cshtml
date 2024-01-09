@@ -1,9 +1,10 @@
 ﻿@page
+@using UtilitesLayer.Utilities.ali
 @model IndexModel
 @{
     ViewData["title"] = "خانه";
 }
-
+@inject CloudTool tool
 @await Component.InvokeAsync("Slider", Model.Posts);
 <section class="container section">
     <div class="row">
@@ -53,39 +54,28 @@
 
         </div>
         <div id="test2" class="col s12">
-            <ul class="collection with-header">
+            <ul dir="rtl" class="collection">
                 <li class="collection-header center">
-                    <h4>اسامی مدرسین</h4>
+                    <h3>
+
+                     کادر و معلمان مدرسه
+                    </h3>
                 </li>
-                <li class="collection-item">
-                    <div>داوودی<span class="secondary-content">ریاضی</span></div>
+                @foreach(var item in Model.Teachers)
+                {
+                <li style="height:120px;" class="collection-item avatar">
+                        <img src="@tool.GeneratePreSignedUrl(item.FilePath, DirectoryPath.BucketName)" alt="@item.Name" style="width:100px;height: 100px;" class="circle">
+                    <span class="title"><b>@item.Name</b></span>
+                    <p style="padding-top:10px;">
+                        @item.Doc<br>
+                        <b>@item.Description</b><br>
+                            @if (item.PublicPhoneNumber)
+                            {
+                            <i>@item.PhoneNumber</i>
+                            }
+                    </p>
                 </li>
-                <li class="collection-item">
-                    <div>اصولی<span class="secondary-content">ریاضی</span></div>
-                </li>
-                <li class="collection-item">
-                    <div>پاسبان<span class="secondary-content">زبان</span></div>
-                </li>
-                <li class="collection-item">
-                    <div>یاسینی<span class="secondary-content">هنر</span></div>
-                </li>
-            </ul>
-            <ul class="collection with-header">
-                <li class="collection-header center">
-                    <h4>اسامی کادر مدرسه</h4>
-                </li>
-                <li class="collection-item">
-                    <div>بدری<span class="secondary-content">معاون</span></div>
-                </li>
-                <li class="collection-item">
-                    <div>توسلی<span class="secondary-content">مشاور</span></div>
-                </li>
-                <li class="collection-item">
-                    <div>شمس<span class="secondary-content">مدیر</span></div>
-                </li>
-                <li class="collection-item">
-                    <div>یاسینی<span class="secondary-content">هنر</span></div>
-                </li>
+                }
             </ul>
         </div>
     </div>

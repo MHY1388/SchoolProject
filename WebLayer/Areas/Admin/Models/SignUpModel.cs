@@ -17,7 +17,7 @@ namespace WebLayer.Areas.Admin.Models
 
         [Display(Name = "رمز"), DataType(dataType:DataType.Password), Required(ErrorMessage = "{0} اجباری است")]
         public string Password { get; set; }
-        [Display(Name = "تکرار رمز"), DataType(dataType:DataType.Password), Compare(nameof(Password)), Required(ErrorMessage = "{0} اجباری است")]
+        [Display(Name = "تکرار رمز"), DataType(dataType:DataType.Password), Compare(nameof(Password), ErrorMessage ="رمز ها یکسان نیستند"), Required(ErrorMessage = "{0} اجباری است")]
         public string RepetitionPassword { get; set; }
         [Display(Name ="نوع")]
         public UserRoles UserRole { get; set; }

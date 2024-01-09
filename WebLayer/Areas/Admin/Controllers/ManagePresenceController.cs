@@ -19,11 +19,10 @@ namespace WebLayer.Areas.Admin.Controllers
         {
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" } };
             ViewData["title"] = "کنترل حضور و غیاب";
-
-            var da = db.Presences.GetPaggination(page, 10, DateTime.Now).Result;
-            if (da.Objects.Count == 0 && page != 1)
+            var da = db.Presences.GetPaggination(page, 10, DateTime.Now.Date).Result;
+            if (da.Objects.Count() == 0 && page != 1)
             {
-                da = db.Presences.GetPaggination(1, 10,DateTime.Now).Result;
+                da = db.Presences.GetPaggination(1, 10,DateTime.Now.Date).Result;
 
             }
             return View(da);

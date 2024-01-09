@@ -9,8 +9,8 @@ namespace UtilitesLayer.Services
 {
     public interface IUserService
     {
-        public Task<Paggination<User>> GetPaggination(List<User> users, int page, int pageSize, string firstName = null, string lastName = null, string userName = null);
-        public Task<Paggination<User>> GetPaggination(List<User> users, int page, int pageSize, int classId, string firstName = null, string lastName = null, string userName = null);
+        public Task<Paggination<User>> GetPaggination(IQueryable<User> users, int page, int pageSize, string firstName = null, string lastName = null, string userName = null);
+        public Task<Paggination<User>> GetPaggination(IQueryable<User> users, int page, int pageSize, int classId, string firstName = null, string lastName = null, string userName = null);
 
     }
     public class UserService : IUserService
@@ -18,7 +18,7 @@ namespace UtilitesLayer.Services
         public UserService(ApplicationDbContext context)
         {
         }
-        public async Task<Paggination<User>> GetPaggination(List<User> users, int page, int pageSize, string firstName = null, string lastName = null, string userName=null)
+        public async Task<Paggination<User>> GetPaggination(IQueryable<User> users, int page, int pageSize, string firstName = null, string lastName = null, string userName=null)
         {
             Paggination<User> paggination;
             if ((!firstName.IsNullOrEmpty()) || (!lastName.IsNullOrEmpty())||(!userName.IsNullOrEmpty()))
@@ -34,7 +34,7 @@ namespace UtilitesLayer.Services
             return new Paggination<User>() { CurrentPage = paggination.CurrentPage, GetSize = paggination.GetSize, PageCount = paggination.PageCount, Objects = paggination.Objects };
 
         }
-        public async Task<Paggination<User>> GetPaggination(List<User> users, int page, int pageSize, int classId, string firstName = null, string lastName = null, string userName=null)
+        public async Task<Paggination<User>> GetPaggination(IQueryable<User> users, int page, int pageSize, int classId, string firstName = null, string lastName = null, string userName=null)
         {
             Paggination<User> paggination;
             if ((!firstName.IsNullOrEmpty()) || (!lastName.IsNullOrEmpty())||(!userName.IsNullOrEmpty()))

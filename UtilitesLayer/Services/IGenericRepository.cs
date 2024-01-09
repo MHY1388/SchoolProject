@@ -16,6 +16,7 @@ public interface IGenericRepository<TEntity> where TEntity : class
     public Task<Paggination<TEntity>> GetPaggination(int size, int page =1);
     public Task<Paggination<TEntity>> GetPaggination(int size, Expression<Func<TEntity,bool>> expression, int page = 1);
     public Task<TEntity> Get(int id);
+    public Task<TEntity> GetNoTracking(int id);
     public Task<ICollection<TEntity>> GetAllWithInclude(List<Expression<Func<TEntity, dynamic>>> includes);
     public Task<TEntity> FindWithInclude(Expression<Func<TEntity, bool>> expression, List<Expression<Func<TEntity, dynamic>>> includes);
     public Task<ICollection<TEntity>> FindAllWithInclude(Expression<Func<TEntity, bool>> expression, List<Expression<Func<TEntity, dynamic>>> includes);

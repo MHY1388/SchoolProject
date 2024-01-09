@@ -50,7 +50,7 @@ namespace UtilitesLayer.Services
             {
                 if (teacherService is null)
                 {
-                    teacherService = new TeacherService(_context);
+                    teacherService = new TeacherService(_context, fileManager);
                 }
 
                 return teacherService;

@@ -47,7 +47,7 @@ namespace WebLayer.Areas.Admin.Controllers
             //await roleManager.CreateAsync(new Role() { Name = "Admin" });
             //await roleManager.CreateAsync(new Role() { Name = "Class" });
             //await roleManager.CreateAsync(new Role() { Name = "User" });
-            var users = userManager.Users.ToList();
+            var users = userManager.Users.AsQueryable();
             ViewData["bred"] = new List<BredcompViewModel>() { new BredcompViewModel() { Link = "/admin", Name = "ادمین" }, new BredcompViewModel() { Link = "/admin/class", Name = "کلاس ها" } };
             ViewData["title"] = "مشاهده";
             ViewData["id"] = id;

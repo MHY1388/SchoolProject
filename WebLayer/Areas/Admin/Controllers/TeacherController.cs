@@ -12,10 +12,12 @@ namespace WebLayer.Areas.Admin.Controllers
     public class TeacherController : BaseController
     {
         private readonly UnitOfWork db;
+        private readonly FileManager fileManager;
 
-        public TeacherController(UnitOfWork db)
+        public TeacherController(UnitOfWork db, FileManager fileManager)
         {
             this.db = db;
+            this.fileManager = fileManager;
         }
         // GET: TeacherController
         public IActionResult Index(int page=1, string title = null)
@@ -86,13 +88,14 @@ namespace WebLayer.Areas.Admin.Controllers
             TeacherDto data = db.Teachers.GetTecher(id).Result;
             if (data == null) { return NotFound(); }
             IsRedirect();
-            return View(data);
+            var result = new UpdateTeacherModel() { Id=data.Id, Name= data.Name , Doc= data.Doc, Description =data.Description, PhoneNumber=data.PhoneNumber, PublicPhoneNumber=data.PublicPhoneNumber };
+            return View(result);
         }
 
         // POST: TeacherController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int id, TeacherDto model)
+        public async Task<IActionResult> Update(int id, UpdateTeacherModel model)
         {
             try
             {
@@ -103,6 +106,19 @@ namespace WebLayer.Areas.Admin.Controllers
                     ModelState.AddModelError(String.Empty, "فرمت شماره تماس اشتباه است لطفا شماره تماس را با فرمت 09127548761 وارد نمایید");
                     return View(model);
                 }
+                string imagename;
+                // TODO:save image
+                var OrginalTeacher = await db.Teachers.GetTecher(id);
+                if(model.Image is null)
+                {
+                    imagename = OrginalTeacher.FilePath;
+                }
+                else
+                {
+                    await fileManager.DeleteFile(OrginalTeacher.FilePath, DirectoryPath.TeacherImages, DirectoryPath.BucketName);
+                    imagename = await fileManager.SaveFile(model.Image,DirectoryPath.TeacherImages, DirectoryPath.BucketName) ;
+                }
+                model.FilePath = imagename;
                 var result = await db.Teachers.UpdateTecher(model);
                 if (result.Status == OperationResultStatus.Success)
                 {

@@ -45,7 +45,7 @@ namespace UtilitesLayer.Services
         public async Task<OperationResult> DeleteTeacher(int Id) 
         {
             Teacher teacher = await db.Get(Id);
-            fileManager.DeleteFile()
+            await fileManager.DeleteFile(teacher.FileName, DirectoryPath.TeacherImages, DirectoryPath.BucketName);
             return await db.Delete(teacher);
         }
 
@@ -66,7 +66,7 @@ namespace UtilitesLayer.Services
 
         public async Task<TeacherDto> GetTecher(int Id)
         {
-            return (await db.Get(Id))?.MapToDto();
+            return (await db.GetNoTracking(Id))?.MapToDto();
         }
 
         public async Task<List<TeacherDto>> GetTechers()

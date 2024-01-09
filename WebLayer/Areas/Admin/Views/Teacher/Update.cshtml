@@ -2,17 +2,18 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-@model UtilitesLayer.DTOs.Teacher.TeacherDto
+@model UpdateTeacherModel
 
 @{
 }
 
-<form method="post" asp-route-id="@Model.Id">
+<form method="post" asp-route-id="@Model.Id" enctype="multipart/form-data">
     <div asp-validation-summary="All"></div>
     @Html.EditorFor(a => a.Name)
     @Html.EditorFor(a => a.Doc)
     @Html.EditorFor(a => a.Description)
     @Html.EditorFor(a => a.PhoneNumber)
     @Html.EditorFor(a => a.PublicPhoneNumber)
+    @Html.EditorFor(a => a.Image)
     <input value="بروزرسانی" type="submit" class="btn btn-success" />
 </form>

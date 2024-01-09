@@ -274,10 +274,15 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
             _dbContext.Attach(model);
         }
     }
+
+    public async Task<TEntity> GetNoTracking(int id)
+    {
+        return await _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(a=>a.Id==id);
+    }
 }
 public static class GenericRepositoryStatic
 {
-    public static async Task<Paggination<T>> GetPaggination<T>(int size, List<T> Data, int page = 1) where T : class
+    public static async Task<Paggination<T>> GetPaggination<T>(int size, IEnumerable<T> Data, int page = 1) where T : class
     {
         var skip = (page - 1) * size;
 
@@ -289,11 +294,12 @@ public static class GenericRepositoryStatic
         return new Paggination<T>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
     }
 
-    public static async Task<Paggination<T>> GetPaggination<T>(int size, Expression<Func<T, bool>> expression, List<T> Data, int page = 1) where T : class
+    public static async Task<Paggination<T>> GetPaggination<T>(int size, Expression<Func<T, bool>> expression, IEnumerable<T> Data, int page = 1) where T : class
     {
         var skip = (page - 1) * size;
 
         var data = Data.AsQueryable();
+        data = data.Where(expression);
         var count = data.Count();
         var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
         List<T> result = data.Skip(skip).Take(size).ToList();

@@ -16,7 +16,7 @@ namespace UtilitesLayer.Mapppers
         }
         public static Teacher MapToTeacher(this TeacherDto teacher)
         {
-            return new Teacher() {Id=teacher.Id,  Name = teacher.Name, Description = teacher.Description, Doc = teacher.Doc, PhoneNumber = teacher.PhoneNumber, PublicPhoneNumber = teacher.PublicPhoneNumber };
+            return new Teacher() {Id=teacher.Id,  Name = teacher.Name, Description = teacher.Description, Doc = teacher.Doc, PhoneNumber = teacher.PhoneNumber, PublicPhoneNumber = teacher.PublicPhoneNumber , FileName = teacher.FilePath};
         }
         public static TeacherDto MapToDto(this Teacher teacher)
         {

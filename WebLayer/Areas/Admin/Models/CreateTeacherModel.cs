@@ -5,7 +5,7 @@ namespace WebLayer.Areas.Admin.Models
 {
     public class UpdateTeacherModel:TeacherDto
     {
-        [Required]
-        public IFormFile Image { get; set; }
+        [Display(Name = "تصویر")]
+        public IFormFile? Image { get; set; }
     }
 }

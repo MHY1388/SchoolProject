@@ -10,17 +10,17 @@ namespace UtilitesLayer.DTOs.Category
 {
     public class CreateCategoryDto
     {
-        [Required, Display(Name = "نام")]
+        [Required(ErrorMessage = "{0} اجباری است"), Display(Name = "نام")]
         public string Name { get; set; }
-        [Required, Display(Name = "اسلاگ")]
+        [Required(ErrorMessage = "{0} اجباری است"), Display(Name = "اسلاگ")]
         public string Slug { get; set; }
     }
 
     public class CategoryDto:BaseDto
     {
-        [Required, Display(Name = "نام")]
+        [Required(ErrorMessage = "{0} اجباری است"), Display(Name = "نام")]
         public string Name { get; set; }
-        [Required, Display(Name = "نام")]
+        [Required(ErrorMessage = "{0} اجباری است"), Display(Name = "نام")]
         public string Slug { get; set; }
         public ICollection<DataLayer.Entities.Post>? Posts { get; set; }
         [Display(Name = "حذف شده")]
