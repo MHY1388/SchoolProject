@@ -21,6 +21,7 @@ namespace UtilitesLayer.Services
         private ICategoryServices _categoryServices;
         private IUserService userService;
         private IClassService classService;
+        private ILessonService lessonService;
         private IPresenceService presenceService;
         private ISectionService sectionService;
         private ITeacherService teacherService;
@@ -54,6 +55,18 @@ namespace UtilitesLayer.Services
                 }
 
                 return teacherService;
+            }
+        }
+        public ILessonService Lessons
+        {
+            get
+            {
+                if (lessonService is null)
+                {
+                    lessonService = new LessonService(_context);
+                }
+
+                return lessonService;
             }
         }
         public IUserService Users

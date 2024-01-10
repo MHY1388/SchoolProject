@@ -1,0 +1,10 @@
+﻿@model CreateLessonModel
+
+@{
+}
+
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    @Html.EditorFor(a=>a.Name)
+    <input value="ایجاد" type="submit" class="btn btn-success"/>
+</form>

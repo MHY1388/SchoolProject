@@ -1,9 +1,21 @@
 ﻿using System.Linq.Expressions;
 using UtilitesLayer.DTOs.Global;
 using UtilitesLayer.Utilities;
+using static Amazon.S3.Util.S3EventNotification;
 
 namespace UtilitesLayer.Services;
-
+//public interface BaseInterface
+//{
+//    public Task<OperationResult> Create(object entity);
+//    public Task<OperationResult> Update(object entity);
+//    public Task<OperationResult> Delete(object entity);
+//    public Task<object> Get(int id);
+//    public Task<ICollection<object>> GetAll();
+//    public Task<Paggination<object>> GetPaggination(int size, int page = 1);
+//    public Task<Paggination<object>> GetPaggination(int size, Expression<Func<object, bool>> expression, int page = 1);
+//    public Task<object> Find(Expression<Func<object, bool>> expression);
+//    public Task<ICollection<object>> FindAll(Expression<Func<object, bool>> expression);
+//}
 public interface IGenericRepository<TEntity> where TEntity : class
 {
     public Task<OperationResult> Create(TEntity entity);
