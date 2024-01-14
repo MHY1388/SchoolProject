@@ -28,17 +28,18 @@
             @if (sign)
             {
 
-                @if (await userManager.IsInRoleAsync(user, DirectoryPath.AdminRole))
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Index", "Home")">
+                        <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons-round opacity-10">home</i>
+                        </div>
+                        <span class="nav-link-text me-1">خانه</span>
+                    </a>
+                </li>
+
+                @if (await userManager.IsInRoleAsync(user, DirectoryPath.AdminRole) || await userManager.IsInRoleAsync(user, DirectoryPath.ManagerRole))
                 {
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Index", "Home")">
-                            <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons-round opacity-10">home</i>
-                            </div>
-                            <span class="nav-link-text me-1">خانه</span>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link " href="@Url.Action("Index", "Post")">
                             <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
@@ -90,13 +91,13 @@
                     <li class="nav-item">
                         <a class="nav-link " href="@Url.Action("Index", "Lesson")">
                             <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons-round opacity-10">lesson</i>
+                                <i class="material-icons-round opacity-10">book</i>
                             </div>
                             <span class="nav-link-text me-1">درس ها</span>
                         </a>
                     </li>
                 }
-                else
+                else if (await userManager.IsInRoleAsync(user, DirectoryPath.ClassRole))
                 {
                     <li class="nav-item">
                         <a class="nav-link " href="@Url.Action("Index", "Presence")">
@@ -104,6 +105,25 @@
                                 <i class="material-icons-round opacity-10">school</i>
                             </div>
                             <span class="nav-link-text me-1">روز ها</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="@Url.Action("Index", "HomeWork")">
+                            <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons-round opacity-10">edit</i>
+                            </div>
+                            <span class="nav-link-text me-1">تکالیف</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link " href="@Url.Action("Index", "HomeWork")">
+                            <div class="text-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                <i class="material-icons-round opacity-10">edit</i>
+                            </div>
+                            <span class="nav-link-text me-1">تکالیف</span>
                         </a>
                     </li>
                 }

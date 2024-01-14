@@ -5,7 +5,7 @@ using WebLayer.Areas.Admin.Models;
 
 namespace WebLayer.Areas.Admin.Controllers
 {
-    [Authorize(Roles = DirectoryPath.AdminRole+","+DirectoryPath.ClassRole)]
+    [Authorize]
     public class HomeController : BaseController
     {
         public IActionResult Index()

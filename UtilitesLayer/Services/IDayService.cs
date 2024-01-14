@@ -57,14 +57,6 @@ namespace UtilitesLayer.Services
 
         public async Task<OperationResult> DeleteDay(int DayId)
         {
-            //foreach (var item in db..Where(a => a.ClassId == classId))
-            //{
-            //    item.ClassId = null;
-            //    await userManager.UpdateAsync(item);
-            //}
-
-            // TODO: حذف کردن همه روز ها و حضور و غیاب های مرتبط
-
             return await db.Delete(DayId);
         }
 

@@ -39,6 +39,7 @@ namespace WebLayer.Pages
             RelatedPosts = Posts.Where(a=>a.CategoryID == Post.CategoryID)
                 .OrderByDescending(a=>a.Visit).Take(6).ToList();
             Categories = db.Categories.GetCategories();
+            ViewData["title"] = Post.Name;
             return Page();
         }
     }

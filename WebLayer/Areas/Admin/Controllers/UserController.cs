@@ -118,7 +118,7 @@ namespace WebLayer.Areas.Admin.Controllers
             ViewData["title"] = "ورود";
             if (!ModelState.IsValid) { this.IsRedirect(); return View(model); }
             User? user =await userManager.FindByNameAsync(model.UserName);
-            if(user == null || await userManager.IsInRoleAsync(user,DirectoryPath.UserRole))
+            if(user == null)
             {
                 ModelState.AddModelError("", "نام کاربری یا رمز عبور اشتباه است");
                 return View(model);

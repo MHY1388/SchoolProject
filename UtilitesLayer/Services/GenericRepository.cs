@@ -279,6 +279,75 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     {
         return await _dbContext.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(a=>a.Id==id);
     }
+
+    public async Task<Paggination<TEntity>> GetPagginationWithIncludeSort(int size, List<Expression<Func<TEntity, dynamic>>> includes, Expression<Func<TEntity, dynamic>> sort, bool bigger, int page = 1)
+    {
+        var skip = (page - 1) * size;
+        var dbSet = _dbContext.Set<TEntity>();
+        IIncludableQueryable<TEntity, object> x = null;
+        foreach (var include in includes)
+        {
+            if (x is null)
+            {
+                x = dbSet.Include(include);
+
+            }
+            else
+            {
+                x = x.Include(include);
+            }
+        }
+
+        var data = x.AsQueryable();
+        if (bigger)
+        {
+            data = data.OrderByDescending(sort);
+        }
+        else
+        {
+            data = data.OrderBy(sort);
+        }
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<TEntity> result = await data.Skip(skip).Take(size).ToListAsync();
+
+        return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+
+    }
+
+    public async Task<Paggination<TEntity>> GetPagginationWithIncludeSort(int size, Expression<Func<TEntity, bool>> expression, List<Expression<Func<TEntity, dynamic>>> includes, Expression<Func<TEntity, dynamic>> sort, bool bigger, int page = 1)
+    {
+        var skip = (page - 1) * size;
+        var dbSet = _dbContext.Set<TEntity>();
+        IIncludableQueryable<TEntity, object> x = null;
+        foreach (var include in includes)
+        {
+            if (x is null)
+            {
+                x = dbSet.Include(include);
+
+            }
+            else
+            {
+                x = x.Include(include);
+            }
+        }
+        var data = x.Where(expression).AsQueryable();
+        if (bigger)
+        {
+            data = data.OrderByDescending(sort);
+        }
+        else
+        {
+            data = data.OrderBy(sort);
+        }
+        var count = data.Count();
+        var pages = (int)Math.Round((decimal)count / size, MidpointRounding.ToPositiveInfinity);
+        List<TEntity> result = await data.Skip(skip).Take(size).ToListAsync();
+
+        return new Paggination<TEntity>() { CurrentPage = page, GetSize = size, Objects = result, PageCount = pages };
+
+    }
 }
 public static class GenericRepositoryStatic
 {

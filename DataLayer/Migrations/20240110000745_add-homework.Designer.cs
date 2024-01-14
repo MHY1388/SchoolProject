@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebLayer.Data;
 
@@ -11,9 +12,11 @@ using WebLayer.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240110000745_add-homework")]
+    partial class addhomework
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,9 +119,6 @@ namespace DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -143,8 +143,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
 
                     b.HasIndex("LessonId");
 
@@ -366,9 +364,6 @@ namespace DataLayer.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LessonId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -385,8 +380,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LessonId");
 
                     b.ToTable("Teachers");
                 });
@@ -593,19 +586,11 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.Entities.HomeWork", b =>
                 {
-                    b.HasOne("DataLayer.Entities.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DataLayer.Entities.Lesson", "Lesson")
                         .WithMany()
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Class");
 
                     b.Navigation("Lesson");
                 });
@@ -649,15 +634,6 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Day");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.Teacher", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Lesson", "TeacherLesson")
-                        .WithMany("Teachers")
-                        .HasForeignKey("LessonId");
-
-                    b.Navigation("TeacherLesson");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>
@@ -739,11 +715,6 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Entities.Day", b =>
                 {
                     b.Navigation("Sections");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.Lesson", b =>
-                {
-                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Role", b =>

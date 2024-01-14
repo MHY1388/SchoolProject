@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebLayer.Data;
 
@@ -11,9 +12,11 @@ using WebLayer.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240110133933_complate-homework-entity")]
+    partial class complatehomeworkentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -366,9 +369,6 @@ namespace DataLayer.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("LessonId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -385,8 +385,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LessonId");
 
                     b.ToTable("Teachers");
                 });
@@ -651,15 +649,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Day");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Teacher", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Lesson", "TeacherLesson")
-                        .WithMany("Teachers")
-                        .HasForeignKey("LessonId");
-
-                    b.Navigation("TeacherLesson");
-                });
-
             modelBuilder.Entity("DataLayer.Entities.User", b =>
                 {
                     b.HasOne("DataLayer.Entities.Class", "UserClass")
@@ -739,11 +728,6 @@ namespace DataLayer.Migrations
             modelBuilder.Entity("DataLayer.Entities.Day", b =>
                 {
                     b.Navigation("Sections");
-                });
-
-            modelBuilder.Entity("DataLayer.Entities.Lesson", b =>
-                {
-                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Role", b =>

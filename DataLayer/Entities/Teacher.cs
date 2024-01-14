@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,5 +21,8 @@ namespace DataLayer.Entities
         public bool PublicPhoneNumber { get; set; } = true;
         [Required]
         public string FileName { get; set; }
+        public int? LessonId { get; set; }
+        [ForeignKey(nameof(LessonId))]
+        public Lesson? TeacherLesson { get; set; }
     }
 }

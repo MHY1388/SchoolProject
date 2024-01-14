@@ -1,0 +1,35 @@
+﻿@model HomeWorkDto
+@using UtilitesLayer.DTOs.HomeWork
+@using DataLayer.Entities
+@{
+}
+
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    @Html.EditorFor(a => a.Description)
+    @Html.EditorFor(a => a.LastTimeStr)
+    <div class="input-group input-group-outline mb-2">
+
+
+        <label asp-for="@Model.LessonId">درس</label>
+        <select class="form-control" asp-for="@Model.LessonId">
+            <option>انتخاب کنید</option>
+            @foreach (var item in ViewData["Lessons"] as List<Lesson>)
+            {
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+    </div>
+    <div class="input-group input-group-outline mb-2">
+
+        <label asp-for="@Model.Type">نوع</label>
+        <select class="form-control" asp-for="@Model.Type">
+            <option>انتخاب کنید</option>
+            <option value="homework">تکلیف</option>
+            <option value="test">امتحان</option>
+            <option value="optional">اختیاری</option>
+            <option value="question">پرسش</option>
+        </select>
+    </div>
+    <input value="بروزرسانی" type="submit" class="btn btn-success" />
+</form>

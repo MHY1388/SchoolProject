@@ -33,6 +33,7 @@
                 </div>
             </div>
         </nav>
+        <img class="responsive-img " style="width: 100%;" src="@tool.GeneratePreSignedUrl(Model.Post.ImagePath,DirectoryPath.BucketName)">
         <small class="left valign-wrapper m20"><i class="material-icons">history</i>@Model.Post.Updated?.PersianDate()</small> <small class="left valign-wrapper m20"><i class="material-icons">list</i><a asp-page="Blog" asp-route-category="@Model.Post.Category.Slug">@Model.Post.Category.Name</a></small> <small class="left valign-wrapper m20"><i class="material-icons">visibility</i>@Model.Post.Visit</small><h2 dir="rtl" class="right">@Model.Post.Name</h2>
         <div class="clear-fix"></div>
         <div dir="rtl">

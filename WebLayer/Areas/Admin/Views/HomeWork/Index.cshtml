@@ -1,0 +1,125 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var now = DateTime.Now;
+    int? classid = ViewData["classId"] as int?;
+    var user = await userManager.GetUserAsync(User);
+    var role = await userManager.IsInRoleAsync(user,DirectoryPath.ManagerRole) || await userManager.IsInRoleAsync(user,DirectoryPath.AdminRole) || await userManager.IsInRoleAsync(user,DirectoryPath.ClassRole);
+}
+
+@model UtilitesLayer.DTOs.Global.Paggination<UtilitesLayer.DTOs.HomeWork.HomeWorkDto>
+@inject UtilitesLayer.Services.UnitOfWork db
+@inject UserManager<User> userManager
+<div class="row">
+    <div class="col-12">
+        @if (role)
+        {
+        <a href="@Url.Action("Add", new{classId=ViewData["classId"]})" class="btn btn-success">ایجاد</a>   
+            
+        }
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-success shadow-primary border-radius-lg pt-4 pb-3 px-5">
+                    <h2 class="text-white text-capitalize ps-3 ">تکالیف</h2>
+                    <form>
+                        <input type="hidden" id="classId" name="classId" value="@classid" />
+                        <div class="row align-items-center">
+
+                            <div class="col-3 pb-2">
+                                <div class="input-group input-group-outline m-0">
+                                    <label class="form-label" style="color: white;">روز</label>
+                                    <input type="text" class="form-control" id="day" name="day" onfocus="focused(this)" onfocusout="defocused(this)">
+                                </div>
+                            </div>
+                            <div class="col-3 pb-2">
+                                <div class="input-group input-group-outline m-0">
+                                    <label class="form-label" style="color: white;">ماه</label>
+                                    <input type="text" class="form-control" id="month" name="month" onfocus="focused(this)" onfocusout="defocused(this)">
+                                </div>
+                            </div>
+                            <div class="col-3 pb-2">
+                                <div class="input-group input-group-outline m-0">
+                                    <label class="form-label" style="color: white;">سال</label>
+                                    <input type="text" class="form-control" id="year" name="year" onfocus="focused(this)" onfocusout="defocused(this)">
+                                </div>
+                            </div>
+                            <div class="col-3 pb-2">
+                                <div class="form-check is-filled">
+                                    <label class="form-check-label" style="color: white;" for="after">بزرگ تر از این تاریخ</label>
+                                    <input type="checkbox" class="form-check-input" data-val="true" id="after" name="after" value="true">
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="input-group input-group-outline m-0">
+                                    <label class="form-label" style="color: white;">درس</label>
+                                    <input type="text" class="form-control" id="title" name="title" onfocus="focused(this)" onfocusout="defocused(this)">
+                                </div>
+                            </div>
+                            <div class="col-4">
+
+                                <input type="submit" value="جستجو" class="btn btn-primary m-0" />
+                            </div>
+
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+                <div class="table-responsive p-0">
+                    <table class="table align-items-center mb-0">
+                        <thead>
+                            <tr>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">توضیحات</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">زمان تحویل</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">آخرین بروزرسانی</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نوع</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">درس</th>
+                                <th class="text-secondary opacity-7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var i in Model.Objects)
+                            {
+                                <tr>
+                                    <td>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Description</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.LastTime.PersianDateText(false)</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Updated?.PersianDateText(true)</p>
+                                    </td>
+                                    
+                                    <td>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Type.HomeWorkTypeToString()</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Lesson?.Name</p>
+                                    </td>
+
+                                    <td class="align-middle">
+                                        @if(role){
+                                            
+                                        <a asp-action="Update" asp-route-id="@i.Id" asp-route-classId="@ViewData["classId"]" class="btn btn-secondary font-weight-bold text-xs mx-2">
+                                            ویرایش
+                                        </a>
+                                        <button onclick="deleteItem('@Url.Action("Delete","HomeWork",new{id=i.Id})')" class="btn btn-danger font-weight-bold text-xs mx-2">
+                                            حذف
+                                        </button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_Paggination", new PagginationDto(){CurrentPage=Model.CurrentPage, PageCount= Model.PageCount, GetSize=Model.GetSize, ObjectsCount=Model.Objects.Count()})

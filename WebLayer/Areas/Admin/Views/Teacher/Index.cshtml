@@ -43,6 +43,7 @@
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">توضیحات</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">شماره تماس</th>
                                 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">نمایش شماره تماس</th>
+                                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">درس</th>
                                 <th class="text-secondary opacity-7"></th>
                             </tr>
                         </thead>
@@ -70,6 +71,9 @@
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <span class="badge badge-sm bg-gradient-@(!i.PublicPhoneNumber?"danger":"success")"> </span>
+                                    </td>
+                                    <td class="align-middle text-center ">
+                                        <p class="text-xs">@i.LessonId</p>
                                     </td>
                                     <td class="align-middle">
                                         <a asp-action="Update" asp-route-id="@i.Id" class="btn btn-secondary font-weight-bold text-xs mx-2">

@@ -47,6 +47,7 @@ namespace WebLayer.Areas.Admin.Controllers
         // GET: TeacherController/Add
         public IActionResult Add()
         {
+            ViewData["Lessons"] = db.Lessons.GetAll().Result;
             return View();
         }
 
@@ -55,6 +56,8 @@ namespace WebLayer.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(CreateTeacherDto model)
         {
+            ViewData["Lessons"] = db.Lessons.GetAll().Result;
+
             try
             {
                 if (!ModelState.IsValid) { IsRedirect();return View(model); }
@@ -85,6 +88,7 @@ namespace WebLayer.Areas.Admin.Controllers
         // GET: TeacherController/Edit/5
         public IActionResult Update(int id)
         {
+            ViewData["Lessons"] = db.Lessons.GetAll().Result;
             TeacherDto data = db.Teachers.GetTecher(id).Result;
             if (data == null) { return NotFound(); }
             IsRedirect();
@@ -97,6 +101,7 @@ namespace WebLayer.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int id, UpdateTeacherModel model)
         {
+            ViewData["Lessons"] = db.Lessons.GetAll().Result;
             try
             {
                 if (!ModelState.IsValid) { IsRedirect(); return View(model); }
@@ -107,7 +112,6 @@ namespace WebLayer.Areas.Admin.Controllers
                     return View(model);
                 }
                 string imagename;
-                // TODO:save image
                 var OrginalTeacher = await db.Teachers.GetTecher(id);
                 if(model.Image is null)
                 {

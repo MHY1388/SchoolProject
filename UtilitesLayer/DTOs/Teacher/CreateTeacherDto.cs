@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DataLayer.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,8 @@ namespace UtilitesLayer.DTOs.Teacher
         public bool PublicPhoneNumber { get; set; } = true;
         [Required(ErrorMessage = "{0} اجباری است"), Display(Name = ":تصویر")]
         public IFormFile Image { get; set; }
+        [AllowNull]
+        public int? LessonId { get; set; }
     }
     public class TeacherDto : BaseDto
     {
@@ -36,5 +40,8 @@ namespace UtilitesLayer.DTOs.Teacher
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "{0} اجباری است"), Display(Name ="نمایش عمومی شماره تلفن")]
         public bool PublicPhoneNumber { get; set; } = true;
+        [AllowNull]
+        public int? LessonId { get; set; }
+        public Lesson? Lesson { get; set; }
     }
 }

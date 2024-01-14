@@ -32,6 +32,15 @@
                         {
                             <li><a asp-action="index" style="margin-left:4px;" asp-controller="Home" asp-area="Admin">پنل ادمین</a></li>
                         }
+                        else
+                        {
+                            <li><a asp-action="index" style="margin-left:4px;" asp-controller="Home" asp-area="Admin">کلاس من</a></li>
+                        }
+                    }
+                    else
+                    {
+                    <li><a asp-action="login" style="margin-left:4px;" asp-controller="User" asp-area="Admin">ورود</a></li>
+
                     }
                     <li><a asp-page="Blog">اخبار</a></li>
                     <li><a asp-page="Index">خانه</a></li>
@@ -68,7 +77,16 @@
             {
                 <li class="m-5 center"><a class="btn btn-success"  asp-action="index" asp-controller="Home" asp-area="Admin">پنل ادمین</a></li>
             }
+            else
+            {
+                <li class="m-5 center"><a class ="btn btn-success" asp-action="index" style="margin-left:4px;" asp-controller="Home" asp-area="Admin">کلاس من</a></li>
+            }
             <li class="block" style="margin:15px;"><button class="btn btn-danger" style="display:block; width:100%" onclick="Question('/admin/user/logout', 'خروح از حساب کاربری','ایا از خروج مطمئن هستید')">خروج</button></li>
+
+        }
+        else
+        {
+            <li class="m-5 center"><a class="btn btn-success" asp-action="login" style="margin-left:4px;" asp-controller="User" asp-area="Admin">ورود</a></li>
 
         }
        

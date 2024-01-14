@@ -19,6 +19,7 @@ namespace UtilitesLayer.Services
         private IDayService dayService;
         private IPostServices _postServices;
         private ICategoryServices _categoryServices;
+        private IHomeWorkService _homeWorkService;
         private IUserService userService;
         private IClassService classService;
         private ILessonService lessonService;
@@ -43,6 +44,18 @@ namespace UtilitesLayer.Services
                 }
 
                 return _postServices;
+            }
+        }
+        public IHomeWorkService HomeWorks
+        {
+            get
+            {
+                if (_homeWorkService is null)
+                {
+                    _homeWorkService = new HomeWorkService(_context);
+                }
+
+                return _homeWorkService;
             }
         }
         public ITeacherService Teachers
