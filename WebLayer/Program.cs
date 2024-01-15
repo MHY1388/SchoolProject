@@ -22,10 +22,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddIdentity<User, Role>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
-        options.Password.RequireDigit = true;
+        options.Password.RequireDigit = false;
         options.Password.RequireNonAlphanumeric = false;
         options.Password.RequiredLength = 4;
-        options.Password.RequiredUniqueChars = 2;
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
         options.ClaimsIdentity.EmailClaimType = ClaimTypes.Email;
         options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
         options.Lockout.AllowedForNewUsers = false;
@@ -39,7 +41,7 @@ builder.Services.TryAddScoped<SignInManager<User>>();
 builder.Services.TryAddScoped<RoleManager<Role>>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.AccessDeniedPath = "/Errors/500";
+    options.AccessDeniedPath = "/Error/500";
     options.Cookie.Name = "SchoolWebsite";
     options.Cookie.HttpOnly = true;
     options.ExpireTimeSpan = TimeSpan.FromDays(3);

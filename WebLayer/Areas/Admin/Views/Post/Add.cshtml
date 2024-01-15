@@ -9,7 +9,7 @@
     @Html.EditorFor(a => a.Name, "String")
     @Html.EditorFor(a => a.Description)
     @Html.EditorFor(a => a.Slug)
-    <div class="input-group input-group-outline">
+    <div class="input-group input-group-dynamic">
         <label asp-for="CategoryID"></label>
         <select class="form-control" asp-for="CategoryID">
             <option value="">انتخاب کنید</option>

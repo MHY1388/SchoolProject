@@ -15,7 +15,7 @@ namespace UtilitesLayer.Utilities
         public const string MediaImagesContent = "ContentImage/";
         public const string BucketName = "schoolcontext";
         public const string AdminRole = "Admin";
-        public const string ManagerRole = "Admin";
+        public const string ManagerRole = "Manager";
         public const string UserRole = "User";
         public const string ClassRole = "Class";
         

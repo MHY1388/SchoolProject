@@ -142,7 +142,7 @@ namespace WebLayer.Areas.Admin.Controllers
             }
             if (ReturnUrl.IsNullOrEmpty() || !Url.IsLocalUrl(ReturnUrl))
             {
-                ReturnUrl = "/";
+                ReturnUrl = "/admin/";
             }
             return RedirectAndShowAlert(new UtilitesLayer.Utilities.OperationResult() { Status = UtilitesLayer.Utilities.OperationResultStatus.Success, Message = "ورود با موفقیت صورت گرفت ." }, Redirect(ReturnUrl));
         }
@@ -289,6 +289,13 @@ namespace WebLayer.Areas.Admin.Controllers
                 return RedirectAndShowAlert(OperationResult.Error(), RedirectToAction("Index"));
             }
         }
-
+        //public IActionResult ByManager()
+        //{
+        //    var result = userManager.CreateAsync(new() { UserName = "Manager", PhoneNumber = "09109664124" , FirstName="MH", LastName="Y",Number=0}, "1388W1388w@").Result;
+        //    var user = userManager.FindByNameAsync("Manager").Result;
+        //    var result2 = roleManager.CreateAsync(new() { Name = "Manager" }).Result;
+        //    var result3 = userManager.AddToRoleAsync(user, DirectoryPath.ManagerRole).Result;
+        //    return default;
+        //}
     }
 }

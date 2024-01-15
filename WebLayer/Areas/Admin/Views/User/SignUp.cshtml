@@ -20,16 +20,16 @@
 
                             @Html.EditorFor(a=>a.UserName,"String")
 
-                            <div class="input-group input-group-outline mb-3 " name="form">
-                                <label asp-for="@Model.Number" style="z-index:6000;" class="form-label">آمار</label>
-                                <input asp-for="@Model.Number" style="z-index:5500;" class="form-control">
+                            <div class="input-group input-group-dynamic mb-3 " name="form">
+                                <label asp-for="@Model.Number" style="color:blue;font-weight:bold;" class="form-label">آمار</label>
+                                <input asp-for="@Model.Number" class="form-control">
                             </div>
                             @Html.EditorFor(a=>a.PhoneNumber,"String")
                             @Html.EditorFor(a=>a.FirstName)
                             @Html.EditorFor(a=>a.LastName)
                             @Html.EditorFor(a=>a.Password,"String")
                             @Html.EditorFor(a=>a.RepetitionPassword, "String")
-                            <div class="input-group input-group-outline">
+                            <div class="input-group input-group-dynamic">
                                 <label asp-for="UserRole">نوع:</label><br />
                                 <select class="form-control" asp-for="UserRole">
                                     <option value="">انتخاب کنید</option>

@@ -19,16 +19,16 @@
                         <div asp-validation-summary="All"></div>
 
                         @Html.EditorFor(a=>a.UserName,"String")
-                        <div class="input-group input-group-outline mb-3 " name="form">
-                            <label asp-for="@Model.Number" style="z-index:6000;" class="form-label">آمار</label>
-                            <input asp-for="@Model.Number" style="z-index:5500;" class="form-control">
+                        <div class="input-group input-group-dynamic mb-3 " name="form">
+                            <label asp-for="@Model.Number" style="color:blue;font-weight:bold;" class="form-label">آمار</label>
+                            <input asp-for="@Model.Number" class="form-control">
                         </div>
                         @Html.EditorFor(a=>a.FirstName)
                         @Html.EditorFor(a=>a.LastName)
                         @Html.EditorFor(a=>a.PhoneNumber,"PhoneNumber")
                         @Html.EditorFor(a=>a.Password,"String")
                         @Html.EditorFor(a=>a.RepetitionPassword, "String")
-                        <div class="input-group input-group-outline">
+                        <div class="input-group input-group-dynamic">
                             <label asp-for="UserRole">نوع:</label><br />
                             <select class="form-control" asp-for="UserRole">
                                 <option value="">انتخاب کنید</option>
@@ -43,12 +43,6 @@
                             <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">@ViewData["submit_title"]</button>
                         </div>
                     </form>
-                </div>
-                <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                    <p class="mb-2 text-sm mx-auto">
-                        از قبل حساب داری؟
-                        <a asp-action="Login" class="text-primary text-gradient font-weight-bold">ورود</a>
-                    </p>
                 </div>
             </div>
         </div>
