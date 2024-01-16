@@ -6,98 +6,272 @@
 }
 @inject CloudTool tool
 @await Component.InvokeAsync("Slider", Model.Posts);
-<section class="container section">
-    <div class="row">
+ <section class="container section">
         <div class="col s12">
-            <ul class="tabs">
-                <li class="tab col s3">
-                    <a href="#test2">کادر</a>
-                </li>
-                <li class="tab col s3">
-                    <a class="active" href="#test1">درباره مدرسه</a>
-                </li>
-                <li class="tab col s3">
-                    <a href="#test4">موقعیت</a>
-                </li>
+
+          <div class="row center">
+            <ul id="fadding">
+              <li style="opacity: 0;">
+
+                <div class="col s12 m4"><img src="~/img/sampad.png" width="100%" alt=""><br>
+                  <h4 class="orange-text lighten-1">مدرسه تیزهوشان</h4>
+                </div>
+              </li>
+              <li style="opacity: 0;">
+
+                <div class="col s12 m4 offset-m4"><img src="~/img/GoodStudent.jpg" width="100%" alt=""><br>
+                  <h4 class="orange-text lighten-1">دانش اموزان نمونه</h4>
+                </div>
+              </li>
+              <li style="opacity: 0;">
+
+                <div class="col s12 m4 offset-m4"><img src="~/img/abzar.jpg" width="100%" alt=""><br>
+                  <h4 class="orange-text lighten-1">امکانات فراوان</h4>
+                </div>
+              </li>
             </ul>
+          </div>
+      </div>
+    </section>
+    <div class="parallax-container responsive-img">
+      <div class="parallax main-img">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
+      </div>
+    </div>
+    <section class="container section">
+      <div class="col s12">
+          <h3 class="center">امکانات</h3>
+
+          <ul id="hading" class="collapsible popout" dir="rtl">
+            <li style="opacity: 0;" class="active">
+              <div class="collapsible-header">کارگاه</div>
+              <div class="collapsible-body">
+                <div class="container"><span>کارگاه خیلی خوب</span><br><img src="~/img/redmi2.jpg"
+                    class="responsive-img" alt="" srcset=""></div>
+              </div>
+            </li>
+            <li style="opacity: 0;">
+              <div class="collapsible-header">ازمایشگاه</div>
+              <div class="collapsible-body">
+                <div class="container"><span>ازمایشگاه خیلی خوب</span><br><img src="~/img/redmi2.jpg"
+                    class="responsive-img" alt="" srcset=""></div>
+              </div>
+            </li style="opacity: 0;">
+            <li style="opacity: 0;">
+              <div class="collapsible-header">کتابخانه</div>
+              <div class="collapsible-body">
+                <div class="container"><span>کتابخانه خیلی خوب</span><br><img src="~/img/redmi2.jpg"
+                    class="responsive-img" alt="" srcset=""></div>
+              </div>
+            </li>
+          </ul>
+
         </div>
-        <div id="test1" class="col s12">
-            <br/>
-            <div class="row center">
-                <div class="col s12 m4"><img src="~/img/sampad.png" width="100%" alt=""><br><h4 class="orange-text lighten-1">مدرسه تیزهوشان</h4></div>
-                <div class="col s12 m4 offset-m4"><img src="~/img/GoodStudent.jpg"  width="100%" alt=""><br><h4 class="orange-text lighten-1">دانش اموزان نمونه</h4></div>
-                <div class="col s12 m4 offset-m4"><img src="~/img/abzar.jpg" width="100%"  alt=""><br><h4 class="orange-text lighten-1">امکانات فراوان</h4></div>
-            </div>
-            <h3 class="center">ویژگی ها</h3>
-
-            <ul class="collapsible popout">
-
-                <li class="active">
-                    <div class="collapsible-header"><i class="material-icons"></i>ازمایشگاه</div>
-                    <div class="collapsible-body container">
-                        <span>ازمایشگاه خیلی خوب</span><br><img src="/img/redmi2.jpg" class="responsive-img" alt="" srcset="">
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons"></i>ازمایشگاه</div>
-                    <div class="collapsible-body container">
-                        <span>ازمایشگاه خیلی خوب</span><br><img src="/img/redmi2.jpg" class="responsive-img" alt="" srcset="">
-                    </div>
-                </li>
-                <li>
-                    <div class="collapsible-header"><i class="material-icons"></i>ازمایشگاه</div>
-                    <div class="collapsible-body container">
-                        <span>ازمایشگاه خیلی خوب</span><br><img src="/img/redmi2.jpg" class="responsive-img" alt="" srcset="">
-                    </div>
-                </li>
-            </ul>
-
+      </section>
+      <div class="parallax-container responsive-img">
+        <div class="parallax main-img">
+          <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
         </div>
-        <div id="test2" class="col s12">
-            <ul dir="rtl" class="collection">
-                <li class="collection-header center">
-                    <h3>
+      </div>
+      <section class="section s12">
+        <ul id="scrool-u">
+          <div class="row">
+            <li style="opacity: 0;">
+              <div class="col s12 m4">
+                <p class="orange-text text-accent-4 center no-pad-bot" style="margin-bottom: 0;font-size: 70px;">%70 <span class="material-icons" style="font-size: 50px;">
+                  military_tech
+                  </span></p>
 
-                     کادر و معلمان مدرسه
-                    </h3>
-                </li>
-                @foreach(var item in Model.Teachers)
-                {
-                <li style="height:120px;" class="collection-item avatar">
-                        <img src="@tool.GeneratePreSignedUrl(item.FilePath, DirectoryPath.BucketName)" alt="@item.Name" style="width:100px;height: 100px;" class="circle">
+                    <p class="center  blue-text   m-zero p-zero" style="font-size: large;">بیش از 70% قبولی کنکور از مدارس استعداد های درخشانی همانند ماست.</p>
+                  </div>
+              </li>
+              <li style="opacity: 0;">
+                <div class="col s12 m4">
+                <p class="green-text text-accent-4 center no-pad-bot" style="margin-bottom: 0;font-size: 70px;">+11 <span class="material-icons" style="font-size: 50px;">
+                  history
+                  </span></p>
+
+                    <p class="center  blue-text  m-zero p-zero" style="font-size: large;">بیش از 11 سال سابقه پرورش بهترین های استان</p>
+                </div>
+              </li>
+              <li style="opacity: 0;">
+                <div class="col s12 m4">
+                <p class="yellow-text text-accent-4 center no-pad-bot" style="margin-bottom: 0;font-size: 70px;">+30 <span class="material-icons" style="font-size: 50px;">
+                  person
+                  </span></p>
+
+                <p class="center blue-text m-zero p-zero" style="font-size: large;">بیش از 30 استاد با مدارک دکترا و ارشد</p>
+              </div>
+              </li>
+          </div>
+        </ul>
+      </section>
+      <div class="parallax-container responsive-img">
+        <div class="parallax main-img">
+          <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
+        </div>
+      </div>
+      <section class="container section">
+        <div class="col s12">
+
+          <h3 class="center">کادر و معلمان مدرسه</h3>
+
+          <ul dir="rtl" id="mading" class="collection">
+
+            @foreach (var item in Model.Teachers)
+            {
+                <li style="height:120px;opacity:0;" class="collection-item avatar">
+                    <img src="@tool.GeneratePreSignedUrl(item.FilePath, DirectoryPath.BucketName)" alt="@item.Name" style="width:100px;height: 100px;" class="circle">
                     <span class="title"><b>@item.Name</b></span>
                     <p style="padding-top:10px;">
                         @item.Doc<br>
                         <b>@item.Description</b><br>
-                            @if (item.PublicPhoneNumber)
-                            {
+                        @if (item.PublicPhoneNumber)
+                        {
                             <i>@item.PhoneNumber</i>
-                            }
+                        }
                     </p>
                 </li>
-                }
-            </ul>
-        </div>
-    </div>
-    <div id="test4" class="col s12">
-        <h3 class="center">عکس ها</h3>
+            }
+          </ul>
 
-        <div class="carousel">
-            <a class="carousel-item" href="#one!">
-                <img src="/img/redmi2.jpg">
-            </a>
-            <a class="carousel-item" href="#two!">
-                <img src="/img/redmi2.jpg">
-            </a>
-            <a class="carousel-item" href="#three!">
-                <img src="/img/redmi2.jpg">
-            </a>
-            <a class="carousel-item" href="#four!">
-                <img src="/img/redmi2.jpg">
-            </a>
-            <a class="carousel-item" href="#five!">
-                <img src="/img/redmi2.jpg">
-            </a>
         </div>
-    </div>
 </section>
+<div class="parallax-container responsive-img">
+  <div class="parallax main-img">
+    <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
+  </div>
+</div>
+<section class="container section">
+  <h3 class="center">سازنده</h3>
+  <ul id="builder">
+      <li style="opacity: 0;">
+        <img src="https://www.samair.ir/wp-content/uploads/2021/01/%D8%AF%DA%A9%D8%AA%D8%B1-%D8%AE%D8%B1%D9%85%DB%8C.gif" class="responsive-img" style="border-radius: 10px;">
+
+      </li>
+      <li style="opacity: 0;">
+        <p class="bold" style="font-size: medium;text-align:right">دکتر مهدی خرمی روز دقت یک مهندس را با روح هنری یک معمار ترکیب کرده و یک گرایش جدیدی در طراحی شروع کرد که به ظرافت معماری توجه ویژه ای می کند و یک شاهکار عالی در مرحله ساخت و ساز دارد ، توجه ویژه او به جزئیات و علاقه اش به ساخت و ساز ساختمانهای لوکس بسیار قابل تحسین است و ایشان پروژه های ساختمانی خود را بصورت عالی تمام می کند.
+          دکتر مهدی خرمی روز در امتحان ورودی ملی دانشگاه های ایران رتبه ۱۹ را گرفته و لیسانس خود را در دانشگاه شریف به پایان رسانده و بعداز مدتی کارشناسی ارشد خود را از دانشگاه تهران گرفت، سپس او تحصیلاتش را برای دکترا در لندن ادامه داد که به دانشگاه تهران بعنوان دانشجوی دکترای معماری انتقال داد . ایشان صاحب شرکت پارامیس همچنین خیر و سازنده این مدرسه است.</p>
+      </li>
+  </ul>
+</section>
+<div class="parallax-container responsive-img">
+  <div class="parallax main-img">
+    <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
+  </div>
+</div>
+<section class="container section">
+
+        <div class="col s12">
+
+          <h3 class="center">عکس ها</h3>
+          <div class="row no-pad" style="width: 100%;">
+            <ul id="img-ga">
+
+              <li style="opacity: 0;">
+                <div class="col s12 m6 l6 m-zero p-zero"><img alt="" class="card responsive-img " src="https://i.postimg.cc/dQpfBv4g/1.jpg"></div>
+              </li>
+              
+              <li style="opacity: 0;">
+                <div class="col s12  m6 l6  m-zero p-zero"><img alt="" class="card responsive-img " src="https://i.postimg.cc/qvXZ4K4d/2.jpg"></div>
+              </li>
+              
+              <li style="opacity: 0;">
+                <div class="col s12 m6 l12 offset-l3 m-zero p-zero"><img alt="" class="card responsive-img " src="https://i.postimg.cc/BngNdGBS/4.jpg"></div>
+              </li>
+              
+              <li style="opacity: 0;">
+                <div class="col s12 m6 l3  m-zero p-zero"><img alt="" class="card responsive-img " src="https://i.postimg.cc/Mpdb9mzX/5.jpg"></div>
+              </li>
+              
+              <li style="opacity: 0;">
+                <div class="col s12 m6 l3 m-zero p-zero"><img alt="" class="card responsive-img " src="https://i.postimg.cc/Rh7wKcPS/6.jpg"></div>
+              </li>
+              
+              <li style="opacity: 0;">
+                <div class="col s12 m6 l3 m-zero p-zero"><img alt="" class="card responsive-img " src="https://i.postimg.cc/Rh7wKcPS/6.jpg"></div>
+              </li>
+              
+              <li style="opacity: 0;">
+                <div class="col s12 m6 l3 m-zero p-zero"><img alt="" class="card responsive-img " src="https://i.postimg.cc/Rh7wKcPS/6.jpg"></div>
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+  </section>
+    <div class="parallax-container responsive-img">
+    <div class="parallax main-img">
+      <img src="https://lh3.googleusercontent.com/p/AF1QipO9LPT7uq2oWyVnshIQCsOWJ6FyARUMpi3i451-=s680-w680-h510">
+    </div>
+  </div>
+  <section class="container section"dir="rtl">
+
+    <div class="col s12">
+      <h3 class="center">ارتباط با ما</h3>
+      <ul id="information">
+        <li style="opacity: 0;" dir="rtl" class="right-text ">
+          <div class="row">
+
+            <div class="col s12 l6 offset-l6">
+
+              <p style="font-size: xx-large;"><i class="material-icons red-text"  style="font-size: 50px;">pin_drop</i><b>موقیت:</b> قم، خیابان یادگار امام ، کوچه 64</p>
+
+            </div>
+          </div>
+        </li>
+        <li style="opacity: 0;" dir="rtl" class="right-text">
+          <div class="row">
+
+            <div class="col s12 l6 offset-l3">
+
+              <p style="font-size: xx-large;"><i class="material-icons green-text"  style="font-size: 50px;">phone</i><b>تلفن:</b> 021215465656</p>
+
+            </div>
+          </div>
+        </li>
+        <li style="opacity: 0;" dir="rtl" class="right-text ">
+          <div class="row">
+
+            <div class="col s12 l6">
+
+              <p style="font-size: xx-large;"><i class="material-icons blue-text"  style="font-size: 50px;">schedule</i><b>ساعت کاری:</b> در طول هفته از ساعت 7 تا 3 و اخر هفته ها 9 تا 12</p>
+
+            </div>
+          </div>
+        </li>
+        <li style="opacity: 0;" dir="rtl" class="right-text">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d809.3934499295216!2d50.839417567459314!3d34.62904464880546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f93a4ae44b721bf%3A0xeb309ec93a55d59d!2z2K_YqNuM2LHYs9iq2KfZhiDYr9qp2KrYsSDYrtix2YXbjA!5e0!3m2!1sfa!2sno!4v1705385371554!5m2!1sfa!2sno" height="600" style="border:0;width:100%" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </li>
+      </ul>
+    </div>
+  </section>
+@section Scripts{
+
+    <script src="~/js/js.js"></script>
+      
+}
+@* <ul dir="rtl" class="collection">
+    <li class="collection-header center">
+        <h3>
+
+            
+        </h3>
+    </li>
+    @foreach (var item in Model.Teachers)
+    {
+        <li style="height:120px;opacity:0;" class="collection-item avatar">
+            <img src="@tool.GeneratePreSignedUrl(item.FilePath, DirectoryPath.BucketName)" alt="@item.Name" style="width:100px;height: 100px;" class="circle">
+            <span class="title"><b>@item.Name</b></span>
+            <p style="padding-top:10px;">
+                @item.Doc<br>
+                <b>@item.Description</b><br>
+                @if (item.PublicPhoneNumber)
+                {
+                    <i>@item.PhoneNumber</i>
+                }
+            </p>
+        </li>
+    }
+</ul> *@
