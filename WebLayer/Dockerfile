@@ -23,4 +23,5 @@ RUN dotnet publish "./WebLayer.csproj" -c $BUILD_CONFIGURATION -o /app/publish /
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+CMD ["dotnet","ef", "database", "update"]
 ENTRYPOINT ["dotnet", "WebLayer.dll"]
