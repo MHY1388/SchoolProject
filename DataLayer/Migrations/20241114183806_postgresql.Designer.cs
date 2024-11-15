@@ -12,7 +12,7 @@ using WebLayer.Data;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241114165513_postgresql")]
+    [Migration("20241114183806_postgresql")]
     partial class postgresql
     {
         /// <inheritdoc />
