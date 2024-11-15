@@ -59,7 +59,7 @@ builder.Services.AddScoped<CloudTool, CloudTool>();
 builder.Services.AddScoped<FileManager, FileManager>();
 builder.Services.AddRazorPages();
 var app = builder.Build();
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
@@ -67,7 +67,7 @@ var app = builder.Build();
 //}
 //else
 //{
-    app.UseStatusCodePagesWithReExecute("/Error/{0}");
+app.UseStatusCodePagesWithReExecute("/Error/{0}");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 //}
