@@ -26,12 +26,26 @@ namespace UtilitesLayer.Services
         private IPresenceService presenceService;
         private ISectionService sectionService;
         private ITeacherService teacherService;
+        private IUploadedFileService uploadedFileService;
+
 
         public UnitOfWork(ApplicationDbContext context, FileManager fileManager, Microsoft.AspNetCore.Identity.UserManager<DataLayer.Entities.User> userManager)
         {
             _context = context;
             this.fileManager = fileManager;
             this.userManager = userManager;
+        }
+        public IUploadedFileService UploadedFiles
+        {
+            get
+            {
+                if (uploadedFileService is null)
+                {
+                    uploadedFileService = new UploadedFileService(_context, fileManager);
+                }
+
+                return uploadedFileService;
+            }
         }
 
         public IPostServices Posts
