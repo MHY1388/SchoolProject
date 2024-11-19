@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using UtilitesLayer.DTOs.Teacher;
 using UtilitesLayer.Services;
 using UtilitesLayer.Utilities;
 using WebLayer.Areas.Admin.Models;
@@ -8,7 +9,7 @@ using WebLayer.Areas.Admin.Models;
 namespace WebLayer.Areas.Admin.Controllers
 {
     [Authorize(DirectoryPath.AdminRole)]
-    public class UploadedFileController : Controller
+    public class UploadedFileController : BaseController
     {
         private readonly UnitOfWork db;
 
@@ -38,6 +39,45 @@ namespace WebLayer.Areas.Admin.Controllers
 
             }
             return View(data);
+        }
+        public IActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(UploadedFileModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid) { IsRedirect(); return View(model); }
+                if (db.UploadedFiles.NameExists(model.Name).Result) { ModelState.AddModelError("Name", "این نام کاربری از قبل وجود دارد"); IsRedirect(); View(model); }
+                var result = await db.UploadedFiles.UploadFile(model.Name,model.File);
+                if (result.Status == OperationResultStatus.Success)
+                {
+                    await db.SaveChangesAsync();
+                    return RedirectAndShowAlert(OperationResult.Success(), RedirectToAction(nameof(Index)));
+                }
+                else
+                {
+                    return RedirectAndShowAlert(OperationResult.Error(), RedirectToAction(nameof(Index)));
+                }
+            }
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "عملیات شکست خورد");
+                return View(model);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int Id)
+        {
+
+            var result = await db.UploadedFiles.DeleteFile(Id);
+            await db.SaveChangesAsync();
+            var a = Json(new { Status = (int)result.Status, Message = result.Message, Title = (result.Status == OperationResultStatus.Success ? "موفق" : "خطا"), IsReloadPage = true });
+            return a;
+
         }
     }
 }

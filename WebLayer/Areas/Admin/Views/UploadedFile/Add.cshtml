@@ -1,0 +1,12 @@
+﻿@model UploadedFileModel
+
+@{
+}
+<form method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All"></div>
+    @Html.EditorFor(a => a.Name)
+
+    @Html.EditorFor(a => a.File)
+
+    <input value="ایجاد" type="submit" class="btn btn-success" />
+</form>
