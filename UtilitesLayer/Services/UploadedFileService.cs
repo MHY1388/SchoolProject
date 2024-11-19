@@ -9,6 +9,9 @@ using UtilitesLayer.DTOs.UploadedFile;
 using WebLayer.Data;
 using UtilitesLayer.Mapppers;
 using UtilitesLayer.Utilities;
+using Microsoft.IdentityModel.Tokens;
+using UtilitesLayer.DTOs.Category;
+using UtilitesLayer.DTOs.Global;
 namespace UtilitesLayer.Services
 {
     public class UploadedFileService : IUploadedFileService
@@ -39,6 +42,20 @@ namespace UtilitesLayer.Services
         {
             var files = await _repository.GetAll();
             return files.Select(a=>a.MapToDto()).ToList();
+        }
+        public async Task<Paggination<UploadedFileDto>> GetPaggination(int page, int pageSize, string name = null)
+        {
+            Paggination<UploadedFile> paggination;
+            if (!name.IsNullOrEmpty())
+            {
+                paggination = await _repository
+                   .GetPaggination(pageSize, a => a.Name.Contains(name), page);
+            }
+            else
+            {
+                paggination = await _repository.GetPaggination(pageSize, page);
+            }
+            return new Paggination<CategoryDto>() { CurrentPage = paggination.CurrentPage, GetSize = paggination.GetSize, PageCount = paggination.PageCount, Objects = paggination.Objects.Select(a => a.MapToCategoryDto()).ToList() };
         }
 
         public async Task<OperationResult> UploadFile(string file_name, IFormFile file)
