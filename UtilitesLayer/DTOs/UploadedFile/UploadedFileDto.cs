@@ -13,5 +13,9 @@ namespace UtilitesLayer.DTOs.UploadedFile
         public string Name { get; set; }
         [Required]
         public string FilePath { get; set; }
+        [Required]
+        public int Lenght { get; set; }
+        [Required]
+        public string ContentType { get; set; }
     }
 }

@@ -60,8 +60,9 @@ namespace UtilitesLayer.Services
 
         public async Task<OperationResult> UploadFile(string file_name, IFormFile file)
         {
+            int lenght = Convert.ToInt16(file.Length / 1024 / 1024);
             string filepath = await fileManager.SaveFile(file,DirectoryPath.UploadedFiles,DirectoryPath.BucketName);
-            return await _repository.Create(new() { FilePath = filepath ,Name=file_name});
+            return await _repository.Create(new() { FilePath = filepath ,Name=file_name,Length=lenght,ContentType=file.ContentType});
         }
 
         public async Task<bool> NameExists(string name)

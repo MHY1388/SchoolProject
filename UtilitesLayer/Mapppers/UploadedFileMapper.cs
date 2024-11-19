@@ -12,7 +12,7 @@ namespace UtilitesLayer.Mapppers
     {
         public static UploadedFileDto MapToDto(this UploadedFile file)
         {
-            var new_file = new UploadedFileDto() { Name = file.Name ,FilePath=file.FilePath};
+            var new_file = new UploadedFileDto() { Name = file.Name ,FilePath=file.FilePath,Lenght=file.Length,ContentType=file.ContentType};
             return BaseMapper.BaseMap(file, new_file);
         }
     }
