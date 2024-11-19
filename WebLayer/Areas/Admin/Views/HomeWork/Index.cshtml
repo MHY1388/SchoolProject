@@ -88,18 +88,18 @@
                                         <p class="text-xs font-weight-bold align-middle text-center">@i.Description</p>
                                     </td>
                                     <td>
+                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Lesson?.Name</p>
+                                    </td>
+                                    <td>
                                         <p class="text-xs font-weight-bold align-middle text-center">@i.LastTime.PersianDateText(false)</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs btn btn-@(i.Type==HomeWorkType.homework?"success":(i.Type==HomeWorkType.test?"danger":(i.Type==HomeWorkType.optional?"primary":"secondary")))">@i.Type.HomeWorkTypeToString()</p>
                                     </td>
                                     <td>
                                         <p class="text-xs font-weight-bold align-middle text-center">@i.Updated?.PersianDateText(true)</p>
                                     </td>
                                     
-                                    <td>
-                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Type.HomeWorkTypeToString()</p>
-                                    </td>
-                                    <td>
-                                        <p class="text-xs font-weight-bold align-middle text-center">@i.Lesson?.Name</p>
-                                    </td>
 
                                     <td class="align-middle">
                                         @if(role){
