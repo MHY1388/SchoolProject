@@ -1,0 +1,55 @@
+﻿using DataLayer.Entities;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UtilitesLayer.DTOs.UploadedFile;
+using WebLayer.Data;
+using UtilitesLayer.Mapppers;
+using UtilitesLayer.Utilities;
+namespace UtilitesLayer.Services
+{
+    public class UploadedFileService : IUploadedFileService
+    {
+        private readonly IGenericRepository<UploadedFile> _repository;
+        private readonly ApplicationDbContext context;
+        private readonly FileManager fileManager;
+
+        public UploadedFileService(ApplicationDbContext context,FileManager fileManager)
+        {
+            _repository = new GenericRepository<UploadedFile>(context);
+            this.context = context;
+            this.fileManager = fileManager;
+        }
+
+        public async Task<OperationResult> DeleteFile(string file_name)
+        {
+            var file = await _repository.Find(a=>a.Name == file_name);
+            if (file != null)
+            {
+                await fileManager.DeleteFile(file.FilePath, DirectoryPath.UploadedFiles, DirectoryPath.BucketName);
+                return await _repository.Delete(file.Id);
+            }
+            return OperationResult.Error();
+        }
+
+        public async Task<List<UploadedFileDto>> GetFiles()
+        {
+            var files = await _repository.GetAll();
+            return files.Select(a=>a.MapToDto()).ToList();
+        }
+
+        public async Task<OperationResult> UploadFile(string file_name, IFormFile file)
+        {
+            string filepath = await fileManager.SaveFile(file,DirectoryPath.UploadedFiles,DirectoryPath.BucketName);
+            return await _repository.Create(new() { FilePath = filepath ,Name=file_name});
+        }
+
+        public async Task<bool> NameExists(string name)
+        {
+            return await _repository.Any(r => r.Name == name);
+        }
+    }
+}
