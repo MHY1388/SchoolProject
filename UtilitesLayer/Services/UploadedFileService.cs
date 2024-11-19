@@ -69,5 +69,16 @@ namespace UtilitesLayer.Services
         {
             return await _repository.Any(r => r.Name == name);
         }
+
+        public async Task<OperationResult> DeleteFile(int Id)
+        {
+            var file = await _repository.Get(Id);
+            if (file != null)
+            {
+                await fileManager.DeleteFile(file.FilePath, DirectoryPath.UploadedFiles, DirectoryPath.BucketName);
+                return await _repository.Delete(file.Id);
+            }
+            return OperationResult.Error();
+        }
     }
 }

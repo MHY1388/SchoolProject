@@ -16,6 +16,8 @@ namespace UtilitesLayer.Services
 
         public Task<OperationResult> UploadFile(string file_name, IFormFile file);
         public Task<OperationResult> DeleteFile(string file_name);
+        public Task<OperationResult> DeleteFile(int Id);
+
         public Task<List<UploadedFileDto>> GetFiles();
         public Task<bool> NameExists(string name);
     }
