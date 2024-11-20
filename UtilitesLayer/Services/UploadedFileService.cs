@@ -55,7 +55,7 @@ namespace UtilitesLayer.Services
             {
                 paggination = await _repository.GetPaggination(pageSize, page);
             }
-            return new Paggination<CategoryDto>() { CurrentPage = paggination.CurrentPage, GetSize = paggination.GetSize, PageCount = paggination.PageCount, Objects = paggination.Objects.Select(a => a.MapToCategoryDto()).ToList() };
+            return new Paggination<UploadedFileDto>() { CurrentPage = paggination.CurrentPage, GetSize = paggination.GetSize, PageCount = paggination.PageCount, Objects = paggination.Objects.Select(a => a.MapToDto()).ToList() };
         }
 
         public async Task<OperationResult> UploadFile(string file_name, IFormFile file)

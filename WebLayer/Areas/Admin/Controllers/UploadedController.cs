@@ -8,12 +8,12 @@ using WebLayer.Areas.Admin.Models;
 
 namespace WebLayer.Areas.Admin.Controllers
 {
-    [Authorize(DirectoryPath.AdminRole)]
-    public class UploadedFileController : BaseController
+    [Authorize(Policy = DirectoryPath.AdminRole)]
+    public class UploadedController : BaseController
     {
         private readonly UnitOfWork db;
 
-        public UploadedFileController(UnitOfWork db)
+        public UploadedController(UnitOfWork db)
         {
             this.db = db;
         }
